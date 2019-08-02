@@ -1,0 +1,32 @@
+{
+  "ver": "2.3.1",
+  "uuid": "2a09ff77-e014-4254-8af7-85d913f2b770",
+  "type": "sprite",
+  "wrapMode": "clamp",
+  "filterMode": "bilinear",
+  "premultiplyAlpha": false,
+  "platformSettings": {},
+  "subMetas": {
+    "Graphic-DrillBitTurn-03": {
+      "ver": "1.0.4",
+      "uuid": "f237b91d-eb20-4bc8-9228-8d9501a2cba9",
+      "rawTextureUuid": "2a09ff77-e014-4254-8af7-85d913f2b770",
+      "trimType": "auto",
+      "trimThreshold": 1,
+      "rotated": false,
+      "offsetX": 0,
+      "offsetY": 0,
+      "trimX": 0,
+      "trimY": 0,
+      "width": 492,
+      "height": 644,
+      "rawWidth": 492,
+      "rawHeight": 644,
+      "borderTop": 0,
+      "borderBottom": 0,
+      "borderLeft": 0,
+      "borderRight": 0,
+      "subMetas": {}
+    }
+  }
+}

@@ -1,0 +1,61 @@
+{
+  "__type__": "cc.AnimationClip",
+  "_name": "drill_turnning",
+  "_objFlags": 0,
+  "_native": "",
+  "_duration": 1.0166666666666666,
+  "sample": 60,
+  "speed": 2,
+  "wrapMode": "2",
+  "curveData": {
+    "comps": {
+      "cc.Sprite": {
+        "spriteFrame": [
+          {
+            "frame": 0,
+            "value": {
+              "__uuid__": "74cf983c-ec31-4546-987d-d64225ed18a8"
+            }
+          },
+          {
+            "frame": 0.16666666666666666,
+            "value": {
+              "__uuid__": "b98ea1a4-07aa-4f59-be2a-7ea9c754fb5c"
+            }
+          },
+          {
+            "frame": 0.3333333333333333,
+            "value": {
+              "__uuid__": "f237b91d-eb20-4bc8-9228-8d9501a2cba9"
+            }
+          },
+          {
+            "frame": 0.5,
+            "value": {
+              "__uuid__": "b2a3afa2-10a1-470f-a2b5-37d32609cf30"
+            }
+          },
+          {
+            "frame": 0.6666666666666666,
+            "value": {
+              "__uuid__": "9c296ff5-6225-4c70-a478-0fdb686dd73a"
+            }
+          },
+          {
+            "frame": 0.8333333333333334,
+            "value": {
+              "__uuid__": "91788018-ed69-4bb6-9ee2-c30b8d268bdc"
+            }
+          },
+          {
+            "frame": 1,
+            "value": {
+              "__uuid__": "19e277e2-a06c-4cd3-b8b1-5cd9124996f8"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "events": []
+}

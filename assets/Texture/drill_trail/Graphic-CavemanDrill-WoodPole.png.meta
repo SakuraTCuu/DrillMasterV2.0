@@ -1,0 +1,32 @@
+{
+  "ver": "2.3.1",
+  "uuid": "db3a0715-24ca-4157-9e19-ae58794843dd",
+  "type": "sprite",
+  "wrapMode": "clamp",
+  "filterMode": "bilinear",
+  "premultiplyAlpha": false,
+  "platformSettings": {},
+  "subMetas": {
+    "Graphic-CavemanDrill-WoodPole": {
+      "ver": "1.0.4",
+      "uuid": "1a061365-f787-4bf8-a058-f2d66a335d11",
+      "rawTextureUuid": "db3a0715-24ca-4157-9e19-ae58794843dd",
+      "trimType": "auto",
+      "trimThreshold": 1,
+      "rotated": false,
+      "offsetX": 0,
+      "offsetY": 0,
+      "trimX": 0,
+      "trimY": 0,
+      "width": 602,
+      "height": 64,
+      "rawWidth": 602,
+      "rawHeight": 64,
+      "borderTop": 0,
+      "borderBottom": 0,
+      "borderLeft": 0,
+      "borderRight": 0,
+      "subMetas": {}
+    }
+  }
+}

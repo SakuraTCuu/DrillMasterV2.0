@@ -1,0 +1,32 @@
+{
+  "ver": "2.3.1",
+  "uuid": "181de16b-1dcd-433e-9732-3599410d80dd",
+  "type": "sprite",
+  "wrapMode": "clamp",
+  "filterMode": "bilinear",
+  "premultiplyAlpha": false,
+  "platformSettings": {},
+  "subMetas": {
+    "Graphic-MaoiDrill-Legs": {
+      "ver": "1.0.4",
+      "uuid": "fbe5de52-c7c7-48d1-bb19-ee084a53502d",
+      "rawTextureUuid": "181de16b-1dcd-433e-9732-3599410d80dd",
+      "trimType": "auto",
+      "trimThreshold": 1,
+      "rotated": false,
+      "offsetX": 0,
+      "offsetY": 0,
+      "trimX": 0,
+      "trimY": 0,
+      "width": 398,
+      "height": 126,
+      "rawWidth": 398,
+      "rawHeight": 126,
+      "borderTop": 0,
+      "borderBottom": 0,
+      "borderLeft": 0,
+      "borderRight": 0,
+      "subMetas": {}
+    }
+  }
+}

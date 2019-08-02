@@ -1,0 +1,168 @@
+{
+  "__type__": "cc.AnimationClip",
+  "_name": "drill_main",
+  "_objFlags": 0,
+  "_native": "",
+  "_duration": 0.8333333333333334,
+  "sample": 60,
+  "speed": 1,
+  "wrapMode": "2",
+  "curveData": {
+    "paths": {
+      "drill_top": {
+        "props": {
+          "angle": [
+            {
+              "frame": 0,
+              "value": 0
+            },
+            {
+              "frame": 0.08333333333333333,
+              "value": 5
+            },
+            {
+              "frame": 0.16666666666666666,
+              "value": -3
+            },
+            {
+              "frame": 0.3333333333333333,
+              "value": 0
+            },
+            {
+              "frame": 0.8333333333333334,
+              "value": 0
+            }
+          ]
+        }
+      },
+      "drill_mid": {
+        "props": {
+          "y": [
+            {
+              "frame": 0,
+              "value": -47.3
+            },
+            {
+              "frame": 0.08333333333333333,
+              "value": -48
+            },
+            {
+              "frame": 0.16666666666666666,
+              "value": -47
+            }
+          ],
+          "angle": []
+        }
+      },
+      "drill_back/left": {
+        "props": {
+          "position": [
+            {
+              "frame": 0,
+              "value": [
+                -54.5,
+                -84.6
+              ]
+            },
+            {
+              "frame": 0.08333333333333333,
+              "value": [
+                -54.5,
+                -82.6
+              ]
+            },
+            {
+              "frame": 0.16666666666666666,
+              "value": [
+                -54.5,
+                -84.6
+              ]
+            }
+          ]
+        }
+      },
+      "drill_back/right": {
+        "props": {
+          "position": [
+            {
+              "frame": 0,
+              "value": [
+                52,
+                -84.4
+              ]
+            },
+            {
+              "frame": 0.08333333333333333,
+              "value": [
+                52,
+                -82.4
+              ]
+            },
+            {
+              "frame": 0.16666666666666666,
+              "value": [
+                52,
+                -84.4
+              ]
+            }
+          ]
+        }
+      },
+      "drill_front/left": {
+        "props": {
+          "position": [
+            {
+              "frame": 0,
+              "value": [
+                -32.1,
+                -104.3
+              ]
+            },
+            {
+              "frame": 0.08333333333333333,
+              "value": [
+                -34.1,
+                -104.3
+              ]
+            },
+            {
+              "frame": 0.16666666666666666,
+              "value": [
+                -32.1,
+                -104.3
+              ]
+            }
+          ]
+        }
+      },
+      "drill_front/right": {
+        "props": {
+          "position": [
+            {
+              "frame": 0,
+              "value": [
+                34.4,
+                -104.3
+              ]
+            },
+            {
+              "frame": 0.08333333333333333,
+              "value": [
+                36.4,
+                -104.3
+              ]
+            },
+            {
+              "frame": 0.16666666666666666,
+              "value": [
+                34.4,
+                -104.3
+              ]
+            }
+          ]
+        }
+      }
+    }
+  },
+  "events": []
+}

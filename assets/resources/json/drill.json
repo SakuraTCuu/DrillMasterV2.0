@@ -1,0 +1,175 @@
+[{
+    "drill": 0,
+    "unlock": "1,2,3,4",
+    "sprite": {
+        "top": 1,
+        "mid": 1,
+        "down_b": {
+            "down_left": 1,
+            "down_right": 1
+        },
+        "down_f": {
+            "down_left": 1,
+            "down_right": 1
+        },
+        "down_all": 0
+    }
+}, {
+    "drill": 1,
+    "unlock": "1,2,3,4",
+    "sprite": {
+        "top": 1,
+        "mid": 1,
+        "down_b": {
+            "down_left": 1,
+            "down_right": 1
+        },
+        "down_f": {
+            "down_left": 1,
+            "down_right": 1
+        },
+        "down_all": 0
+    }
+}, {
+    "drill": 2,
+    "unlock": "1,2,3,4",
+    "sprite": {
+        "top": 1,
+        "mid": 1,
+        "down_b": {
+            "down_left": 1,
+            "down_right": 1
+        },
+        "down_f": null,
+        "down_all": 0
+    }
+}, {
+    "drill": 3,
+    "unlock": "1,2,3,4",
+    "sprite": {
+        "top": 1,
+        "mid": 1,
+        "down_b": {
+            "down_left": 1,
+            "down_right": 1
+        },
+        "down_f": {
+            "down_left": 1,
+            "down_right": 1
+        },
+        "down_all": 0
+    }
+}, {
+    "drill": 4,
+    "unlock": "1,2,3,4",
+    "sprite": {
+        "top": 1,
+        "mid": 1,
+        "down_b": {
+            "down_left": 1,
+            "down_right": 1
+        },
+        "down_f": {
+            "down_left": 1,
+            "down_right": 1
+        },
+        "down_all": 0
+    }
+
+}, {
+    "drill": 5,
+    "unlock": "1,2,3,4",
+    "sprite": {
+        "top": 1,
+        "mid": 1,
+        "down_b": {
+            "down_left": 1,
+            "down_right": 1
+        },
+        "down_f": {
+            "down_left": 1,
+            "down_right": 1
+        },
+        "down_all": 0
+    }
+}, {
+    "drill": 6,
+    "unlock": "1,2,3,4",
+    "sprite": {
+        "top": 1,
+        "mid": 1,
+        "down_b": {
+            "down_left": 1,
+            "down_right": 1
+        },
+        "down_f": {
+            "down_left": 1,
+            "down_right": 1
+        },
+        "down_all": 0
+    }
+}, {
+    "drill": 7,
+    "unlock": "1,2,3,4",
+    "sprite": {
+        "top": 1,
+        "mid": 1,
+        "down_b": {
+            "down_left": 1,
+            "down_right": 1
+        },
+        "down_f": {
+            "down_left": 1,
+            "down_right": 1
+        },
+        "down_all": 0
+    }
+}, {
+    "drill": 8,
+    "unlock": "1,2,3,4",
+    "sprite": {
+        "top": 1,
+        "mid": 1,
+        "down_b": {
+            "down_left": 1,
+            "down_right": 1
+        },
+        "down_f": {
+            "down_left": 1,
+            "down_right": 1
+        },
+        "down_all": 0
+    }
+}, {
+    "drill": 9,
+    "unlock": "1,2,3,4",
+    "sprite": {
+        "top": 1,
+        "mid": 1,
+        "down_b": {
+            "down_left": 1,
+            "down_right": 1
+        },
+        "down_f": {
+            "down_left": 1,
+            "down_right": 1
+        },
+        "down_all": 0
+    }
+}, {
+    "drill": 10,
+    "unlock": "1,2,3,4",
+    "sprite": {
+        "top": 1,
+        "mid": 1,
+        "down_b": {
+            "down_left": 1,
+            "down_right": 1
+        },
+        "down_f": {
+            "down_left": 1,
+            "down_right": 1
+        },
+        "down_all": 0
+    }
+}]

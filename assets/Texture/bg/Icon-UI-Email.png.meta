@@ -1,0 +1,32 @@
+{
+  "ver": "2.3.1",
+  "uuid": "1449a46b-c668-4985-b4c2-237aa89e8f4b",
+  "type": "sprite",
+  "wrapMode": "clamp",
+  "filterMode": "bilinear",
+  "premultiplyAlpha": false,
+  "platformSettings": {},
+  "subMetas": {
+    "Icon-UI-Email": {
+      "ver": "1.0.4",
+      "uuid": "02bbd8d1-b1a0-4424-9dee-7edbc70e31e8",
+      "rawTextureUuid": "1449a46b-c668-4985-b4c2-237aa89e8f4b",
+      "trimType": "auto",
+      "trimThreshold": 1,
+      "rotated": false,
+      "offsetX": 0,
+      "offsetY": 0,
+      "trimX": 0,
+      "trimY": 0,
+      "width": 128,
+      "height": 90,
+      "rawWidth": 128,
+      "rawHeight": 90,
+      "borderTop": 0,
+      "borderBottom": 0,
+      "borderLeft": 0,
+      "borderRight": 0,
+      "subMetas": {}
+    }
+  }
+}

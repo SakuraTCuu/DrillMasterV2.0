@@ -1,0 +1,32 @@
+{
+  "ver": "2.3.1",
+  "uuid": "f460e09a-0c52-4ac2-98a8-cde355a1ce8b",
+  "type": "sprite",
+  "wrapMode": "clamp",
+  "filterMode": "bilinear",
+  "premultiplyAlpha": false,
+  "platformSettings": {},
+  "subMetas": {
+    "Icon-UI-DrillCapacity-Empty": {
+      "ver": "1.0.4",
+      "uuid": "4f48af17-59e8-4c84-a0be-79665a2682c1",
+      "rawTextureUuid": "f460e09a-0c52-4ac2-98a8-cde355a1ce8b",
+      "trimType": "auto",
+      "trimThreshold": 1,
+      "rotated": false,
+      "offsetX": 0,
+      "offsetY": 0,
+      "trimX": 0,
+      "trimY": 0,
+      "width": 222,
+      "height": 224,
+      "rawWidth": 222,
+      "rawHeight": 224,
+      "borderTop": 0,
+      "borderBottom": 0,
+      "borderLeft": 0,
+      "borderRight": 0,
+      "subMetas": {}
+    }
+  }
+}

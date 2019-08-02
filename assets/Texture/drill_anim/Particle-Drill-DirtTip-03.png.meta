@@ -1,0 +1,32 @@
+{
+  "ver": "2.3.1",
+  "uuid": "85da51ff-a1dc-4c95-a2fe-931b8d40f30a",
+  "type": "sprite",
+  "wrapMode": "clamp",
+  "filterMode": "bilinear",
+  "premultiplyAlpha": false,
+  "platformSettings": {},
+  "subMetas": {
+    "Particle-Drill-DirtTip-03": {
+      "ver": "1.0.4",
+      "uuid": "8a4cde02-0179-4066-ad06-582cc6bc32ed",
+      "rawTextureUuid": "85da51ff-a1dc-4c95-a2fe-931b8d40f30a",
+      "trimType": "auto",
+      "trimThreshold": 1,
+      "rotated": false,
+      "offsetX": 0,
+      "offsetY": 0.5,
+      "trimX": 1,
+      "trimY": 0,
+      "width": 745,
+      "height": 518,
+      "rawWidth": 747,
+      "rawHeight": 519,
+      "borderTop": 0,
+      "borderBottom": 0,
+      "borderLeft": 0,
+      "borderRight": 0,
+      "subMetas": {}
+    }
+  }
+}

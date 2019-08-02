@@ -1,0 +1,32 @@
+{
+  "ver": "2.3.1",
+  "uuid": "f754801b-0252-4f7c-965d-2549e5f22064",
+  "type": "sprite",
+  "wrapMode": "clamp",
+  "filterMode": "bilinear",
+  "premultiplyAlpha": false,
+  "platformSettings": {},
+  "subMetas": {
+    "Graphic-Drill-Trail-Boost-Outer-0025": {
+      "ver": "1.0.4",
+      "uuid": "b893f988-a562-4433-a2c8-c67ce31b453f",
+      "rawTextureUuid": "f754801b-0252-4f7c-965d-2549e5f22064",
+      "trimType": "auto",
+      "trimThreshold": 1,
+      "rotated": false,
+      "offsetX": 0,
+      "offsetY": -0.5,
+      "trimX": 1,
+      "trimY": 2,
+      "width": 212,
+      "height": 1051,
+      "rawWidth": 214,
+      "rawHeight": 1054,
+      "borderTop": 0,
+      "borderBottom": 0,
+      "borderLeft": 0,
+      "borderRight": 0,
+      "subMetas": {}
+    }
+  }
+}

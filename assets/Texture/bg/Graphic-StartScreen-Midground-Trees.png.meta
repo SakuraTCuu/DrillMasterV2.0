@@ -1,0 +1,32 @@
+{
+  "ver": "2.3.1",
+  "uuid": "6a305462-136a-41d8-a970-f06ab49ba92f",
+  "type": "sprite",
+  "wrapMode": "clamp",
+  "filterMode": "bilinear",
+  "premultiplyAlpha": false,
+  "platformSettings": {},
+  "subMetas": {
+    "Graphic-StartScreen-Midground-Trees": {
+      "ver": "1.0.4",
+      "uuid": "94088966-3899-425a-8483-892086d72a2d",
+      "rawTextureUuid": "6a305462-136a-41d8-a970-f06ab49ba92f",
+      "trimType": "auto",
+      "trimThreshold": 1,
+      "rotated": false,
+      "offsetX": 0,
+      "offsetY": -0.5,
+      "trimX": 0,
+      "trimY": 1,
+      "width": 1242,
+      "height": 180,
+      "rawWidth": 1242,
+      "rawHeight": 181,
+      "borderTop": 0,
+      "borderBottom": 0,
+      "borderLeft": 0,
+      "borderRight": 0,
+      "subMetas": {}
+    }
+  }
+}

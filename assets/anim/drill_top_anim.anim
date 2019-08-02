@@ -1,0 +1,38 @@
+{
+  "__type__": "cc.AnimationClip",
+  "_name": "drill_top_anim",
+  "_objFlags": 0,
+  "_native": "",
+  "_duration": 0.35,
+  "sample": 60,
+  "speed": 1.5,
+  "wrapMode": 2,
+  "curveData": {
+    "comps": {
+      "cc.Sprite": {
+        "spriteFrame": [
+          {
+            "frame": 0,
+            "value": {
+              "__uuid__": "4f2533e0-c9de-4aac-af50-0120c3c3e660"
+            }
+          },
+          {
+            "frame": 0.16666666666666666,
+            "value": {
+              "__uuid__": "da3b0651-ae48-4df0-ba60-9b5fb2970e20"
+            }
+          },
+          {
+            "frame": 0.3333333333333333,
+            "value": {
+              "__uuid__": "8a4cde02-0179-4066-ad06-582cc6bc32ed"
+            }
+          }
+        ]
+      }
+    },
+    "paths": {}
+  },
+  "events": []
+}
