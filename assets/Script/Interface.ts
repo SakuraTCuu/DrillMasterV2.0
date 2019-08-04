@@ -31,6 +31,7 @@ export enum moveState {
     up,
     rocketup,
     down,
+    touchEnd,
     rotate,
     normal,
 }
@@ -47,9 +48,9 @@ export enum moveState {
 //     }
 // }
 
-export interface collectItemData{
-    id:number;
-    isGold:boolean;
+export interface collectItemData {
+    id: number;
+    isGold: boolean;
 }
 
 export interface down_state {
@@ -109,8 +110,11 @@ export enum NotifyEnum {
     CLICK_START,	//开始游戏
     CLICK_DRILL_ITEM, //点击中间的item
     UPDATEMONEY, //更新money
+    UPDATEDEPTH,//更新深度
     UPDATEMAINITEM, //更新主界面下方的ui;
     GETITEMBYDRILL, //钻头碰撞获取到的道具
+    CLICKCOLLECT, //点击离线/积分 面板的收集
+    UNLOCKDRILL, //解锁mainview内的钻头
 }
 
 //======================================================

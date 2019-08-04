@@ -1,7 +1,9 @@
 import GameManager from "./GameManager";
-import { saveName } from "./Interface";
+import { saveName, NotifyEnum } from "./Interface";
 import { T_Item } from "./Data/T_Item";
 import showBoxItem_min_Component from "./ItemComponent/showBoxItem_min_Component";
+import { _Notification_ } from "./_Notification_";
+import Helloworld from "./Helloworld";
 
 const { ccclass, property } = cc._decorator;
 
@@ -35,9 +37,10 @@ export default class OfflineView extends cc.Component {
         this.scoreNode.active = true;
         this.offlineNode.active = false;
         this._income = score;
-        this.scoreLab.string = score + "";
+        this.scoreLab.string = "$" + score;
 
-        if (itemList) {
+        if (itemList && itemList.length > 0) {
+            this.showNewItemContetn.removeAllChildren();
             this.showNewItemContetn.active = true;
             this.newItemNode.active = true;
             for (let i = 0; i < itemList.length; i++) {
@@ -56,16 +59,18 @@ export default class OfflineView extends cc.Component {
         this.scoreNode.active = false;
         this.offlineNode.active = true;
         this._income = GameManager.getInstance().getOfflineIncome();
-        this.incomeLab.string = this._income + "";
+        this.incomeLab.string = "$" + this._income;
     }
 
     //收集
     onclickCollect() {
         cc.log('收集到金币-->>', this._income);
+        cc.Canvas.instance.node.getComponent(Helloworld).playCollectMoneyAudio();
         let current = GameManager.getInstance().getUserCount();
         let total = this._income + Number(current);
         GameManager.getInstance().saveData(saveName.USERCOUNT, total);
         GameManager.getInstance().saveData(saveName.PRETIME, Date.now());
+        _Notification_.send(NotifyEnum.CLICKCOLLECT, 1);
         //退出
         this.node.active = false;
     }

@@ -4,6 +4,7 @@ import { T_Unlock } from "../Data/T_unlock";
 import GameUtil from "../Util/GameUtil";
 import propItem_Component from "./propItem_Component";
 import Helloworld from "../Helloworld";
+import labItem_Component from "./labItem_Component";
 
 const { ccclass, property } = cc._decorator;
 
@@ -25,16 +26,21 @@ export default class Item_Component extends cc.Component {
     @property(cc.Node)
     drill_down_front: cc.Node = null;
 
+    @property(cc.MotionStreak)
+    drill_mk: cc.MotionStreak = null;
+
     _drillData: T_Unlock = null;
     _spriteData: drillSpriteData = null;
     nodeID: number = 0;
     _isSelected: boolean = false;
 
     drill_top: cc.Node = null;
-    drillTopAnim: cc.Animation = null;
-    drillAnim: cc.Animation = null;
-    flame: cc.Animation = null;
-    particle: cc.ParticleSystem = null;
+
+    drillRotateAnim: cc.Animation = null; //钻头旋转动画
+    drillAnim: cc.Animation = null;   //钻头普通状态下的动画
+    flame: cc.Animation = null;   //钻头发动时喷火的动画
+    particle: cc.ParticleSystem = null; //钻头破土时的粒子
+
     drill_down_back_left: cc.Sprite = null;
     drill_down_back_right: cc.Sprite = null;
     drill_down_front_left: cc.Sprite = null;
@@ -52,7 +58,15 @@ export default class Item_Component extends cc.Component {
     startRun() {
         this._currentState = drillState.run;
         // this.drillAnim.stop();
-        this.drillTopAnim.play();
+        this.drillRotateAnim.play();
+    }
+
+    startDrillAnim() {
+        this.drillAnim.play();
+    }
+
+    stopDrillAnim() {
+        this.drillAnim.stop();
     }
 
     startTopAnim() {
@@ -75,6 +89,38 @@ export default class Item_Component extends cc.Component {
         this.flame.node.active = false;
     }
 
+    //钻头顶部的土的动画
+    startPuncture() {
+        this.particle.node.active = true;
+    }
+
+    stopPuncture() {
+        this.particle.node.active = false;
+    }
+
+    //弹出收集到的礼物
+    popItemAnim() {
+        this.stopDrillAnim();
+        this.drill_top.angle = -90;
+        // cc.log(this.drill_top.angle);
+        // cc.log(this.drill_top.rotation);
+    }
+
+    stopPopItemAnim() {
+        this.startDrillAnim();
+        this.drill_top.angle = 0;
+    }
+
+    //开启拖尾效果
+    startMotionStreak() {
+        //做拖尾效果
+        this.drill_mk.enabled = true;
+    }
+
+    stopMotionStreak() {
+        this.drill_mk.enabled = false;
+    }
+
     setData(spiteData: drillSpriteData, drillData: T_Unlock, isSelected: boolean = false) {
         this._spriteData = spiteData;
         this._drillData = drillData;
@@ -92,7 +138,7 @@ export default class Item_Component extends cc.Component {
 
         this.flame = this.node.getChildByName("flame").getComponent(cc.Animation);
 
-        this.drillTopAnim = this.drill_top.getComponent(cc.Animation);
+        this.drillRotateAnim = this.drill_top.getComponent(cc.Animation);
         this.drill_down_back_left = this.drill_down_back.getChildByName("left").getComponent(cc.Sprite);
         this.drill_down_back_right = this.drill_down_back.getChildByName("right").getComponent(cc.Sprite);
         this.drill_down_front_left = this.drill_down_front.getChildByName("left").getComponent(cc.Sprite);
@@ -116,8 +162,9 @@ export default class Item_Component extends cc.Component {
                 }
                 // cc.log("err-->>", err)
             })
-            this.setColorUI();
+            this.setColorUIToGray();
         } else {
+            this.setColorUIToNormal();
             this._currentState = drillState.unlock;
             this.setHideUI(true);
             this.dirllSprite.node.active = false;
@@ -192,8 +239,14 @@ export default class Item_Component extends cc.Component {
         this.drill_down_front.active = flag;
     }
 
-    public setColorUI() {
-        this.dirllSprite.node.color = new cc.Color().fromHEX("#2E535E");
+    //置灰
+    public setColorUIToGray() {
+        this.dirllSprite.node.color = cc.color().fromHEX("#2E535E");
+    }
+
+    //解锁后设置颜色正常
+    public setColorUIToNormal() {
+        this.dirllSprite.node.color = cc.color(255, 255, 255, 255);
     }
 
     public setSelected(select: boolean, flag: boolean = false): void {
@@ -237,23 +290,27 @@ export default class Item_Component extends cc.Component {
      * @param  {Collider} self  产生碰撞的自身的碰撞组件
      */
     onCollisionEnter(other: cc.BoxCollider, self: cc.BoxCollider) {
-        console.log('on collision enter');
+        // console.log('on collision enter');
         //收集 碰撞到的道具
         let itemId = other.getComponent(propItem_Component).id;
         let isGold = other.getComponent(propItem_Component).isGold;
         let obj = { id: itemId, isGold: isGold };
 
         //nodepool
-        other.node.removeFromParent();
-        cc.Canvas.instance.node.getComponent(Helloworld).nodePool.put(other.node);
+        // other.node.removeFromParent();
+        // cc.Canvas.instance.node.getComponent(Helloworld).nodePool.put(other.node);
 
-
-        //跳钱动画
-
+        let hw = cc.Canvas.instance.node.getComponent(Helloworld)
+        //先隐藏 并保存引用 等结束后 动画完成后再放入节点池
+        other.node.active = false;
+        hw.collectNodeList.push(other.node);
         //音效
-
         //发送消息
         //更新箱子进度
         _Notification_.send(NotifyEnum.GETITEMBYDRILL, obj);
     }
+
+    //判断是否解锁
+
+
 }

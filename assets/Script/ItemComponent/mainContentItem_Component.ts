@@ -40,9 +40,16 @@ export default class mainContentItem_Component extends cc.Component {
     _gameManager: GameManager = null;
 
     onLoad() {
+        //钱更新的时候监听
+        // _Notification_.subscrib(NotifyEnum.UPDATEMONEY, this.updateMoney, this);
         this.node.on(cc.Node.EventType.TOUCH_END, this.onClickItem, this);
         //在判断是否到顶
         this.updateParentToBack();
+    }
+
+    updateMoney(obj: any, target: any) {
+        let self = target as mainContentItem_Component;
+        // self.init();
     }
 
     init(state: mainContentItemState, data: mainContenItemData) {
@@ -64,7 +71,6 @@ export default class mainContentItem_Component extends cc.Component {
             this.valueLab.string = "+$" + data.value + "/min";
         }
         this.moneyLab.string = "$" + data.expend;
-
     }
 
     //封顶了

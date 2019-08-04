@@ -1,4 +1,4 @@
-import { NotifyEnum, drillSpriteData } from "./Interface";
+import { NotifyEnum, drillSpriteData, saveName } from "./Interface";
 import { _Notification_ } from "./_Notification_";
 import { T_Item, T_Item_Table } from "./Data/T_Item";
 import { T_Unlock_Table, T_Unlock } from "./Data/T_unlock";
@@ -23,7 +23,6 @@ export default class MainView extends cc.Component {
 
     @property(cc.Prefab)
     contentItem: cc.Prefab = null;
-
 
     //item宽高
     private _itemWidth: number;
@@ -54,7 +53,7 @@ export default class MainView extends cc.Component {
     onLoad() {
         this._GameManager = GameManager.getInstance();
         _Notification_.subscrib(NotifyEnum.CLICK_DRILL_ITEM, this.clickItem, this);
-
+        _Notification_.subscrib(NotifyEnum.UNLOCKDRILL, this.unlockDrill, this);
         this._showList = this.showNode.getChildByName('showList');
         this._start = this.showNode.getChildByName('start');
         //初始化页面
@@ -324,6 +323,29 @@ export default class MainView extends cc.Component {
                 this._showList.addChild(item);
             }
         }
+    }
+
+    //判断是否解锁下一个drill
+
+    //主界面发消息解锁drill
+    unlockDrill(obj: any, target: any) {
+        let self = target as MainView;
+        self.unlockDrillToNext();
+    }
+
+    //游戏结束之后 成功解锁下一个drill 
+    unlockDrillToNext() {
+        let id = this._currentId + 1;
+        //保存解锁的钻头
+        GameManager.getInstance().saveData(saveName.UNLOCK, id);
+        //改变颜色
+        // this._dataList[id].getComponent(Item_Component).setColorUIToNormal();
+        this._dataList[id].getComponent(Item_Component).initView();
+        this.nextItem();
+
+        this.showContent();
+
+        //showView 也要改变
     }
 
     //return the data list.

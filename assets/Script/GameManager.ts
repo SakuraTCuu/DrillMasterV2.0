@@ -3,6 +3,7 @@ import { _Notification_ } from "./_Notification_";
 import AudioManager from "./AudioManager";
 import { T_OutLine_Table } from "./Data/T_OutLine";
 import Helloworld from "./Helloworld";
+import GameUtil from "./Util/GameUtil";
 
 export default class GameManager {
 
@@ -55,7 +56,7 @@ export default class GameManager {
         if (userCount && Number(userCount) && userCount !== "NaN") {
             this._userCount = userCount;
         } else {
-            this._userCount = "5000000000000";
+            this._userCount = "500";
             this.saveData(saveName.USERCOUNT, this._userCount);
         }
 
@@ -66,7 +67,7 @@ export default class GameManager {
             this._itemList = new Array();
             //Test
             this._itemList.push();
-            this.saveData(saveName.USERITEM, "0");
+            this.saveData(saveName.USERITEM, "");
         }
 
         if (userGoldItem) {
@@ -75,7 +76,7 @@ export default class GameManager {
             this._glodItemList = new Array();
             //Test
             this._glodItemList.push();
-            this.saveData(saveName.USERGOLDITEM, "0");
+            this.saveData(saveName.USERGOLDITEM, "");
         }
 
         //拥有的钻头
@@ -84,7 +85,7 @@ export default class GameManager {
             this._unlockList = unlock.split("_");
         } else {
             this._unlockList = new Array();
-            this.saveData(saveName.UNLOCK, "0");
+            this.saveData(saveName.UNLOCK, "");
         }
 
         if (warehouse) {
@@ -160,7 +161,6 @@ export default class GameManager {
 
     //保存数据
     public saveData(key: saveName, value: any) {
-
         //更新value
         switch (key) {
             case saveName.WAREHOUSE:
@@ -170,16 +170,34 @@ export default class GameManager {
             case saveName.DEPTH:
                 value = Number(value) + "";
                 this._depth = value;
+                _Notification_.send(NotifyEnum.UPDATEDEPTH);
                 break;
             case saveName.OUTLINE:
                 value = Number(value) + "";
                 this._outline = value;
                 break;
             case saveName.USERCOUNT:
-                this._userCount = Number(value) + "";
+                value = Number(value) + "";
+                this._userCount = value;
                 _Notification_.send(NotifyEnum.UPDATEMONEY);
                 break;
             case saveName.UNLOCK:  //TODO  拼接字符串
+                value = Number(value) + "";
+
+                //先查重
+                let f3 = true;
+                for (let i = 0; i < this._unlockList.length; i++) {
+                    let id = this._unlockList[i];
+                    if (Number(id) === Number(value)) {
+                        //不存在
+                        f3 = false;
+                    }
+                }
+                if (!f3) {
+                    return;
+                }
+                //先排序
+                GameUtil.sortArr(this._unlockList);
                 this._unlockList.push(value);
                 //写入
                 value = ""
@@ -192,7 +210,23 @@ export default class GameManager {
                 }
                 break;
             case saveName.USERITEM:  //TODO 拼接字符串
+                value = Number(value) + "";
+                //先查重
+                let flag = true;
+                for (let i = 0; i < this._itemList.length; i++) {
+                    let id = this._itemList[i];
+                    if (Number(id) === Number(value)) {
+                        //不存在
+                        flag = false;
+                    }
+                }
+                if (!flag) {
+                    return;
+                }
                 this._itemList.push(value);
+                //先排序
+                GameUtil.sortArr(this._itemList);
+                cc.log("排序后-->>", this._itemList);
                 //写入
                 value = ""
                 for (let i = 0; i < this._itemList.length; i++) {
@@ -203,11 +237,39 @@ export default class GameManager {
                     }
                 }
                 break;
+            case saveName.USERGOLDITEM:  //TODO 拼接字符串
+                value = Number(value) + "";
+                //先查重
+                let f = true;
+                for (let i = 0; i < this._glodItemList.length; i++) {
+                    let id = this._glodItemList[i];
+                    if (Number(id) === Number(value)) {
+                        //存在
+                        f = false;
+                    }
+                }
+                if (!f) {
+                    return;
+                }
+                this._glodItemList.push(value);
+                //排序
+                GameUtil.sortArr(this._glodItemList);
+                //写入
+                value = ""
+                for (let i = 0; i < this._glodItemList.length; i++) {
+                    let str = this._glodItemList[i];
+                    value += str;
+                    if (i !== this._glodItemList.length - 1) {
+                        value += "_";
+                    }
+                }
+                break;
             case saveName.PRETIME:    //TODO  什么时间保存?
                 this._disTime = value;
                 break;
         }
-
+        cc.log("key-->>", key);
+        cc.log("value-->>", value);
         cc.sys.localStorage.setItem(key, value);
     }
 

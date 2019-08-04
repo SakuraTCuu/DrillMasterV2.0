@@ -284,7 +284,7 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_fadeTime": 10,
+    "_fadeTime": 5,
     "_minSeg": 20,
     "_stroke": 90,
     "_texture": {
@@ -657,13 +657,13 @@
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
-      "x": 0.5,
-      "y": 0.5
+      "x": 1,
+      "y": 0
     },
     "_position": {
       "__type__": "cc.Vec3",
-      "x": 3,
-      "y": 65.49999999999997,
+      "x": 55,
+      "y": -3,
       "z": 0
     },
     "_scale": {
@@ -1606,7 +1606,7 @@
       "r": 0,
       "g": 0,
       "b": 0,
-      "a": 130
+      "a": 0
     },
     "angle": -90,
     "angleVar": 60,
@@ -3027,6 +3027,9 @@
     "drill_down_front": {
       "__id__": 33
     },
+    "drill_mk": {
+      "__id__": 6
+    },
     "_id": ""
   },
   {
@@ -3055,7 +3058,7 @@
     "node": {
       "__id__": 1
     },
-    "_enabled": true,
+    "_enabled": false,
     "tag": 0,
     "_offset": {
       "__type__": "cc.Vec2",
