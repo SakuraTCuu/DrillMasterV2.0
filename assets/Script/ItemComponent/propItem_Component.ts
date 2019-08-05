@@ -18,21 +18,24 @@ export default class propItem_Component extends cc.Component {
     isGold: boolean = false;
 
     init(id: number, isGold: boolean) {
-        cc.log("id-->>", id);
+        // cc.log("id-->>", id);
+        let spriteAtlas = cc.Canvas.instance.node.getComponent(Helloworld).itemSpriteAtlas;
         this.id = id;
         this.isGold = isGold;
-        let path = "item/" + id;
+        let path = id + "";
         if (isGold) {
             path += "_2";
         } else {
             path += "_1";
         }
-        cc.loader.loadRes(path, cc.SpriteFrame, (err, spf: cc.SpriteFrame) => {
-            if (!err) {
-                this.normalSp.spriteFrame = spf;
-            }
-            // cc.log('err-->>', err);
-        })
+        let sp = spriteAtlas.getSpriteFrame(path);
+        this.normalSp.spriteFrame = sp;
+        // cc.loader.loadRes(path, cc.SpriteFrame, (err, spf: cc.SpriteFrame) => {
+        //     if (!err) {
+        //         this.normalSp.spriteFrame = spf;
+        //     }
+        //     // cc.log('err-->>', err);
+        // })
     }
 
     //展示拖尾 动画

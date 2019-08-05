@@ -54,6 +54,8 @@ export default class MainView extends cc.Component {
         this._GameManager = GameManager.getInstance();
         _Notification_.subscrib(NotifyEnum.CLICK_DRILL_ITEM, this.clickItem, this);
         _Notification_.subscrib(NotifyEnum.UNLOCKDRILL, this.unlockDrill, this);
+        _Notification_.subscrib(NotifyEnum.UNLOCKBYITEM, this.unlockDrillByItem, this);
+        // _Notification_.send(NotifyEnum.UNLOCKBYITEM, value);
         this._showList = this.showNode.getChildByName('showList');
         this._start = this.showNode.getChildByName('start');
         //初始化页面
@@ -326,22 +328,41 @@ export default class MainView extends cc.Component {
     }
 
     //判断是否解锁下一个drill
-
-    //主界面发消息解锁drill
+    //主界面发消息
     unlockDrill(obj: any, target: any) {
         let self = target as MainView;
         self.unlockDrillToNext();
     }
 
-    //游戏结束之后 成功解锁下一个drill 
+    unlockDrillByItem(obj: any, target: any) {
+        let self = target as MainView;
+        let id = Number(obj);
+        // self.unlockDrillToNext(id);
+        cc.log('drillId--->>', id);
+    }
+
+    //游戏结束之后 成功解锁下一个drill
     unlockDrillToNext() {
-        let id = this._currentId + 1;
-        //保存解锁的钻头
-        GameManager.getInstance().saveData(saveName.UNLOCK, id);
+        // let unlockList = GameManager.getInstance().getUnlockList();
+        // let maxId = unlockList[unlockList.length - 1];
+        // let flag = GameUtil.isCanUnlockDrill(Number(maxId) + 1);
+        // if (flag) {
+        //     this.gotoPage(Number(maxId));
+        //     let id = this._currentId + 1;
+        //     //保存解锁的钻头
+        //     GameManager.getInstance().saveData(saveName.UNLOCK, id);
+        // }
         //改变颜色
         // this._dataList[id].getComponent(Item_Component).setColorUIToNormal();
-        this._dataList[id].getComponent(Item_Component).initView();
-        this.nextItem();
+        // this._dataList[id].getComponent(Item_Component).initView();
+        // 更新 itemList 和 unlockList
+        GameManager.getInstance().getUnlockListFromItemList();
+        for (let i = 0; i < this._dataList.length; i++) {
+            let item = this._dataList[i];
+            item.getComponent(Item_Component).updateIsUnlock();
+            // item.getComponent(Item_Component).setColorUIToNormal();
+        }
+        // this.nextItem();
 
         this.showContent();
 
@@ -354,15 +375,31 @@ export default class MainView extends cc.Component {
     }
 
     //滑动到指定页
-    //废弃
     public gotoPage(idx: number): void {
-        if (idx <= this.getVos().length && idx > 2) {
-            for (let i = 2; i < idx; i++) {
+        let len: number = 0;
+        if (idx > this._currentId) {
+            len = idx - this._currentId;
+        } else {
+            len = this._currentId - idx;
+        }
+        for (let i = 0; i < len; i++) {
+            if (idx > this._currentId) {
+                this.nextItem(1, false);
+            } else {
                 this.preItem(1, false);
             }
-        } else if (idx < 2 && idx >= 1) {
-            this.nextItem(1, false);
         }
+        // if (idx <= this.getVos().length && idx > 2) {
+        //     for (let i = 2; i < idx; i++) {
+        //         if (idx > this._currentId) {
+        //             this.nextItem(1, false);
+        //         } else {
+        //             this.preItem(1, false);
+        //         }
+        //     }
+        // } else if (idx < 2 && idx >= 1) {
+        //     this.nextItem(1, false);
+        // }
     }
 
     //销毁函数

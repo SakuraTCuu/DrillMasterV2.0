@@ -43,7 +43,11 @@ export default class OfflineView extends cc.Component {
             this.showNewItemContetn.removeAllChildren();
             this.showNewItemContetn.active = true;
             this.newItemNode.active = true;
-            for (let i = 0; i < itemList.length; i++) {
+            let len = itemList.length;
+            if (len >= 4) {
+                len = 4;
+            }
+            for (let i = 0; i < len; i++) {
                 let itemVo = itemList[i];
                 let item = cc.instantiate(this.itemPre);
                 item.getComponent(showBoxItem_min_Component).setData(itemVo.id + "");
@@ -56,6 +60,7 @@ export default class OfflineView extends cc.Component {
     }
 
     showOffline() {
+        cc.log("离线收益-->>", this._income);
         this.scoreNode.active = false;
         this.offlineNode.active = true;
         this._income = GameManager.getInstance().getOfflineIncome();
@@ -69,7 +74,7 @@ export default class OfflineView extends cc.Component {
         let current = GameManager.getInstance().getUserCount();
         let total = this._income + Number(current);
         GameManager.getInstance().saveData(saveName.USERCOUNT, total);
-        GameManager.getInstance().saveData(saveName.PRETIME, Date.now());
+        // GameManager.getInstance().saveData(saveName.PRETIME, Date.now());
         _Notification_.send(NotifyEnum.CLICKCOLLECT, 1);
         //退出
         this.node.active = false;

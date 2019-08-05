@@ -115,6 +115,7 @@ export enum NotifyEnum {
     GETITEMBYDRILL, //钻头碰撞获取到的道具
     CLICKCOLLECT, //点击离线/积分 面板的收集
     UNLOCKDRILL, //解锁mainview内的钻头
+    UNLOCKBYITEM, //g根据解锁的道具来解锁钻头
 }
 
 //======================================================

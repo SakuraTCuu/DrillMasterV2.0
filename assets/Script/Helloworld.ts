@@ -68,11 +68,14 @@ export default class Helloworld extends cc.Component {
     @property(cc.Camera)
     camera: cc.Camera = null;
 
-    @property(cc.Node)  
+    @property(cc.Node)
     showItemContent: cc.Node = null;
 
     @property(cc.Node)  //结果展示
     showLabItemContent: cc.Node = null;
+
+    @property(cc.SpriteAtlas)  //结果展示
+    itemSpriteAtlas: cc.SpriteAtlas = null;
 
     @property({
         type: cc.AudioClip
@@ -180,7 +183,7 @@ export default class Helloworld extends cc.Component {
     _levelWarehouse: number = 0;
     _collectList: Array<collectItemData> = new Array();
     collectNodeList: Array<cc.Node> = new Array();
-    constNum: number = 3008;
+    constNum: number = 3860;
     _currentDepth: number = 0;
 
     _isTouch: boolean = false;
@@ -484,19 +487,28 @@ export default class Helloworld extends cc.Component {
         this._isTouch = true;
     }
 
+    _touchMoveTime: number;
     onTouchMove(event: cc.Event.EventTouch) {
+        let currentTime = Date.now();
+        // cc.log("disTime-->>", currentTime - this._touchMoveTime);
+        if (currentTime - this._touchMoveTime < 20) {
+            // cc.log("太频繁了吧");
+        } else {
+            this._touchMoveTime = currentTime;
+        }
         let pos = event.getLocation();
-
         let subVect = pos.sub(this._preMovePos);
         let radian = Math.atan2(subVect.x, subVect.y);
         let degrees = cc.misc.radiansToDegrees(radian);
         let disDegress = degrees - this._preDegress;
-        if (Math.abs(disDegress) > 5) {
+        if (Math.abs(disDegress) > 20) {
             if (disDegress > 0) {
-                degrees = this._preDegress + 5;
+                degrees = this._preDegress + 20;
             } else {
-                degrees = this._preDegress - 5;
+                degrees = this._preDegress - 20;
             }
+        } else {
+            // cc.log("disDegress--->>", disDegress);
         }
         if (degrees > 60) {
             degrees = 60;
@@ -507,10 +519,10 @@ export default class Helloworld extends cc.Component {
         this.drill.angle = -degrees;
         this._preDegress = degrees;
         let x = (pos.x - this._preMovePos.x); //* Math.abs(Math.sin(cc.misc.degreesToRadians(degrees)));
-        // if (x > 20) {
-        //     x = 20;
-        // }
-        this.drill.x += x;
+        if (x > 20) {
+            x = 20;
+        }
+        this.drill.x += 2 * x;
         this._preMovePos = pos;
     }
     onTouchEnd(event) {
@@ -656,10 +668,10 @@ export default class Helloworld extends cc.Component {
         this.registerEvent();
         this.drill.y += this.upSpeed * dt;
         if (!this._isTouch) {
-            if (this.drill.angle >= 1) {
-                this.drill.angle -= 1;
-            } else if (this.drill.angle <= -1) {
-                this.drill.angle += 1;
+            if (this.drill.angle >= 2) {
+                this.drill.angle -= 2;
+            } else if (this.drill.angle <= -2) {
+                this.drill.angle += 2;
             } else {
                 this.drill.angle = 0;
             }
@@ -727,12 +739,12 @@ export default class Helloworld extends cc.Component {
         let allVo = T_Unlock_Table.getAllVo();
         //格子数量
         // let count = Math.ceil((this._currentDepth - this.constNum) / 2 / 752);
-        for (let i = 1; i <= count; i++) {
+        for (let i = 0; i <= count; i++) {
             for (let j = 0; j < this.gridNumebrItem; j++) {
                 let randx = Math.random() > 0.5 ? Math.random() * 320 : Math.random() * -320;
                 let randy = Math.random() * 752;
                 //格子改了 x2 深度也x2;
-                let nodey = (i + 3) * 752 - (752 - randy);
+                let nodey = (i + 4) * 752 - (752 - randy);
                 let pos = cc.v2(randx, -nodey);
                 let inx = Math.floor(i / 2);
                 if (inx == 0) { inx = 1; }
@@ -742,7 +754,7 @@ export default class Helloworld extends cc.Component {
                 let itemId = Number(voItem[index]);
 
                 //  1/5的概率是金色的
-                let isGold = Math.random() * 10 <= 2;
+                let isGold = Math.random() * 10 <= 1;
                 let item = this.nodePool.get();
                 if (!item) {
                     item = cc.instantiate(this.propItem);
@@ -918,13 +930,16 @@ export default class Helloworld extends cc.Component {
             cc.log("本次收集金币数-->>", count);
             cc.log("本次收获新道具-->>", newItemList);
             cc.log("本次收获新金色道具-->>", newGoldItemList);
+            //获取多个道具  多个钻头解锁
             //判断是否解锁钻头
-            let unlockList = this._gameManager.getUnlockList();
-            let maxId = unlockList[unlockList.length - 1];
-            let flag = GameUtil.isCanUnlockDrill(Number(maxId) + 1);
-            if (flag) {
-                _Notification_.send(NotifyEnum.UNLOCKDRILL);
-            }
+            // let unlockList = this._gameManager.getUnlockList();
+            // let maxId = unlockList[unlockList.length - 1];
+            //无论是否解锁 都发消息
+            _Notification_.send(NotifyEnum.UNLOCKDRILL);
+            // let flag = GameUtil.isCanUnlockDrill(Number(maxId) + 1);
+            // if (flag) {
+            //     _Notification_.send(NotifyEnum.UNLOCKDRILL);
+            // }
             //可以解锁下一个
             //是否有新解锁的道具
             this.resetGame();

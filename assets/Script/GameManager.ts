@@ -4,6 +4,8 @@ import AudioManager from "./AudioManager";
 import { T_OutLine_Table } from "./Data/T_OutLine";
 import Helloworld from "./Helloworld";
 import GameUtil from "./Util/GameUtil";
+import { T_Unlock_Table } from "./Data/T_unlock";
+import OfflineView from "./OfflineView";
 
 export default class GameManager {
 
@@ -45,7 +47,7 @@ export default class GameManager {
         //解锁的金色道具
         const userGoldItem: string = cc.sys.localStorage.getItem("userGoldItem");
         //玩家已解锁钻头
-        const unlock: string = cc.sys.localStorage.getItem("unlock");
+        // const unlock: string = cc.sys.localStorage.getItem("unlock");
         //玩家的各个等级
         const warehouse: string = cc.sys.localStorage.getItem("warehouse");
         const depth: string = cc.sys.localStorage.getItem("depth");
@@ -70,6 +72,10 @@ export default class GameManager {
             this.saveData(saveName.USERITEM, "");
         }
 
+        this._unlockList = new Array();
+        // 钻头根据道具来解锁
+        this.getUnlockListFromItemList();
+
         if (userGoldItem) {
             this._glodItemList = userGoldItem.split("_");
         } else {
@@ -80,13 +86,14 @@ export default class GameManager {
         }
 
         //拥有的钻头
-        if (unlock) {
-            //拥有的道具
-            this._unlockList = unlock.split("_");
-        } else {
-            this._unlockList = new Array();
-            this.saveData(saveName.UNLOCK, "");
-        }
+        // if (unlock) {
+        //     //拥有的道具
+        //     this._unlockList = unlock.split("_");
+        // } else {
+        //     // this._unlockList = new Array();
+        //     // this.saveData(saveName.UNLOCK, "");
+        //     this._unlockList = this.getUnlockListFromItemList();
+        // }
 
         if (warehouse) {
             this._warehouse = warehouse;
@@ -116,7 +123,7 @@ export default class GameManager {
         } else {
             //无收益
             this._disTime = 0;
-            this.saveData(saveName.PRETIME, Date.now());
+            // this.saveData(saveName.PRETIME, Date.now());
         }
 
         //全局监听进入后台事件
@@ -133,7 +140,9 @@ export default class GameManager {
             this._disTime = cTime - this._preShowTime;
             if (this.getOfflineIncome() > 0) {
                 //弹出收益框
-                cc.Canvas.instance.node.getComponent(Helloworld).offLineUI.active = true;
+                let hw = cc.Canvas.instance.node.getComponent(Helloworld);
+                hw.offLineUI.active = true;
+                hw.offLineUI.getComponent(OfflineView).showOffline();
             }
         }, this)
     }
@@ -183,7 +192,6 @@ export default class GameManager {
                 break;
             case saveName.UNLOCK:  //TODO  拼接字符串
                 value = Number(value) + "";
-
                 //先查重
                 let f3 = true;
                 for (let i = 0; i < this._unlockList.length; i++) {
@@ -196,9 +204,13 @@ export default class GameManager {
                 if (!f3) {
                     return;
                 }
-                //先排序
-                GameUtil.sortArr(this._unlockList);
+                //说明有新解锁的了
+                _Notification_.send(NotifyEnum.UNLOCKBYITEM, value);
                 this._unlockList.push(value);
+                //排序
+                GameUtil.sortArr(this._unlockList);
+                //不写入
+                return;
                 //写入
                 value = ""
                 for (let i = 0; i < this._unlockList.length; i++) {
@@ -224,7 +236,7 @@ export default class GameManager {
                     return;
                 }
                 this._itemList.push(value);
-                //先排序
+                //排序
                 GameUtil.sortArr(this._itemList);
                 cc.log("排序后-->>", this._itemList);
                 //写入
@@ -265,7 +277,7 @@ export default class GameManager {
                 }
                 break;
             case saveName.PRETIME:    //TODO  什么时间保存?
-                this._disTime = value;
+                // this._disTime = value;
                 break;
         }
         cc.log("key-->>", key);
@@ -332,5 +344,25 @@ export default class GameManager {
             income = 0;
         }
         return income;
+    }
+
+    //从道具列表获取解锁钻头
+    getUnlockListFromItemList() {
+        this._unlockList.length = 0;
+        let allVo = T_Unlock_Table.getAllVo();
+        for (let i = 0; i < allVo.length; i++) {
+            let list = allVo[i].value.split("_");
+            let flag = true;
+            for (let j = 0; j < list.length; j++) {
+                let id = Number(list[j]);
+                if (!GameUtil.getItemIsHave(id)) {
+                    flag = false;
+                }
+            }
+            if (flag) {
+                this._unlockList.push(allVo[i].id + "");
+            }
+        }
+        cc.log("钻头list-->", this._unlockList);
     }
 }

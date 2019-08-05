@@ -41,6 +41,9 @@ export default class Item_Component extends cc.Component {
     flame: cc.Animation = null;   //钻头发动时喷火的动画
     particle: cc.ParticleSystem = null; //钻头破土时的粒子
 
+    drill_8: cc.Node = null; //第八个钻头
+    drill_10: cc.Node = null; //第十个钻头
+
     drill_down_back_left: cc.Sprite = null;
     drill_down_back_right: cc.Sprite = null;
     drill_down_front_left: cc.Sprite = null;
@@ -137,6 +140,8 @@ export default class Item_Component extends cc.Component {
         this.particle = this.node.getChildByName("particle").getComponent(cc.ParticleSystem);
 
         this.flame = this.node.getChildByName("flame").getComponent(cc.Animation);
+        this.drill_8 = this.node.getChildByName("drill_8");
+        this.drill_10 = this.node.getChildByName("drill_10");
 
         this.drillRotateAnim = this.drill_top.getComponent(cc.Animation);
         this.drill_down_back_left = this.drill_down_back.getChildByName("left").getComponent(cc.Sprite);
@@ -170,66 +175,30 @@ export default class Item_Component extends cc.Component {
             this.dirllSprite.node.active = false;
 
             this.drillAnim.play();
-
-            let path = "drill_turn_anim/drill_"
-            let mid_path = path + id + "_mid";
-            let back_path_left = path + id + "_back_0";
-            let back_path_right = path + id + "_back_1";
-            let front_path_left = path + id + "_front_0";
-            let front_path_right = path + id + "_front_1";
-
-            let sp = this._spriteData.sprite;
-
-            if (sp.mid) {
-                this.LoadRes(mid_path, (sf) => {
-                    this.drill_mid_spf.spriteFrame = sf;
-                })
-            } else {
-                this.drill_mid_spf.node.active = false;
-            }
-
-            if (sp.down_b) { //后
-                if (sp.down_b.down_left) {
-                    // 后 左
-                    this.LoadRes(back_path_left, (sf) => {
-                        this.drill_down_back_left.spriteFrame = sf;
-                    })
-                } else {
-                    this.drill_down_back_left.node.active = false;
-                }
-                if (sp.down_b.down_right) {
-                    //后右
-                    this.LoadRes(back_path_right, (sf) => {
-                        this.drill_down_back_right.spriteFrame = sf;
-                    })
-                } else {
-                    this.drill_down_back_right.node.active = false;
-                }
-            } else {
-                //隐藏
-                this.drill_down_back.active = false;
-            }
-            if (sp.down_f) {
-                if (sp.down_f.down_left) {
-                    this.LoadRes(front_path_left, (sf) => {
-                        this.drill_down_front_left.spriteFrame = sf;
-                    })
-                } else {
-                    this.drill_down_front_left.node.active = false;
-                } if (sp.down_f.down_right) {
-                    this.LoadRes(front_path_right, (sf) => {
-                        this.drill_down_front_right.spriteFrame = sf;
-                    })
-                } else {
-                    this.drill_down_front_right.node.active = false;
-                }
-            } else {
-                //隐藏
-                this.drill_down_front.active = false;
-            }
+            this.setDrillView(id);
         }
         //开始做颜色的异化
         this.setSelected(this._isSelected);
+    }
+
+    updateIsUnlock() {
+        let id = this.nodeID;
+        //判断当前是否解锁
+        let flag = GameUtil.getIsUnlock(id);
+        if (!flag) {
+            this._currentState = drillState.normal;
+            // //隐藏动画UI
+            // this.setHideUI(false);
+            // //展示默认图片
+            // this.dirllSprite.node.active = true;
+            this.setColorUIToGray();
+        } else {
+            this.setColorUIToNormal();
+            this._currentState = drillState.unlock;
+            this.setHideUI(true);
+            this.dirllSprite.node.active = false;
+            this.setDrillView(id);
+        }
     }
 
     public setHideUI(flag: boolean) {
@@ -272,6 +241,78 @@ export default class Item_Component extends cc.Component {
         if (this._currentState == drillState.unlock) {
             //开始游戏
             _Notification_.send(NotifyEnum.CLICK_DRILL_ITEM, this.nodeID);
+        }
+    }
+
+    setDrillView(id: number) {
+        let path = "drill_turn_anim/drill_"
+        let mid_path = path + id + "_mid";
+        let back_path_left = path + id + "_back_0";
+        let back_path_right = path + id + "_back_1";
+        let front_path_left = path + id + "_front_0";
+        let front_path_right = path + id + "_front_1";
+
+        let sp = this._spriteData.sprite;
+
+        if (id === 8) {
+            this.drill_8.active = true;
+        } else if (id === 10) {
+            this.drill_10.active = true;
+        }
+        if (sp.mid) {
+            this.LoadRes(mid_path, (sf) => {
+                this.drill_mid_spf.spriteFrame = sf;
+            })
+        } else {
+            this.drill_mid_spf.node.active = false;
+        }
+
+        if (sp.down_all) {
+            //一体的意味着 展示mid 就可以
+            this.drill_down_back.active = false;
+            this.drill_down_front.active = false;
+        } else {
+            this.drill_down_back.active = true;
+            this.drill_down_front.active = true;
+            if (sp.down_b) { //后
+                if (sp.down_b.down_left) {
+                    // 后 左
+                    this.LoadRes(back_path_left, (sf) => {
+                        this.drill_down_back_left.spriteFrame = sf;
+                    })
+                } else {
+                    this.drill_down_back_left.node.active = false;
+                }
+                if (sp.down_b.down_right) {
+                    //后右
+                    this.LoadRes(back_path_right, (sf) => {
+                        this.drill_down_back_right.spriteFrame = sf;
+                    })
+                } else {
+                    this.drill_down_back_right.node.active = false;
+                }
+            } else {
+                //隐藏
+                this.drill_down_back.active = false;
+            }
+            if (sp.down_f) {
+                if (sp.down_f.down_left) {
+                    this.LoadRes(front_path_left, (sf) => {
+                        this.drill_down_front_left.spriteFrame = sf;
+                    })
+                } else {
+                    this.drill_down_front_left.node.active = false;
+                } if (sp.down_f.down_right) {
+                    this.LoadRes(front_path_right, (sf) => {
+                        this.drill_down_front_right.spriteFrame = sf;
+                    })
+                } else {
+                    this.drill_down_front_right.node.active = false;
+                }
+            } else {
+                //隐藏
+                this.drill_down_front.active = false;
+            }
         }
     }
 

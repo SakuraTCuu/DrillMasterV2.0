@@ -1,4 +1,5 @@
 import GameManager from "../GameManager";
+import Helloworld from "../Helloworld";
 
 const { ccclass, property } = cc._decorator;
 
@@ -16,6 +17,8 @@ export default class showBoxItem_min_Component extends cc.Component {
 
     //设置数据
     setData(bgId: string) {
+
+        let spriteAtlas = cc.Canvas.instance.node.getComponent(Helloworld).itemSpriteAtlas;
         //是否有这个道具
         //是否有金色的道具
         let itemList = GameManager.getInstance().getItemList();
@@ -41,37 +44,43 @@ export default class showBoxItem_min_Component extends cc.Component {
 
         if (isGold) {
             //展示 金色的
-            let bgPath = "item/" + bgId + "_2";
-            cc.loader.loadRes(bgPath, cc.SpriteFrame, (err, spf: cc.SpriteFrame) => {
-                if (!err) {
-                    this.itemSp.spriteFrame = spf;
-                }
-                // cc.log(err);
-            })
+            let bgPath = bgId + "_2";
+            // cc.loader.loadRes(bgPath, cc.SpriteFrame, (err, spf: cc.SpriteFrame) => {
+            //     if (!err) {
+            //         this.itemSp.spriteFrame = spf;
+            //     }
+            //     // cc.log(err);
+            // })
+            let sp = spriteAtlas.getSpriteFrame(bgPath);
+            this.itemSp.spriteFrame = sp;
             this.gold.active = true;
             this.normal.active = false;
             this.itemSp.node.color = cc.color().fromHEX("#FFFFFF");
         } else if (isHave) {
             //展示 普通的
-            let bgPath = "item/" + bgId + "_1";
-            cc.loader.loadRes(bgPath, cc.SpriteFrame, (err, spf: cc.SpriteFrame) => {
-                if (!err) {
-                    this.itemSp.spriteFrame = spf;
-                }
-                // cc.log(err);
-            })
+            let bgPath = bgId + "_1";
+            // cc.loader.loadRes(bgPath, cc.SpriteFrame, (err, spf: cc.SpriteFrame) => {
+            //     if (!err) {
+            //         this.itemSp.spriteFrame = spf;
+            //     }
+            //     // cc.log(err);
+            // })
+            let sp = spriteAtlas.getSpriteFrame(bgPath);
+            this.itemSp.spriteFrame = sp;
             this.gold.active = false;
             this.normal.active = true;
             this.itemSp.node.color = cc.color().fromHEX("#FFFFFF");
         } else {
             //展示 未获得的
-            let bgPath = "item/" + bgId + "_0";
-            cc.loader.loadRes(bgPath, cc.SpriteFrame, (err, spf: cc.SpriteFrame) => {
-                if (!err) {
-                    this.itemSp.spriteFrame = spf;
-                }
-                // cc.log(err);
-            })
+            let bgPath = bgId + "_0";
+            // cc.loader.loadRes(bgPath, cc.SpriteFrame, (err, spf: cc.SpriteFrame) => {
+            //     if (!err) {
+            //         this.itemSp.spriteFrame = spf;
+            //     }
+            //     // cc.log(err);
+            // })
+            let sp = spriteAtlas.getSpriteFrame(bgPath);
+            this.itemSp.spriteFrame = sp;
             this.gold.active = false;
             this.normal.active = true;
             this.itemSp.node.color = cc.color().fromHEX("#933728");
