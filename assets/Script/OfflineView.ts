@@ -78,5 +78,8 @@ export default class OfflineView extends cc.Component {
         _Notification_.send(NotifyEnum.CLICKCOLLECT, 1);
         //退出
         this.node.active = false;
+
+
+        
     }
 }

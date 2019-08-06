@@ -98,7 +98,8 @@ export enum saveName {
     WAREHOUSE = "warehouse",
     DEPTH = "depth",
     OUTLINE = "outline",
-    PRETIME = "preTime"
+    PRETIME = "preTime",
+    GAMEGUIDE = "gameGuide"
 }
 
 
@@ -116,6 +117,7 @@ export enum NotifyEnum {
     CLICKCOLLECT, //点击离线/积分 面板的收集
     UNLOCKDRILL, //解锁mainview内的钻头
     UNLOCKBYITEM, //g根据解锁的道具来解锁钻头
+    HIDEGAMEGUIDE, //隐藏引导节点
 }
 
 //======================================================

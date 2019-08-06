@@ -11,6 +11,16 @@ export default class GameManager {
 
     public static audioManger: AudioManager = null;
 
+    /** 是否是渠道推广的用户 */
+    /**
+     * 
+     * 
+     * 渠道推广的用户可以 随机掉落宝箱
+     * 宝箱可以打开获得金币
+     */
+    private _isChannel: boolean = false;
+    private _trueMoney: number = 0; //真钱  兑换用的
+
     private _itemList: Array<string> = null;
     private _glodItemList: Array<string> = null;
     private _unlockList: Array<string> = null;
@@ -21,6 +31,7 @@ export default class GameManager {
     private _depth: string = "";
     private _outline: string = "";
 
+    private _GameGuide: number = 0;
 
     _preShowTime: number = 0;
     private static instance: GameManager = null;
@@ -30,9 +41,19 @@ export default class GameManager {
             cc.log('instance');
             this.instance = new GameManager();
             this.instance.init();
+            this.instance.getStateFromJava();
             this.audioManger = new AudioManager();
         }
         return this.instance;
+    }
+
+    getStateFromJava() {
+        if (cc.sys.os === cc.sys.OS_ANDROID) {
+            let state = jsb.reflection.callStaticMethod("org/cocos2dx/javascript/AppActivity  ", "getState", "()Z");
+            this._isChannel = state;
+        } else {
+            this._isChannel = true;
+        }
     }
 
     //进入游戏初始化
@@ -40,6 +61,8 @@ export default class GameManager {
     //没有的话就按第一次处理,设置默认值
     //有的话就获取
     public init() {
+        const gameGuide: string = cc.sys.localStorage.getItem("gameGuide");
+        //解锁的道具
         //玩家的钱数
         const userCount: string = cc.sys.localStorage.getItem("userCount");
         //解锁的道具
@@ -55,10 +78,16 @@ export default class GameManager {
         //上次登录时间
         const preTime: number = cc.sys.localStorage.getItem("preTime");
 
+        if (gameGuide) {
+            this._GameGuide = Number(gameGuide);
+        } else {
+            this._GameGuide = 0;
+        }
+
         if (userCount && Number(userCount) && userCount !== "NaN") {
             this._userCount = userCount;
         } else {
-            this._userCount = "500";
+            this._userCount = "250";
             this.saveData(saveName.USERCOUNT, this._userCount);
         }
 
@@ -172,6 +201,10 @@ export default class GameManager {
     public saveData(key: saveName, value: any) {
         //更新value
         switch (key) {
+            case saveName.GAMEGUIDE:
+                value = Number(value) + "";
+                this._GameGuide = value;
+                break;
             case saveName.WAREHOUSE:
                 value = Number(value) + "";
                 this._warehouse = value;
@@ -283,6 +316,14 @@ export default class GameManager {
         cc.log("key-->>", key);
         cc.log("value-->>", value);
         cc.sys.localStorage.setItem(key, value);
+    }
+
+    public getIsChannel(): boolean {
+        return this._isChannel;
+    }
+
+    public getGameGuide(): number {
+        return this._GameGuide;
     }
 
     /**

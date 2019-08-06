@@ -38,6 +38,7 @@ export default class mainContentItem_Component extends cc.Component {
     _state: mainContentItemState = 0;
     _data: mainContenItemData = null;
     _gameManager: GameManager = null;
+    _isGuide: boolean;
 
     onLoad() {
         //钱更新的时候监听
@@ -47,15 +48,11 @@ export default class mainContentItem_Component extends cc.Component {
         this.updateParentToBack();
     }
 
-    updateMoney(obj: any, target: any) {
-        let self = target as mainContentItem_Component;
-        // self.init();
-    }
-
-    init(state: mainContentItemState, data: mainContenItemData) {
+    init(state: mainContentItemState, data: mainContenItemData, isGuide: boolean = false) {
         this._gameManager = GameManager.getInstance();
         this._state = state;
         this._data = data;
+        this._isGuide = isGuide;
         this.node.name = this._state + "";
         if (state == 1) {
             this.topSp.spriteFrame = this.warehouseSpf;
@@ -97,7 +94,7 @@ export default class mainContentItem_Component extends cc.Component {
                 //已到等级上限
                 this.updateParentToBack();
             } else {
-                let warehouseVo = T_Warehouse_Table.getVoByKey(warehouse + 1);
+                let warehouseVo = T_Warehouse_Table.getVoByKey(warehouse);
                 self.changeParent((userCount > warehouseVo.expend));
             }
 
@@ -107,7 +104,7 @@ export default class mainContentItem_Component extends cc.Component {
                 //已到等级上限
                 this.updateParentToBack();
             } else {
-                let depthVo = T_Depth_Table.getVoByKey(depth + 1);
+                let depthVo = T_Depth_Table.getVoByKey(depth);
                 self.changeParent((userCount > depthVo.expend));
             }
 
@@ -117,7 +114,7 @@ export default class mainContentItem_Component extends cc.Component {
                 this.updateParentToBack();
                 //已到等级上限
             } else {
-                let outlineVo = T_OutLine_Table.getVoByKey(outline + 1);
+                let outlineVo = T_OutLine_Table.getVoByKey(outline);
                 self.changeParent((userCount > outlineVo.expend));
             }
 
@@ -155,7 +152,7 @@ export default class mainContentItem_Component extends cc.Component {
                 return;
             }
             //当前要解锁的
-            let warehouseVo = T_Warehouse_Table.getVoByKey(warehouse + 1);
+            let warehouseVo = T_Warehouse_Table.getVoByKey(warehouse);
             if (userCount < warehouseVo.expend) {
                 //不理会
             } else {
@@ -164,32 +161,34 @@ export default class mainContentItem_Component extends cc.Component {
                 this._gameManager.saveData(saveName.USERCOUNT, currentCount);
                 //保存等级
                 this._gameManager.saveData(saveName.WAREHOUSE, warehouse + 1);
-                //延迟
                 warehouse += 1;
+                // warehouse = Number(this._gameManager.getLevelWarehouse());
                 if (warehouse >= 45) {
                     //已到等级上限
                     this.updateParentToBack();
                     return;
                 }
-
-                warehouseVo = T_Warehouse_Table.getVoByKey(warehouse + 1);
+                warehouseVo = T_Warehouse_Table.getVoByKey(warehouse);
                 //下一阶段要解锁的
                 let obj: mainContenItemData = {
                     id: warehouseVo.id,
                     value: warehouseVo.count,
                     expend: warehouseVo.expend
                 }
-                this.init(this._state, obj);
+                if (!this._isGuide) {
+                    //新手引导
+                    //刷新下面的ui
+                    this.init(this._state, obj);
+                }
             }
         } else if (this._state == 2) {
             let depth = Number(this._gameManager.getLevelDepth());
-
             if (depth >= 68) {
                 //已到等级上限
                 this.updateParentToBack();
                 return;
             }
-            let depthVo = T_Depth_Table.getVoByKey(depth + 1);
+            let depthVo = T_Depth_Table.getVoByKey(depth);
             if (userCount < depthVo.expend) {
                 //不理会
             } else {
@@ -206,14 +205,18 @@ export default class mainContentItem_Component extends cc.Component {
                     this.updateParentToBack();
                     return;
                 }
-                depthVo = T_Depth_Table.getVoByKey(depth + 1);
+                depthVo = T_Depth_Table.getVoByKey(depth);
                 //下一阶段要解锁的
                 let obj: mainContenItemData = {
                     id: depthVo.id,
                     value: depthVo.depth,
                     expend: depthVo.expend
                 }
-                this.init(this._state, obj);
+                if (!this._isGuide) {
+                    //新手引导
+                    //刷新下面的ui
+                    this.init(this._state, obj);
+                }
             }
         }
         else if (this._state == 3) {
@@ -225,7 +228,7 @@ export default class mainContentItem_Component extends cc.Component {
                 this.updateParentToBack();
                 return;
             }
-            let outlineVo = T_OutLine_Table.getVoByKey(outline + 1);
+            let outlineVo = T_OutLine_Table.getVoByKey(outline);
             if (userCount < outlineVo.expend) {
                 //不理会
             } else {
@@ -241,16 +244,27 @@ export default class mainContentItem_Component extends cc.Component {
                     this.updateParentToBack();
                     return;
                 }
-                outlineVo = T_OutLine_Table.getVoByKey(outline + 1);
+                outlineVo = T_OutLine_Table.getVoByKey(outline);
                 //下一阶段要解锁的
                 let obj: mainContenItemData = {
                     id: outlineVo.id,
                     value: outlineVo.income,
                     expend: outlineVo.expend
                 }
-                this.init(this._state, obj);
+                // this.init(this._state, obj, this._isGuide);
+                if (!this._isGuide) {
+                    //新手引导
+                    //刷新下面的ui
+                    this.init(this._state, obj);
+                }
             }
         }
-        _Notification_.send(NotifyEnum.UPDATEMAINITEM);
+        _Notification_.send(NotifyEnum.UPDATEMAINITEM, this._state);
+        if (this._isGuide) {
+            //发消息隐藏引导
+            _Notification_.send(NotifyEnum.HIDEGAMEGUIDE, this._state);
+            //销毁自身
+            this.node.destroy();
+        }
     }
 }

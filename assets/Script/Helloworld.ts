@@ -1,4 +1,4 @@
-import { moveState, NotifyEnum, mainContenItemData, collectItemData, saveName } from "./Interface";
+import { moveState, NotifyEnum, mainContenItemData, collectItemData, saveName, mainContentItemState } from "./Interface";
 import { _Notification_ } from "./_Notification_";
 import GameManager from "./GameManager";
 import { T_OutLine_Table, T_OutLine } from "./Data/T_OutLine";
@@ -13,6 +13,7 @@ import { T_Unlock_Table } from "./Data/T_unlock";
 import { T_Item_Table, T_Item } from "./Data/T_Item";
 import labItem_Component from "./ItemComponent/labItem_Component";
 import GameUtil from "./Util/GameUtil";
+import BaoxiangView from "./BaoxiangView";
 
 const { ccclass, property } = cc._decorator;
 
@@ -74,8 +75,23 @@ export default class Helloworld extends cc.Component {
     @property(cc.Node)  //结果展示
     showLabItemContent: cc.Node = null;
 
-    @property(cc.SpriteAtlas)  //结果展示
+    @property(cc.SpriteAtlas)  //图集
     itemSpriteAtlas: cc.SpriteAtlas = null;
+
+    @property(cc.Node)  //新手引导手
+    guideHand: cc.Node = null;
+
+    @property(cc.Node)  //新手引导
+    guideContent: cc.Node = null;
+
+    @property(cc.Node)  //新手引导 宝箱
+    baoXiangContent: cc.Node = null;
+
+    @property(cc.Node)  //宝箱详情界面
+    baoXiangView: cc.Node = null;
+
+    @property(cc.Node)  //宝箱按钮
+    baoxiangBtn: cc.Node = null;
 
     @property({
         type: cc.AudioClip
@@ -193,18 +209,19 @@ export default class Helloworld extends cc.Component {
         let manager = cc.director.getCollisionManager();
         manager.enabled = true;
         // manager.enabledDebugDraw = true;
-
         this._gameManager = GameManager.getInstance();
         this.initData();
         this.initView();
         this.initGame();
         this.initAudio();
+        this.initGameGudie();
         _Notification_.subscrib(NotifyEnum.CLICK_START, this.onClickStart, this);
         _Notification_.subscrib(NotifyEnum.UPDATEMONEY, this.updateMoneyLab, this);
         _Notification_.subscrib(NotifyEnum.UPDATEDEPTH, this.updateDepth, this);
         _Notification_.subscrib(NotifyEnum.UPDATEMAINITEM, this.updateMainUI, this);
         _Notification_.subscrib(NotifyEnum.GETITEMBYDRILL, this.getItemByDrill, this);
         _Notification_.subscrib(NotifyEnum.CLICKCOLLECT, this.clickCollect, this);
+        _Notification_.subscrib(NotifyEnum.HIDEGAMEGUIDE, this.hideGameGuide, this);
     }
 
     start() {
@@ -217,6 +234,9 @@ export default class Helloworld extends cc.Component {
         // let count = Math.ceil((this._currentDepth - this.constNum) / 2 / 752);
         let count = Math.ceil(this._levelDpeth / 4) + 1;
         let len = count * this.gridNumebrItem;
+        if (len > 40) {
+            len = 40;
+        }
         cc.log("共需生成", len);
         let i = 0;
         this.schedule(() => {
@@ -263,6 +283,12 @@ export default class Helloworld extends cc.Component {
         this._mainDrill = this.mCanvas.getChildByName("drill_main");
         this._mainDownBackView = this.mainNode.getChildByName("main_back");
         this._mainDownFrontView = this.mainNode.getChildByName("main_front");
+
+        if (!this._gameManager.getIsChannel()) {
+            this.baoxiangBtn.active = false;
+        } else {
+            this.baoxiangBtn.active = true;
+        }
         this.initMainUI();
         this.initMoneyLab();
     }
@@ -281,19 +307,19 @@ export default class Helloworld extends cc.Component {
             //已达到最高
             warehouseVo = T_Warehouse_Table.getVoByKey(Number(warehouse));
         } else {
-            warehouseVo = T_Warehouse_Table.getVoByKey(Number(warehouse) + 1);
+            warehouseVo = T_Warehouse_Table.getVoByKey(Number(warehouse));
         }
 
         if (this._gameManager.getDepthIsTop()) {
             depthVo = T_Depth_Table.getVoByKey(Number(depth));
         } else {
-            depthVo = T_Depth_Table.getVoByKey(Number(depth) + 1);
+            depthVo = T_Depth_Table.getVoByKey(Number(depth));
         }
 
         if (this._gameManager.getOutlineIsTop()) {
             outlineVo = T_OutLine_Table.getVoByKey(Number(outline));
         } else {
-            outlineVo = T_OutLine_Table.getVoByKey(Number(outline) + 1);
+            outlineVo = T_OutLine_Table.getVoByKey(Number(outline));
         }
         //下一段要解锁的
 
@@ -336,7 +362,6 @@ export default class Helloworld extends cc.Component {
 
     updateMainUI(obj: any, target: any) {
         let self = target as Helloworld;
-
         for (let i = 0; i < self._mainDownBackView.childrenCount; i++) {
             let item = self._mainDownBackView.children[i];
             item.getComponent(mainContentItem_Component).updateParent();
@@ -373,8 +398,16 @@ export default class Helloworld extends cc.Component {
         if (obj && Number(obj) === 1) {
             // self.hidePopItemAnimView();
         }
+
+        //收集完看看是否有宝箱道具
+        //弹出宝箱特效
+        this.popBaoxiangView();
     }
 
+    // 弹出宝箱特效
+    popBaoxiangView() {
+
+    }
     /**
      * 首先检查离线收益 弹出对话框
      * 初始化全局的道具和钻头
@@ -396,6 +429,268 @@ export default class Helloworld extends cc.Component {
         GameManager.audioManger.playBGM(this.hallAudio);
     }
 
+    //初始化新手引导
+    initGameGudie() {
+        let id = this._gameManager.getGameGuide();
+        if (id === 0) {
+            return;
+        }
+        this.showGameGuide(id + 1);
+    }
+
+    hideGameGuide(obj: any, target: any) {
+        cc.log("hideGameGuide-->>");
+        let self = target as Helloworld;
+        let id = Number(obj);
+        let itemNode = self.guideContent.getChildByName("mainItem");
+        if (id == 1) {
+            //刷新1 的ui
+            let targetNode = self._mainDownBackView.getChildByName("1");
+            if (!targetNode) {
+                targetNode = self._mainDownFrontView.getChildByName("1");
+            }
+            let warehouse = self._gameManager.getLevelWarehouse();
+            let warehouseVo = T_Warehouse_Table.getVoByKey(Number(warehouse));
+            let data: mainContenItemData =
+            {
+                id: 1,
+                value: warehouseVo.count,
+                expend: warehouseVo.expend
+            };
+            targetNode.getComponent(mainContentItem_Component).init(1, data, false);
+        } else if (id == 2) {
+            //刷新2 的ui
+            let targetNode = self._mainDownBackView.getChildByName("2");
+            if (!targetNode) {
+                targetNode = self._mainDownFrontView.getChildByName("2");
+            }
+            let levelDepth = self._gameManager.getLevelDepth();
+            let depthVo = T_Depth_Table.getVoByKey(Number(levelDepth));
+            let data: mainContenItemData =
+            {
+                id: 2,
+                value: depthVo.depth,
+                expend: depthVo.expend
+            };
+            targetNode.getComponent(mainContentItem_Component).init(2, data, false);
+        } else if (id == 3) {
+            self.guideContent.getChildByName("arrow2").active = false;
+            self.guideContent.getChildByName("arrow3").active = false;
+
+            //刷新3 的 ui
+            let targetNode = self._mainDownBackView.getChildByName("3");
+            if (!targetNode) {
+                targetNode = self._mainDownFrontView.getChildByName("3");
+            }
+            let outline = self._gameManager.getLevelOutline();
+            let outlineVo = T_OutLine_Table.getVoByKey(Number(outline));
+            let data: mainContenItemData =
+            {
+                id: 3,
+                value: outlineVo.income,
+                expend: outlineVo.expend
+            };
+            targetNode.getComponent(mainContentItem_Component).init(3, data, false);
+        }
+        itemNode.removeAllChildren();
+        self.guideContent.active = false;
+
+        //开始展示宝箱
+        if (self._gameManager.getGameGuide() == 4 && self._gameManager.getIsChannel()) {
+            self.showGuideBaoXiang();
+        }
+    }
+
+    //引导用户点击宝箱
+    showGuideBaoXiang() {
+        // cc.log("???");
+        this.baoXiangContent.active = true;
+        let desLab = this.baoXiangContent.getChildByName("desLab").getComponent(cc.Label);
+        desLab.string = "快看看宝箱里边有什么!";
+    }
+
+    showGuideHand() {
+        //新手引导
+        this.guideHand.active = true;
+        let width = cc.view.getVisibleSize().width;
+        let moveAct1 = cc.moveTo(1, cc.v2(width / 2, this.guideHand.y));
+        let moveAct2 = cc.moveTo(1, cc.v2(-width / 2, this.guideHand.y));
+        let seqAct = cc.sequence(moveAct1, moveAct2);
+        this.guideHand.runAction(cc.repeat(seqAct, 2));
+        this.scheduleOnce(() => {
+            this.guideHand.active = false;
+        }, 4)
+    }
+
+    //升级深度
+    showGuideUpgradeDepth() {
+        //把 深度节点拿出来放到 guide节点上
+        this.guideContent.active = true;
+        let itemNode = this.guideContent.getChildByName("mainItem");
+        let arrow = this.guideContent.getChildByName("arrow");
+        let desLab = this.guideContent.getChildByName("desLab").getComponent(cc.Label);
+
+        let targetNode = this._mainDownBackView.getChildByName("2");
+        if (!targetNode) {
+            targetNode = this._mainDownFrontView.getChildByName("2");
+        }
+        // let pos = targetNode.parent.convertToWorldSpaceAR(targetNode.position);
+        let pos = targetNode.position;
+        cc.log("pos--->>", pos);
+        let item = cc.instantiate(this.mainDownItem);
+        let depth = this._gameManager.getLevelDepth();
+        let depthVo = T_Depth_Table.getVoByKey(Number(depth));
+        let data: mainContenItemData =
+        {
+            id: 2,
+            value: depthVo.depth,
+            expend: depthVo.expend
+        };
+        item.getComponent(mainContentItem_Component).init(2, data, true);
+        itemNode.addChild(item);
+        item.position = pos;
+        // itemNode.position = itemNode.convertToNodeSpaceAR(pos);
+        arrow.x = item.x;
+        desLab.string = "升级深度来挖的更深！";
+    }
+
+    //升级容量
+    shouGuideUpgradeWare() {
+        this.guideContent.active = true;
+        let itemNode = this.guideContent.getChildByName("mainItem");
+        let arrow = this.guideContent.getChildByName("arrow");
+        let desLab = this.guideContent.getChildByName("desLab").getComponent(cc.Label);
+
+        let targetNode = this._mainDownBackView.getChildByName("1");
+        if (!targetNode) {
+            targetNode = this._mainDownFrontView.getChildByName("1");
+        }
+        // let pos = targetNode.parent.convertToWorldSpaceAR(targetNode.position);
+        let pos = targetNode.position;
+        let item = cc.instantiate(this.mainDownItem);
+        let warehouse = this._gameManager.getLevelWarehouse();
+        let warehouseVo = T_Warehouse_Table.getVoByKey(Number(warehouse));
+        let data: mainContenItemData =
+        {
+            id: 1,
+            value: warehouseVo.count,
+            expend: warehouseVo.expend
+        };
+        item.getComponent(mainContentItem_Component).init(1, data, true);
+        item.position = pos;
+        itemNode.addChild(item);
+        arrow.x = item.x;
+        desLab.string = "升级仓库来携带更多宝物！";
+    }
+
+    //展示 升级其他
+    showGuideUpgradeOther() {
+        this.guideContent.active = true;
+        let itemNode = this.guideContent.getChildByName("mainItem");
+        let arrow = this.guideContent.getChildByName("arrow");
+        let arrow2 = this.guideContent.getChildByName("arrow2");
+        let arrow3 = this.guideContent.getChildByName("arrow3");
+        let desLab = this.guideContent.getChildByName("desLab").getComponent(cc.Label);
+        arrow2.active = true;
+        arrow3.active = true;
+
+
+        let targetNode1 = this._mainDownBackView.getChildByName("1");
+        if (!targetNode1) {
+            targetNode1 = this._mainDownFrontView.getChildByName("1");
+        }
+        // let pos1 = targetNode1.parent.convertToWorldSpaceAR(targetNode1.position);
+        let pos1 = targetNode1.position;
+
+        let targetNode2 = this._mainDownBackView.getChildByName("2");
+        if (!targetNode2) {
+            targetNode2 = this._mainDownFrontView.getChildByName("2");
+        }
+        // let pos2 = targetNode2.parent.convertToWorldSpaceAR(targetNode2.position);
+        let pos2 = targetNode2.position;
+
+        let targetNode3 = this._mainDownBackView.getChildByName("3");
+        if (!targetNode3) {
+            targetNode3 = this._mainDownFrontView.getChildByName("3");
+        }
+        // let pos3 = targetNode3.parent.convertToWorldSpaceAR(targetNode3.position);
+        let pos3 = targetNode3.position;
+
+        //获取数据
+        let warehouse = this._gameManager.getLevelWarehouse();
+        let depth = this._gameManager.getLevelDepth();
+        let outline = this._gameManager.getLevelOutline();
+        let warehouseVo = T_Warehouse_Table.getVoByKey(Number(warehouse));
+        let depthVo = T_Depth_Table.getVoByKey(Number(depth));
+        let outlineVo = T_OutLine_Table.getVoByKey(Number(outline));
+        //下一段要解锁的
+        // 包装数据
+        let obj: Array<mainContenItemData> = [{
+            id: 1,
+            value: warehouseVo.count,
+            expend: warehouseVo.expend
+        }, {
+            id: 2,
+            value: depthVo.depth,
+            expend: depthVo.expend
+        }, {
+            id: 3,
+            value: outlineVo.income,
+            expend: outlineVo.expend
+        }];
+        for (let i = 1; i <= 3; i++) {
+            let item = cc.instantiate(this.mainDownItem);
+            item.getComponent(mainContentItem_Component).init(i, obj[i - 1], true);
+            itemNode.addChild(item);
+            if (i == 1) {
+                item.position = pos1;
+                arrow2.x = item.x;
+            } else if (i == 2) {
+                item.position = pos2;
+                arrow.x = item.x;
+            } else if (i == 3) {
+                item.position = pos3;
+                arrow3.x = item.x;
+            }
+        }
+        desLab.string = "来升级吧！";
+    }
+
+    //引导
+    showGameGuide(id: number) {
+        cc.log("新手引导id--->>", id);
+        switch (id) {
+            case 1:
+                //小手
+                this.showGuideHand();
+                break;
+            case 2:
+                //显示 升级深度
+                this.showGuideUpgradeDepth();
+                break;
+            case 3:
+                //显示 升级容量
+                this.shouGuideUpgradeWare();
+                break;
+            case 4:
+                //显示来升级吧
+                this.showGuideUpgradeOther();
+                cc.log("新手引导完成");
+                break;
+        }
+        this._gameManager.saveData(saveName.GAMEGUIDE, id);
+    }
+
+    //展示渠道宝箱view
+    onClickBaoxiang(event) {
+        // cc.log(event.customEventData);
+        this.baoXiangContent.active = false;
+        this.baoXiangView.active = true;
+        if (this._gameManager.getGameGuide() === 4) {
+            this.baoXiangView.getComponent(BaoxiangView).showView(100, true);
+        }
+    }
+
     //结果分数面板
     showScoreView(score: number, itemList: Array<T_Item> = null) {
         this.offLineUI.active = true;
@@ -406,37 +701,11 @@ export default class Helloworld extends cc.Component {
         this.offLineUI.active = false;
     }
 
-    //游戏结束弹出的动画和动作
-    // showPopItemAnimView() {
-    //     this.gameItemContent.active = true;
-    //     this.showItemContent.active = true;
-    //     this.showLabItemContent.active = true;
-
-    //     cc.log('gameitem-->>', this.gameItemContent.childrenCount);
-    //     this.test(this.gameItemContent);
-    //     cc.log('showItemContent-->>', this.showItemContent.childrenCount);
-    //     this.test(this.showItemContent);
-    //     cc.log('showLabItemContent-->>', this.showLabItemContent.childrenCount);
-    //     this.test(this.showLabItemContent);
-    // }
-
-    // test(par: cc.Node) {
-    //     for (let i = 0; i < par.childrenCount; i++) {
-    //         const item = par.children[i];
-    //         cc.log('多余-->>', item);
-    //     }
-    // }
-
-    // hidePopItemAnimView() {
-    //     this.gameItemContent.active = false;
-    //     this.showItemContent.active = false;
-    //     this.showLabItemContent.active = false;
-    // }
-
     showMainView() {
         this.mainNode.active = true;
         this.setting.active = true;
         this._mainDrill.active = false;
+        this.baoxiangBtn.active = true;
     }
 
     //设置ui状态
@@ -445,6 +714,7 @@ export default class Helloworld extends cc.Component {
         this.mainNode.active = false;
         this.setting.active = false;
         this._mainDrill.active = true;
+        this.baoxiangBtn.active = false;
     }
 
     showHUDView() {
@@ -459,7 +729,6 @@ export default class Helloworld extends cc.Component {
 
     //刷新收集数量统计
     updateHUDView(score: number, total: number) {
-
         let socreLab = this.HUDUi.getChildByName("score").getComponent(cc.Label);
         let spFilled = this.HUDUi.getChildByName("fill_front").getComponent(cc.Sprite);
         spFilled.fillStart = score / total;
@@ -553,6 +822,7 @@ export default class Helloworld extends cc.Component {
         let self = target as Helloworld;
         self.hideMainView();
 
+        //新手引导
         cc.log("下沉深度--->>", self._currentDepth);
         //生成item
         // self.showPopItemAnimView();
@@ -567,6 +837,11 @@ export default class Helloworld extends cc.Component {
         self.drillClass.startRun();
         self.drill.getComponent(cc.BoxCollider).enabled = false;
         self._mainDrill.addChild(self.drill);
+
+        //新手引导生成一个宝箱
+        if (this._gameManager.getIsChannel() && this._gameManager.getGameGuide() <= 1) {
+            //   cc.instantiate();
+        }
 
         let moveAct = cc.moveBy(0.3, cc.v2(self.drill.x, self.drill.y + 100));
         let rotateAct = cc.rotateBy(0.3, -180);
@@ -639,15 +914,19 @@ export default class Helloworld extends cc.Component {
         //设置状态
         this._currentState = moveState.rocketup;
 
-
     }
 
+    //下来到底部开始往上了
     runToTargetDownDepth() {
         this.drillClass.stopFlame();
         cc.log("旋转")
         let rotateAct = cc.rotateBy(0.3, 180).easing(cc.easeIn(3.0));
         this._currentState = moveState.rotate;
         let seqAct = cc.sequence(rotateAct, cc.callFunc(() => {
+            //判断新手引导
+            if (this._gameManager.getGameGuide() == 0) {
+                this.showGameGuide(1);
+            }
             this._currentState = moveState.up;
         }))
         this.drill.runAction(seqAct);
@@ -752,6 +1031,12 @@ export default class Helloworld extends cc.Component {
                 //随机0到3
                 let index = Math.floor(Math.random() * 4);
                 let itemId = Number(voItem[index]);
+
+                //生成 宝箱
+                // if (Math.random() > 0.05) {
+                //     //生成一个宝箱
+
+                // }
 
                 //  1/5的概率是金色的
                 let isGold = Math.random() * 10 <= 1;
@@ -945,7 +1230,19 @@ export default class Helloworld extends cc.Component {
             this.resetGame();
             this.showScoreView(count, newItemList);
             this.showMainView();
+            //判断是否需要展示新手引导
+            this.showGuide();
         }, time);
+    }
+
+    showGuide() {
+        if (this._gameManager.getGameGuide() == 1) {
+            this.showGameGuide(2);
+        } else if (this._gameManager.getGameGuide() == 2) {
+            this.showGameGuide(3);
+        } else if (this._gameManager.getGameGuide() == 3) {
+            this.showGameGuide(4);
+        }
     }
 
     //重新设置游戏
