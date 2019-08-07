@@ -15,10 +15,6 @@ export default class BaoxiangView extends cc.Component {
 
     _income: number = 0;
 
-    onLoad() {
-
-    }
-
     showView(income: number, isGuide: boolean = false) {
         if (isGuide) {
             //展示
@@ -36,6 +32,8 @@ export default class BaoxiangView extends cc.Component {
     }
 
     onClickCollect() {
+        //兑换  这里应该永远不会实现 兑钱的真逻辑
+        return;
         //收集  这里应该是真钱
         cc.log('收集到金币-->>', this._income);
         cc.Canvas.instance.node.getComponent(Helloworld).playCollectMoneyAudio();

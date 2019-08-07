@@ -155,14 +155,14 @@
     "_lineHeight": 40,
     "_enableWrapText": true,
     "_N$file": {
-      "__uuid__": "464fe7a2-08a2-4d0b-84e2-d9502ff6b617"
+      "__uuid__": "a3335c74-f0c4-48d3-8373-6d94baa71639"
     },
     "_isSystemFontUsed": false,
     "_spacingX": 0,
     "_batchAsBitmap": false,
     "_N$horizontalAlign": 0,
     "_N$verticalAlign": 0,
-    "_N$fontFamily": "",
+    "_N$fontFamily": "Arial",
     "_N$overflow": 0,
     "_N$cacheMode": 0,
     "_id": ""

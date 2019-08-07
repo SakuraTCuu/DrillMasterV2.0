@@ -1,8 +1,8 @@
 {
   "ver": "1.2.0",
   "uuid": "27940a83-d786-489a-b71a-96a7caa5db1f",
-  "maxWidth": 1024,
-  "maxHeight": 1024,
+  "maxWidth": 2048,
+  "maxHeight": 2048,
   "padding": 2,
   "allowRotation": true,
   "forceSquared": false,
@@ -12,7 +12,7 @@
   "quality": 80,
   "contourBleed": true,
   "paddingBleed": true,
-  "filterUnused": true,
+  "filterUnused": false,
   "platformSettings": {},
   "subMetas": {}
 }

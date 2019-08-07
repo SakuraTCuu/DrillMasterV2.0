@@ -12,6 +12,13 @@
     [
       false,
       true,
+      false,
+      true
+    ],
+    [
+      false,
+      false,
+      true,
       false
     ]
   ],
@@ -37,7 +44,8 @@
   "group-list": [
     "default",
     "item",
-    "drill"
+    "drill",
+    "redPacket"
   ],
   "last-module-event-record-time": 1564678987980,
   "simulator-orientation": false,
@@ -46,6 +54,5 @@
     "width": 960
   },
   "use-customize-simulator": true,
-  "use-project-simulator-setting": false,
-  "start-scene": "current"
+  "use-project-simulator-setting": false
 }

@@ -11,14 +11,20 @@ export default class GameManager {
 
     public static audioManger: AudioManager = null;
 
+    public static lookNum: number = 0; //连续观看次数
+    public static refuseNum: number = 0;//连续拒绝次数
+
+    // public static startNum: number = 0;//红包还能产生几次
+    public static otehrNum: number = 0; //红包还要等几局才可以产生
+    public static todayLookNum: number = 0; //今日观看次数
+
     /** 是否是渠道推广的用户 */
     /**
-     * 
-     * 
      * 渠道推广的用户可以 随机掉落宝箱
      * 宝箱可以打开获得金币
      */
     private _isChannel: boolean = false;
+    // private _isHasAD: boolean = false; //是否有广告
     private _trueMoney: number = 0; //真钱  兑换用的
 
     private _itemList: Array<string> = null;
@@ -49,10 +55,32 @@ export default class GameManager {
 
     getStateFromJava() {
         if (cc.sys.os === cc.sys.OS_ANDROID) {
-            let state = jsb.reflection.callStaticMethod("org/cocos2dx/javascript/AppActivity  ", "getState", "()Z");
+            let state = jsb.reflection.callStaticMethod("org/cocos2dx/javascript/AppActivity  ", "isTuiGuang", "()Z");
             this._isChannel = state;
         } else {
             this._isChannel = true;
+        }
+    }
+
+    //获取是否有视频缓冲
+    getBufferFromJava(): boolean {
+        if (cc.sys.os === cc.sys.OS_ANDROID) {
+            let state = jsb.reflection.callStaticMethod("org/cocos2dx/javascript/AppActivity  ", "isHasAD", "()Z");
+            if (!state) {
+                state = false;
+            }
+            return state;
+        } else {
+            return true;
+        }
+    }
+
+    //调用广告播放
+    public static playAdVideo() {
+        if (cc.sys.os === cc.sys.OS_ANDROID) {
+            jsb.reflection.callStaticMethod("org/cocos2dx/javascript/AppActivity  ", "showReward", "()V");
+        } else {
+            cc.log("only Android");
         }
     }
 
@@ -61,6 +89,7 @@ export default class GameManager {
     //没有的话就按第一次处理,设置默认值
     //有的话就获取
     public init() {
+        const trueMoney: number = cc.sys.localStorage.getItem("trueMoney");
         const gameGuide: string = cc.sys.localStorage.getItem("gameGuide");
         //解锁的道具
         //玩家的钱数
@@ -77,6 +106,14 @@ export default class GameManager {
         const outline: string = cc.sys.localStorage.getItem("outline");
         //上次登录时间
         const preTime: number = cc.sys.localStorage.getItem("preTime");
+
+        //可提现的money
+        if (trueMoney) {
+            this._trueMoney = Number(trueMoney);
+        } else {
+            this._trueMoney = 0.00;
+            this.saveData(saveName.TRUEMONEY, this._trueMoney);
+        }
 
         if (gameGuide) {
             this._GameGuide = Number(gameGuide);
@@ -201,6 +238,11 @@ export default class GameManager {
     public saveData(key: saveName, value: any) {
         //更新value
         switch (key) {
+            case saveName.TRUEMONEY:
+                // value = Number(value) + "";
+                value = Number(Number(value).toFixed(2));
+                this._trueMoney = value;
+                break;
             case saveName.GAMEGUIDE:
                 value = Number(value) + "";
                 this._GameGuide = value;
@@ -316,6 +358,51 @@ export default class GameManager {
         cc.log("key-->>", key);
         cc.log("value-->>", value);
         cc.sys.localStorage.setItem(key, value);
+    }
+
+    //游戏结束一次  重新 计算红包产生次数
+    static endGameOne() {
+        this.otehrNum--;
+    }
+
+    //更新观看次数
+    public static updateLookNum() {
+        this.lookNum++;
+        this.todayLookNum++;
+        if (this.lookNum >= 3) {
+            this.lookNum = 0;
+            this.otehrNum = 3;
+        }
+    }
+
+    //更新拒绝次数
+    public static updateRefuseNum() {
+        this.refuseNum++;
+        this.otehrNum = 3;
+        this.otehrNum += this.refuseNum * 2;
+        if (this.otehrNum > 9) {
+            this.otehrNum = 9;
+        }
+    }
+
+    //判断是否生成红包
+    getIsCreateRedPacket(): boolean {
+        if (GameManager.todayLookNum >= 6) {
+            return false;
+        }
+        let hasAD = this.getBufferFromJava();
+        if (hasAD) {
+            return true;
+        } else {
+            return false;
+        }
+
+        //拒绝的情况下
+
+    }
+    //获取真钱
+    getTrueMoney(): number {
+        return this._trueMoney;
     }
 
     public getIsChannel(): boolean {

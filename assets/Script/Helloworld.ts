@@ -14,6 +14,7 @@ import { T_Item_Table, T_Item } from "./Data/T_Item";
 import labItem_Component from "./ItemComponent/labItem_Component";
 import GameUtil from "./Util/GameUtil";
 import BaoxiangView from "./BaoxiangView";
+import RedPacketView from "./RedPacketView";
 
 const { ccclass, property } = cc._decorator;
 
@@ -40,6 +41,9 @@ export default class Helloworld extends cc.Component {
     mainDownItem: cc.Prefab = null;
 
     @property(cc.Prefab)
+    redPackektItem: cc.Prefab = null;
+
+    @property(cc.Prefab)
     labItem: cc.Prefab = null;
 
     @property(cc.Label)
@@ -53,6 +57,9 @@ export default class Helloworld extends cc.Component {
 
     @property(cc.Node)
     offLineUI: cc.Node = null;
+
+    @property(cc.Node) //结束后弹出红包界面
+    redPakcetUI: cc.Node = null;
 
     @property(cc.Node)
     HUDUi: cc.Node = null;
@@ -198,10 +205,13 @@ export default class Helloworld extends cc.Component {
     _levelDpeth: number = 0;
     _levelWarehouse: number = 0;
     _collectList: Array<collectItemData> = new Array();
-    collectNodeList: Array<cc.Node> = new Array();
+    collectNodeList: Array<cc.Node> = new Array(); //道具
+    redPacketNodeList: Array<cc.Node> = new Array();//红包
+
     constNum: number = 3860;
     _currentDepth: number = 0;
 
+    _isCreateRedPacket: boolean = false;
     _isTouch: boolean = false;
 
     onLoad() {
@@ -222,6 +232,7 @@ export default class Helloworld extends cc.Component {
         _Notification_.subscrib(NotifyEnum.GETITEMBYDRILL, this.getItemByDrill, this);
         _Notification_.subscrib(NotifyEnum.CLICKCOLLECT, this.clickCollect, this);
         _Notification_.subscrib(NotifyEnum.HIDEGAMEGUIDE, this.hideGameGuide, this);
+        // _Notification_.subscrib(NotifyEnum.CLICKREDPACKETCOLLECT, this.clickRedPacket, this);
     }
 
     start() {
@@ -245,7 +256,7 @@ export default class Helloworld extends cc.Component {
             // item.getComponent(propItem_Component).init(itemList[i].id, isGold);
             this.nodePool.put(item);
             if (i === len - 1) {
-                cc.log("节点池初始化完毕");
+                // cc.log("节点池初始化完毕");
             }
             // cc.log("生成item-->>", i);
             i++;
@@ -398,10 +409,9 @@ export default class Helloworld extends cc.Component {
         if (obj && Number(obj) === 1) {
             // self.hidePopItemAnimView();
         }
-
         //收集完看看是否有宝箱道具
         //弹出宝箱特效
-        this.popBaoxiangView();
+        // self.popBaoxiangView();
     }
 
     // 弹出宝箱特效
@@ -439,7 +449,7 @@ export default class Helloworld extends cc.Component {
     }
 
     hideGameGuide(obj: any, target: any) {
-        cc.log("hideGameGuide-->>");
+        // cc.log("hideGameGuide-->>");
         let self = target as Helloworld;
         let id = Number(obj);
         let itemNode = self.guideContent.getChildByName("mainItem");
@@ -536,7 +546,6 @@ export default class Helloworld extends cc.Component {
         }
         // let pos = targetNode.parent.convertToWorldSpaceAR(targetNode.position);
         let pos = targetNode.position;
-        cc.log("pos--->>", pos);
         let item = cc.instantiate(this.mainDownItem);
         let depth = this._gameManager.getLevelDepth();
         let depthVo = T_Depth_Table.getVoByKey(Number(depth));
@@ -682,12 +691,17 @@ export default class Helloworld extends cc.Component {
     }
 
     //展示渠道宝箱view
-    onClickBaoxiang(event) {
-        // cc.log(event.customEventData);
+    onClickBaoxiang(event, data) {
+        // cc.log(data);
         this.baoXiangContent.active = false;
         this.baoXiangView.active = true;
-        if (this._gameManager.getGameGuide() === 4) {
-            this.baoXiangView.getComponent(BaoxiangView).showView(100, true);
+        if (data == "111") {
+            //新手引导
+            let income = GameUtil.getFirstRedPacket();
+            this.baoXiangView.getComponent(BaoxiangView).showView(income, true);
+        } else {
+            let trueMoney = this._gameManager.getTrueMoney();
+            this.baoXiangView.getComponent(BaoxiangView).showView(trueMoney, false);
         }
     }
 
@@ -700,6 +714,21 @@ export default class Helloworld extends cc.Component {
     hideScoreView() {
         this.offLineUI.active = false;
     }
+
+    /**
+     *  弹出红包动画
+     */
+    showRedPacket(cb: Function) {
+        this.redPakcetUI.active = true;
+        this.redPakcetUI.getComponent(RedPacketView).showView(cb);
+    }
+
+    // clickRedPacket(obj: any, target: any) {
+    //     let self = target as Helloworld;
+    //     let num = Number(obj);
+    //     //点击之后保存 ,并且弹出收集道具界面
+
+    // }
 
     showMainView() {
         this.mainNode.active = true;
@@ -825,7 +854,6 @@ export default class Helloworld extends cc.Component {
         //新手引导
         cc.log("下沉深度--->>", self._currentDepth);
         //生成item
-        // self.showPopItemAnimView();
         self.randomCreateItem();
         self.showHUDView();
         let warhouseVo = T_Warehouse_Table.getVoByKey(self._levelWarehouse);
@@ -837,11 +865,6 @@ export default class Helloworld extends cc.Component {
         self.drillClass.startRun();
         self.drill.getComponent(cc.BoxCollider).enabled = false;
         self._mainDrill.addChild(self.drill);
-
-        //新手引导生成一个宝箱
-        if (this._gameManager.getIsChannel() && this._gameManager.getGameGuide() <= 1) {
-            //   cc.instantiate();
-        }
 
         let moveAct = cc.moveBy(0.3, cc.v2(self.drill.x, self.drill.y + 100));
         let rotateAct = cc.rotateBy(0.3, -180);
@@ -877,10 +900,6 @@ export default class Helloworld extends cc.Component {
         if (moveState.rotate === this._currentState || moveState.normal === this._currentState) {
             return;
         }
-        //到目标底部了  回去
-        // if (this.drill.y <= -this._currentDepth && (this._currentState == moveState.down)) {
-        //     this.runToTargetDownDepth();
-        // }
         //到限定高度了  迅速返回
         if (this.drill.y >= -this.targetDepth && (this._currentState == moveState.up)) {
             this.runToTargetUpDepth();
@@ -919,7 +938,7 @@ export default class Helloworld extends cc.Component {
     //下来到底部开始往上了
     runToTargetDownDepth() {
         this.drillClass.stopFlame();
-        cc.log("旋转")
+        // cc.log("旋转")
         let rotateAct = cc.rotateBy(0.3, 180).easing(cc.easeIn(3.0));
         this._currentState = moveState.rotate;
         let seqAct = cc.sequence(rotateAct, cc.callFunc(() => {
@@ -934,8 +953,6 @@ export default class Helloworld extends cc.Component {
     }
 
     drillUp(dt) {
-        // cc.log('drillUp')
-        // cc.log(this.drill.y);
         //碰撞组件开启
         this.drill.getComponent(cc.BoxCollider).enabled = true;
         //做拖尾效果
@@ -967,7 +984,7 @@ export default class Helloworld extends cc.Component {
     }
 
     drillRocketUp() {
-        cc.log('drillRocketUp')
+        // cc.log('drillRocketUp')
         //关闭碰撞
         this.drill.getComponent(cc.BoxCollider).enabled = false;
         //取消监听
@@ -1006,11 +1023,6 @@ export default class Helloworld extends cc.Component {
     //随机生成道具
     randomCreateItem() {
         //根据深度和 解锁的钻头 生成 道具
-        // let depthLevel = this._gameManager.getLevelDepth();
-        // let unlockList = this._gameManager.getUnlockList();
-        // let maxId = Number(unlockList[unlockList.length - 1]);
-        // let unlockVo = T_Unlock_Table.getVoByKey(maxId);
-
         //共 68个 等级
         //每升4个等级  升一个格子
         let count = Math.ceil(this._levelDpeth / 4) + 1;
@@ -1032,18 +1044,12 @@ export default class Helloworld extends cc.Component {
                 let index = Math.floor(Math.random() * 4);
                 let itemId = Number(voItem[index]);
 
-                //生成 宝箱
-                // if (Math.random() > 0.05) {
-                //     //生成一个宝箱
-
-                // }
-
                 //  1/5的概率是金色的
                 let isGold = Math.random() * 10 <= 1;
                 let item = this.nodePool.get();
                 if (!item) {
                     item = cc.instantiate(this.propItem);
-                    cc.log("重新生成item");
+                    // cc.log("重新生成item");
                 }
                 item.scale = 0.6;
                 item.angle = 0;
@@ -1052,6 +1058,31 @@ export default class Helloworld extends cc.Component {
                 item.position = pos;
                 this.gameItemContent.addChild(item);
             }
+        }
+
+        //是否是渠道用户
+        //计算是否产生 宝箱
+        if (this._gameManager.getIsChannel() && this.getIsCreateRedPacket()) {
+            cc.log("生成宝箱--");
+            this._isCreateRedPacket = true;
+            //redPackektItem
+            let redPacket = cc.instantiate(this.redPackektItem);
+            let pos1: cc.Vec2;
+            if (this._gameManager.getGameGuide() === 1) {
+                pos1 = cc.v2(0, -this._currentDepth + 752);
+            } else {
+                let randx = Math.random() > 0.5 ? Math.random() * 320 : Math.random() * -320;
+                let randy = 752 * 2 * Math.random();
+                pos1 = cc.v2(randx, -this._currentDepth + randy);
+            }
+            //不容易够到
+            // let pos2 = cc.v2(0, - this._currentDepth - 200);
+            redPacket.position = pos1;
+            cc.log("redpacketPos-->>", pos1);
+            this.gameItemContent.addChild(redPacket);
+        } else {
+            cc.log("不生成宝箱--");
+            this._isCreateRedPacket = false;
         }
     }
 
@@ -1081,6 +1112,8 @@ export default class Helloworld extends cc.Component {
         //倾斜90度
         this.drillClass.popItemAnim();
 
+        //游戏结束一次
+        GameManager.endGameOne();
         //弹出礼物界面
         let moveAct = cc.moveBy(0.2, cc.v2(this.drill.x, this.drill.y + 100));
         let moveAct2 = cc.moveTo(0.5, cc.v2(0, 0));
@@ -1090,6 +1123,8 @@ export default class Helloworld extends cc.Component {
             this.resultAnim();
         })), moveAct2);
         this.drill.runAction(seqAct);
+
+
 
         this._currentState = moveState.normal;
         GameManager.audioManger.playSFX(this.topAudio);
@@ -1209,12 +1244,11 @@ export default class Helloworld extends cc.Component {
             //去重
             let newItemList = GameUtil.deleteWeight(itemArr);
             let newGoldItemList = GameUtil.deleteWeight(goldItemArr);
-            cc.log(newItemList);
-            cc.log(newGoldItemList);
 
             cc.log("本次收集金币数-->>", count);
             cc.log("本次收获新道具-->>", newItemList);
             cc.log("本次收获新金色道具-->>", newGoldItemList);
+            cc.log("本次收获红包道具-->>", this.redPacketNodeList);
             //获取多个道具  多个钻头解锁
             //判断是否解锁钻头
             // let unlockList = this._gameManager.getUnlockList();
@@ -1225,13 +1259,29 @@ export default class Helloworld extends cc.Component {
             // if (flag) {
             //     _Notification_.send(NotifyEnum.UNLOCKDRILL);
             // }
-            //可以解锁下一个
-            //是否有新解锁的道具
+            //收集到红包没
+            if (this.redPacketNodeList.length >= 1 && this._gameManager.getIsChannel()) {
+                //隐藏红包
+                for (let i = 0; i < this.redPacketNodeList.length; i++) {
+                    const item = this.redPacketNodeList[i];
+                    item.destroy();
+                }
+                //弹出红包
+                this.showRedPacket(() => {
+                    this.showScoreView(count, newItemList);
+                    this.showMainView();
+                    //判断是否需要展示新手引导
+                    this.showGuide();
+                });
+            } else {
+                this.showScoreView(count, newItemList);
+                this.showMainView();
+                //判断是否需要展示新手引导
+                this.showGuide();
+            }
+
+            //重置状态
             this.resetGame();
-            this.showScoreView(count, newItemList);
-            this.showMainView();
-            //判断是否需要展示新手引导
-            this.showGuide();
         }, time);
     }
 
@@ -1257,6 +1307,9 @@ export default class Helloworld extends cc.Component {
         this._preDegress = 0;
         this._currentState = moveState.normal;
 
+        this.redPacketNodeList.length = 0;
+        this._isCreateRedPacket = false;
+
         //收集到的道具数量
         this._itemNumber = 0;
         this._collectList.length = 0;
@@ -1276,12 +1329,18 @@ export default class Helloworld extends cc.Component {
 
         for (let i = 0; i < this.gameItemContent.childrenCount; i++) {
             let gameItem = this.gameItemContent.children[i];
-            if (gameItem) {
+            if (gameItem && gameItem.group === "item") {
                 gameItem.stopAllActions();
                 gameItem.removeFromParent();
                 this.nodePool.put(gameItem);
+            } else {
+                cc.log("----------------------------");
+                gameItem.removeFromParent();
+                gameItem.destroy();
             }
         }
+        this.gameItemContent.removeAllChildren();
+        cc.log(this.gameItemContent.childrenCount);
 
         for (let i = 0; i < this.showItemContent.childrenCount; i++) {
             let item = this.showItemContent.children[i];
@@ -1329,5 +1388,23 @@ export default class Helloworld extends cc.Component {
     //点击购买升级
     clickUpgradeAudio() {
         GameManager.audioManger.playSFX(this.upgradeAudio);
+    }
+
+    //判断是否生成红包
+    getIsCreateRedPacket(): boolean {
+        if (GameManager.todayLookNum >= 6) {
+            return false;
+        }
+        //拒绝的情况下  包括连点三局
+        if (GameManager.otehrNum >= 1) {
+            return false;
+        }
+        //有广告的情况下
+        let hasAD = this._gameManager.getBufferFromJava();
+        if (hasAD) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }

@@ -91,6 +91,7 @@ export interface mainContenItemData {
 }
 
 export enum saveName {
+    TRUEMONEY = "trueMoney",
     USERCOUNT = "userCount",
     USERITEM = "userItem",
     USERGOLDITEM = "userGoldItem",
@@ -118,6 +119,7 @@ export enum NotifyEnum {
     UNLOCKDRILL, //解锁mainview内的钻头
     UNLOCKBYITEM, //g根据解锁的道具来解锁钻头
     HIDEGAMEGUIDE, //隐藏引导节点
+    CLICKREDPACKETCOLLECT, //点击 红包收集按钮
 }
 
 //======================================================

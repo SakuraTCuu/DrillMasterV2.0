@@ -331,7 +331,14 @@ export default class Item_Component extends cc.Component {
      * @param  {Collider} self  产生碰撞的自身的碰撞组件
      */
     onCollisionEnter(other: cc.BoxCollider, self: cc.BoxCollider) {
-        // console.log('on collision enter');
+        let hw = cc.Canvas.instance.node.getComponent(Helloworld)
+        other.node.active = false;
+        if (other.node.group === "redPacket") {
+            //碰撞到红包
+            //  不保存
+            hw.redPacketNodeList.push(other.node);
+            return;
+        }
         //收集 碰撞到的道具
         let itemId = other.getComponent(propItem_Component).id;
         let isGold = other.getComponent(propItem_Component).isGold;
@@ -340,10 +347,7 @@ export default class Item_Component extends cc.Component {
         //nodepool
         // other.node.removeFromParent();
         // cc.Canvas.instance.node.getComponent(Helloworld).nodePool.put(other.node);
-
-        let hw = cc.Canvas.instance.node.getComponent(Helloworld)
         //先隐藏 并保存引用 等结束后 动画完成后再放入节点池
-        other.node.active = false;
         hw.collectNodeList.push(other.node);
         //音效
         //发送消息

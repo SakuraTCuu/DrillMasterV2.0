@@ -4,6 +4,51 @@ import { T_Item } from "../Data/T_Item";
 
 export default class GameUtil {
 
+    //获取第一个红包的随机数额
+    public static getFirstRedPacket() {
+        let result = GameUtil.getRandomNum(0.5, 1.3);
+        return result;
+    }
+
+
+    //随机 一个 红包  计算概率
+    public static calcRedPacket(): number {
+        let MaxPlayerMoney = 20;
+        let money = GameManager.getInstance().getTrueMoney();
+
+        let result: number;
+        if (money >= 19.90) {
+            result = 0.00;
+        } else if (money < 5) {
+            // Math.random();
+            let rand = GameUtil.getRandomNum(0.3, 1.4);
+            result = ((MaxPlayerMoney - 5) / MaxPlayerMoney) * rand;
+        } else if (money > 18) {
+            result = GameUtil.getRandomNum(0.01, 0.04);
+        } else {
+            result = ((MaxPlayerMoney - money) / MaxPlayerMoney) * GameUtil.getRandomNum(0.3, 1.3);
+        }
+
+        if (result < 0.01) {
+            result = GameUtil.getRandomNum(0.01, 0.05);
+        }
+
+        result = Number(result.toFixed(2));
+        //返回结果
+        return result;
+    }
+
+    /**
+     * 限定范围内的随机数
+     */
+    public static getRandomNum(Min: number, Max: number): number {
+        var Range = Max - Min;
+        var Rand = Math.random();
+        var num = Min + Rand * Range; //四舍五入
+        num = Number(num.toFixed(2));
+        return num;
+    }
+
     public static sortArr(list: Array<string>) {
         // let newArr = new Array();
         for (let i = 0; i < list.length; i++) {
