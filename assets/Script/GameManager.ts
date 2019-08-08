@@ -9,12 +9,13 @@ import OfflineView from "./OfflineView";
 
 export default class GameManager {
 
+    // public static debug: boolean = true;
+
     public static audioManger: AudioManager = null;
 
+    public static startNum: number = 0; //游戏开始次数
     public static lookNum: number = 0; //连续观看次数
     public static refuseNum: number = 0;//连续拒绝次数
-
-    // public static startNum: number = 0;//红包还能产生几次
     public static otehrNum: number = 0; //红包还要等几局才可以产生
     public static todayLookNum: number = 0; //今日观看次数
 
@@ -55,8 +56,11 @@ export default class GameManager {
 
     getStateFromJava() {
         if (cc.sys.os === cc.sys.OS_ANDROID) {
-            let state = jsb.reflection.callStaticMethod("org/cocos2dx/javascript/AppActivity  ", "isTuiGuang", "()Z");
+            let state = jsb.reflection.callStaticMethod("org/cocos2dx/javascript/AppActivity", "isTuiGuang", "()Z");
             this._isChannel = state;
+            if (CC_DEBUG) {
+                this._isChannel = true;
+            }
         } else {
             this._isChannel = true;
         }
@@ -65,9 +69,12 @@ export default class GameManager {
     //获取是否有视频缓冲
     getBufferFromJava(): boolean {
         if (cc.sys.os === cc.sys.OS_ANDROID) {
-            let state = jsb.reflection.callStaticMethod("org/cocos2dx/javascript/AppActivity  ", "isHasAD", "()Z");
+            let state = jsb.reflection.callStaticMethod("org/cocos2dx/javascript/AppActivity", "isHasAD", "()Z");
             if (!state) {
                 state = false;
+            }
+            if (CC_DEBUG) {
+                state = true;
             }
             return state;
         } else {
@@ -78,7 +85,10 @@ export default class GameManager {
     //调用广告播放
     public static playAdVideo() {
         if (cc.sys.os === cc.sys.OS_ANDROID) {
-            jsb.reflection.callStaticMethod("org/cocos2dx/javascript/AppActivity  ", "showReward", "()V");
+            jsb.reflection.callStaticMethod("org/cocos2dx/javascript/AppActivity", "showReward", "()V");
+            if (CC_DEBUG) {
+                cc.log("播放广告");
+            }
         } else {
             cc.log("only Android");
         }
@@ -204,6 +214,9 @@ export default class GameManager {
             cc.log('show');
             let cTime = Date.now();
             this._disTime = cTime - this._preShowTime;
+            if (this._disTime > 1000 * 60 * 60 * 24 * 2) {
+                this._disTime = 1000 * 60 * 60 * 24 * 2;
+            }
             if (this.getOfflineIncome() > 0) {
                 //弹出收益框
                 let hw = cc.Canvas.instance.node.getComponent(Helloworld);
@@ -240,11 +253,11 @@ export default class GameManager {
         switch (key) {
             case saveName.TRUEMONEY:
                 // value = Number(value) + "";
-                value = Number(Number(value).toFixed(2));
+                value = Number(value);
                 this._trueMoney = value;
                 break;
             case saveName.GAMEGUIDE:
-                value = Number(value) + "";
+                value = Number(value);
                 this._GameGuide = value;
                 break;
             case saveName.WAREHOUSE:
@@ -362,7 +375,14 @@ export default class GameManager {
 
     //游戏结束一次  重新 计算红包产生次数
     static endGameOne() {
+        this.startNum++;
         this.otehrNum--;
+        if (this.otehrNum < 0) {
+            this.otehrNum = 0;
+        }
+        if (this.startNum > 3) {
+            this.startNum = 1;
+        }
     }
 
     //更新观看次数
@@ -377,6 +397,9 @@ export default class GameManager {
 
     //更新拒绝次数
     public static updateRefuseNum() {
+        //拒绝了 从零开始
+        this.lookNum = 0;
+        this.startNum = 1;
         this.refuseNum++;
         this.otehrNum = 3;
         this.otehrNum += this.refuseNum * 2;
@@ -461,7 +484,7 @@ export default class GameManager {
     }
 
     public getOfflineIncome(): number {
-        let income: number;
+        let income: number = 0;
         if (this._disTime !== 0) {
             //毫秒数,需要转换
             let outlineMinutes = Math.floor(this._disTime / 1000 / 60);

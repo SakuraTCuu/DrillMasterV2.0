@@ -23,11 +23,11 @@ export default class ShowBoxView extends cc.Component {
     //         let moveAct = cc.moveTo(0.5, cc.v2(0, 0));
     //         this.node.runAction(moveAct);
     //     }, 1)
-    // }
+    // }\
 
-    initView() {
+    onEnable() {
         let drillList = T_Unlock_Table.getAllVo();
-        let i = 0;
+        let i = 1;
         this.schedule(() => {
             // for (let i = 0; i < drillList.length; i++) {
             let unlock = drillList[i];
@@ -36,13 +36,16 @@ export default class ShowBoxView extends cc.Component {
             this.contetnNode.addChild(item);
             i++;
             // }
-        }, 0.02, drillList.length - 1, 0);
+        }, 0.02, drillList.length - 2, 0);
+    }
+
+    initView() {
     }
 
     onClickExit() {
         cc.Canvas.instance.node.getComponent(Helloworld).clickCloseAudio();
         //退出动画
-        let moveAct = cc.moveTo(1, cc.v2(this.node.x, this.node.y + this.node.height)).easing(cc.easeIn(3.0));
+        let moveAct = cc.moveTo(0.5, cc.v2(this.node.x, this.node.y + this.node.height)).easing(cc.easeIn(3.0));
         let seqAct = cc.sequence(moveAct, cc.callFunc(() => {
             this.node.active = false;
         }))

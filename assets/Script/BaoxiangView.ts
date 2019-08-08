@@ -10,6 +10,9 @@ export default class BaoxiangView extends cc.Component {
     @property(cc.Label)
     incomeLab: cc.Label = null;
 
+    @property(cc.Label)
+    desLab: cc.Label = null;
+
     @property(cc.Node)
     GuideMask: cc.Node = null;
 
@@ -23,12 +26,15 @@ export default class BaoxiangView extends cc.Component {
             this.GuideMask.active = false;
         }
         this._income = income;
-        this.incomeLab.string = this._income + "";
+        this.incomeLab.string = "$" + this._income;
+        let disMoney = Number(Number(20 - this._income).toFixed(2));
+        this.desLab.string = "$" + disMoney;
     }
 
     onClickClose() {
         //关闭当前界面
         this.node.active = false;
+        cc.Canvas.instance.node.getComponent(Helloworld).clickCloseAudio();
     }
 
     onClickCollect() {

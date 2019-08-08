@@ -46,6 +46,9 @@ export default class Helloworld extends cc.Component {
     @property(cc.Prefab)
     labItem: cc.Prefab = null;
 
+    @property(cc.Prefab) //结束后弹出红包界面
+    redPakcetUIPrefab: cc.Prefab = null;
+
     @property(cc.Label)
     moneyLab: cc.Label = null;
 
@@ -57,9 +60,6 @@ export default class Helloworld extends cc.Component {
 
     @property(cc.Node)
     offLineUI: cc.Node = null;
-
-    @property(cc.Node) //结束后弹出红包界面
-    redPakcetUI: cc.Node = null;
 
     @property(cc.Node)
     HUDUi: cc.Node = null;
@@ -279,13 +279,11 @@ export default class Helloworld extends cc.Component {
         let self = this;
         //获取当前下潜深度
         self._levelDpeth = Number(self._gameManager.getLevelDepth());
-
         self._levelWarehouse = Number(self._gameManager.getLevelWarehouse());
         //需要生成item占用 格子的数量
         // let gridNumber = (levelDpeth * self.perLevelDis) / 752;
         // self._currentDepth = gridNumber * 2 * 752;
         self._currentDepth = self.constNum + self._levelDpeth * self.perLevelDis;
-
         cc.log("当前深度-->>", self._currentDepth);
     }
 
@@ -373,6 +371,7 @@ export default class Helloworld extends cc.Component {
 
     updateMainUI(obj: any, target: any) {
         let self = target as Helloworld;
+        self.initData();
         for (let i = 0; i < self._mainDownBackView.childrenCount; i++) {
             let item = self._mainDownBackView.children[i];
             item.getComponent(mainContentItem_Component).updateParent();
@@ -506,8 +505,9 @@ export default class Helloworld extends cc.Component {
         self.guideContent.active = false;
 
         //开始展示宝箱
-        if (self._gameManager.getGameGuide() == 4 && self._gameManager.getIsChannel()) {
-            self.showGuideBaoXiang();
+        if (self._gameManager.getGameGuide() == 2 && self._gameManager.getIsChannel()) {
+            // self.showGuideBaoXiang();
+            self.showGameGuide(5);
         }
     }
 
@@ -686,6 +686,9 @@ export default class Helloworld extends cc.Component {
                 this.showGuideUpgradeOther();
                 cc.log("新手引导完成");
                 break;
+            case 5:
+                this.showGuideBaoXiang();
+                break;
         }
         this._gameManager.saveData(saveName.GAMEGUIDE, id);
     }
@@ -693,14 +696,16 @@ export default class Helloworld extends cc.Component {
     //展示渠道宝箱view
     onClickBaoxiang(event, data) {
         // cc.log(data);
+        //音效
+        this.clickBtnAudio();
         this.baoXiangContent.active = false;
         this.baoXiangView.active = true;
+        let trueMoney = this._gameManager.getTrueMoney();
         if (data == "111") {
             //新手引导
-            let income = GameUtil.getFirstRedPacket();
-            this.baoXiangView.getComponent(BaoxiangView).showView(income, true);
+            // let income = GameUtil.getFirstRedPacket();
+            this.baoXiangView.getComponent(BaoxiangView).showView(trueMoney, true);
         } else {
-            let trueMoney = this._gameManager.getTrueMoney();
             this.baoXiangView.getComponent(BaoxiangView).showView(trueMoney, false);
         }
     }
@@ -719,8 +724,9 @@ export default class Helloworld extends cc.Component {
      *  弹出红包动画
      */
     showRedPacket(cb: Function) {
-        this.redPakcetUI.active = true;
-        this.redPakcetUI.getComponent(RedPacketView).showView(cb);
+        let redItem = cc.instantiate(this.redPakcetUIPrefab);
+        redItem.getComponent(RedPacketView).showView(cb);
+        this.mCanvas.addChild(redItem);
     }
 
     // clickRedPacket(obj: any, target: any) {
@@ -1064,25 +1070,16 @@ export default class Helloworld extends cc.Component {
         //计算是否产生 宝箱
         if (this._gameManager.getIsChannel() && this.getIsCreateRedPacket()) {
             cc.log("生成宝箱--");
-            this._isCreateRedPacket = true;
-            //redPackektItem
-            let redPacket = cc.instantiate(this.redPackektItem);
-            let pos1: cc.Vec2;
-            if (this._gameManager.getGameGuide() === 1) {
-                pos1 = cc.v2(0, -this._currentDepth + 752);
+            if (this._gameManager.getGameGuide() === 0) { //第一次很容易勾到
+                this.createRedPacketNode(true);
             } else {
-                let randx = Math.random() > 0.5 ? Math.random() * 320 : Math.random() * -320;
-                let randy = 752 * 2 * Math.random();
-                pos1 = cc.v2(randx, -this._currentDepth + randy);
+                let flag = this.isEasyGet();
+                cc.log("生成容易---->>", flag);
+                this.createRedPacketNode(false, flag);
             }
-            //不容易够到
-            // let pos2 = cc.v2(0, - this._currentDepth - 200);
-            redPacket.position = pos1;
-            cc.log("redpacketPos-->>", pos1);
-            this.gameItemContent.addChild(redPacket);
         } else {
             cc.log("不生成宝箱--");
-            this._isCreateRedPacket = false;
+            // this._isCreateRedPacket = false;
         }
     }
 
@@ -1113,7 +1110,9 @@ export default class Helloworld extends cc.Component {
         this.drillClass.popItemAnim();
 
         //游戏结束一次
-        GameManager.endGameOne();
+        if (this._gameManager.getIsChannel()) {
+            GameManager.endGameOne();
+        }
         //弹出礼物界面
         let moveAct = cc.moveBy(0.2, cc.v2(this.drill.x, this.drill.y + 100));
         let moveAct2 = cc.moveTo(0.5, cc.v2(0, 0));
@@ -1124,17 +1123,10 @@ export default class Helloworld extends cc.Component {
         })), moveAct2);
         this.drill.runAction(seqAct);
 
-
-
         this._currentState = moveState.normal;
         GameManager.audioManger.playSFX(this.topAudio);
         GameManager.audioManger.playBGM(this.hallAudio);
         //弹出结果
-
-        //检测解锁钻头
-        //重置界面
-        //隐藏积分面板
-        this.hideHUDView();
     }
 
     //结算动画
@@ -1270,16 +1262,20 @@ export default class Helloworld extends cc.Component {
                 this.showRedPacket(() => {
                     this.showScoreView(count, newItemList);
                     this.showMainView();
+                    //隐藏积分面板
+                    this.hideHUDView();
                     //判断是否需要展示新手引导
                     this.showGuide();
+
                 });
             } else {
                 this.showScoreView(count, newItemList);
+                //隐藏积分面板
+                this.hideHUDView();
                 this.showMainView();
                 //判断是否需要展示新手引导
                 this.showGuide();
             }
-
             //重置状态
             this.resetGame();
         }, time);
@@ -1289,7 +1285,7 @@ export default class Helloworld extends cc.Component {
         if (this._gameManager.getGameGuide() == 1) {
             this.showGameGuide(2);
         } else if (this._gameManager.getGameGuide() == 2) {
-            this.showGameGuide(3);
+            // this.showGameGuide(3);
         } else if (this._gameManager.getGameGuide() == 3) {
             this.showGameGuide(4);
         }
@@ -1340,7 +1336,6 @@ export default class Helloworld extends cc.Component {
             }
         }
         this.gameItemContent.removeAllChildren();
-        cc.log(this.gameItemContent.childrenCount);
 
         for (let i = 0; i < this.showItemContent.childrenCount; i++) {
             let item = this.showItemContent.children[i];
@@ -1406,5 +1401,51 @@ export default class Helloworld extends cc.Component {
         } else {
             return false;
         }
+    }
+
+    //生成一个红包
+    /**
+     * @param isEasy  是否容易勾到
+     */
+    public createRedPacketNode(isFirst: boolean, isEasy: boolean = false) {
+        //是否是渠道用户
+        //计算是否产生 宝箱
+
+        //redPackektItem
+        let redPacket = cc.instantiate(this.redPackektItem);
+        let pos1: cc.Vec2;
+        if (isFirst) {  //第一次很容易勾到
+            pos1 = cc.v2(0, -this._currentDepth + 752);
+        } else {
+            // -this._currentDepth + 752 正好是上方200处
+            let randx = Math.random() > 0.5 ? Math.random() * 320 : Math.random() * -320;
+            let randy;
+            if (isEasy) {
+                let dis = GameUtil.getRandomNum(752, 1128);
+                randy = -this._currentDepth + dis;
+            } else {
+                let dis = GameUtil.getRandomNum(1504, 2256);
+                randy = -this._currentDepth + dis;
+                if (randy > this.targetDepth) {
+                    randy = this.targetDepth + 200;
+                }
+            }
+            pos1 = cc.v2(randx, randy);
+        }
+        //不容易够到
+        // let pos2 = cc.v2(0, - this._currentDepth - 200);
+        redPacket.position = pos1;
+        cc.log("redpacketPos-->>", pos1);
+        this.gameItemContent.addChild(redPacket);
+    }
+
+    //是否容易获得
+    public isEasyGet() {
+        if (GameManager.startNum == 1) {
+            return false;
+        } else {
+            return true;
+        }
+        return true;
     }
 }
