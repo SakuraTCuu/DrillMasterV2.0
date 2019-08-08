@@ -46,6 +46,7 @@ export default class GameManager {
     public static getInstance(): GameManager {
         if (!this.instance) {
             cc.log('instance');
+            cc.error("只能生成一个啊啊啊啊!!");
             this.instance = new GameManager();
             this.instance.init();
             this.instance.getStateFromJava();
@@ -237,7 +238,8 @@ export default class GameManager {
                         let cTime = Date.now();
                         if (cTime - preTime < 200) {
                             this.instance.saveData(saveName.PRETIME, cTime);
-                            cc.director.end();
+                            // cc.director.end();
+                            cc.game.end();
                             return;
                         }
                         preTime = cTime
@@ -253,7 +255,7 @@ export default class GameManager {
         switch (key) {
             case saveName.TRUEMONEY:
                 // value = Number(value) + "";
-                value = Number(value);
+                // value = Number(value);
                 this._trueMoney = value;
                 break;
             case saveName.GAMEGUIDE:

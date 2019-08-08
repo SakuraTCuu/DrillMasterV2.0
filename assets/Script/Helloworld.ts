@@ -46,8 +46,11 @@ export default class Helloworld extends cc.Component {
     @property(cc.Prefab)
     labItem: cc.Prefab = null;
 
-    @property(cc.Prefab) //结束后弹出红包界面
+    @property(cc.Prefab) //结束后弹出红包界面 预制体
     redPakcetUIPrefab: cc.Prefab = null;
+
+    @property(cc.Node) //结束后弹出红包界面
+    redPakcetUI: cc.Node = null;
 
     @property(cc.Label)
     moneyLab: cc.Label = null;
@@ -239,35 +242,35 @@ export default class Helloworld extends cc.Component {
         //初始化节点池
         this.nodePool = new cc.NodePool();
         this.labItemPool = new cc.NodePool();
-        let itemList = T_Item_Table.getAllVo();
-        //生成多少个?
-        //应该有当前深度来计算
-        // let count = Math.ceil((this._currentDepth - this.constNum) / 2 / 752);
-        let count = Math.ceil(this._levelDpeth / 4) + 1;
-        let len = count * this.gridNumebrItem;
-        if (len > 40) {
-            len = 40;
-        }
-        cc.log("共需生成", len);
-        let i = 0;
-        this.schedule(() => {
-            let item = cc.instantiate(this.propItem);
-            // let isGold = Math.random() * 10 <= 2;
-            // item.getComponent(propItem_Component).init(itemList[i].id, isGold);
-            this.nodePool.put(item);
-            if (i === len - 1) {
-                // cc.log("节点池初始化完毕");
-            }
-            // cc.log("生成item-->>", i);
-            i++;
-        }, 0.017, len - 1, 0);
+        // let itemList = T_Item_Table.getAllVo();
+        // //生成多少个?
+        // //应该有当前深度来计算
+        // // let count = Math.ceil((this._currentDepth - this.constNum) / 2 / 752);
+        // let count = Math.ceil(this._levelDpeth / 4) + 1;
+        // let len = count * this.gridNumebrItem;
+        // if (len > 40) {
+        //     len = 40;
+        // }
+        // cc.log("共需生成", len);
+        // let i = 0;
+        // this.schedule(() => {
+        //     let item = cc.instantiate(this.propItem);
+        //     // let isGold = Math.random() * 10 <= 2;
+        //     // item.getComponent(propItem_Component).init(itemList[i].id, isGold);
+        //     this.nodePool.put(item);
+        //     if (i === len - 1) {
+        //         // cc.log("节点池初始化完毕");
+        //     }
+        //     // cc.log("生成item-->>", i);
+        //     i++;
+        // }, 0.017, len - 1, 0);
 
-        //生成 itemLab
-        let time = len * 0.017;
-        this.schedule(() => {
-            let item = cc.instantiate(this.labItem);
-            this.labItemPool.put(item);
-        }, 0.017, 20, time);
+        // //生成 itemLab
+        // let time = len * 0.017;
+        // this.schedule(() => {
+        //     let item = cc.instantiate(this.labItem);
+        //     this.labItemPool.put(item);
+        // }, 0.017, 20, time);
     }
 
     onDestroy() {
@@ -723,10 +726,12 @@ export default class Helloworld extends cc.Component {
     /**
      *  弹出红包动画
      */
-    showRedPacket(cb: Function) {
-        let redItem = cc.instantiate(this.redPakcetUIPrefab);
-        redItem.getComponent(RedPacketView).showView(cb);
-        this.mCanvas.addChild(redItem);
+    showRedPacket(cb: Function = null) {
+        // let redItem = cc.instantiate(this.redPakcetUIPrefab);
+        // redItem.getComponent(RedPacketView).showView(cb);
+        // this.mCanvas.addChild(redItem);
+        this.redPakcetUI.active = true;
+        this.redPakcetUI.getComponent(RedPacketView).showView();
     }
 
     // clickRedPacket(obj: any, target: any) {
@@ -766,6 +771,9 @@ export default class Helloworld extends cc.Component {
     updateHUDView(score: number, total: number) {
         let socreLab = this.HUDUi.getChildByName("score").getComponent(cc.Label);
         let spFilled = this.HUDUi.getChildByName("fill_front").getComponent(cc.Sprite);
+        if (score > total) {
+            score = total;
+        }
         spFilled.fillStart = score / total;
         socreLab.string = score + "/" + total;
     }
@@ -999,8 +1007,11 @@ export default class Helloworld extends cc.Component {
         GameManager.audioManger.playBGM(this.rocketLoopAudio);
         //运行动作
         let rotateAct = cc.rotateTo(0.2, 0);
-        let moveAct = cc.moveTo(1.0, cc.v2(0, 0)).easing(cc.easeIn(3.0));
+        let moveAct = cc.moveTo(1.5, cc.v2(0, 0)).easing(cc.easeIn(3.0));
         let seqAct = cc.sequence(rotateAct, moveAct, cc.callFunc(() => {
+            this._currentState = moveState.normal;
+            cc.log(this.camera.node);
+            this.camera.node.y = 0;
             this.completeGame();
         }));
         this.drill.runAction(seqAct);
@@ -1123,7 +1134,6 @@ export default class Helloworld extends cc.Component {
         })), moveAct2);
         this.drill.runAction(seqAct);
 
-        this._currentState = moveState.normal;
         GameManager.audioManger.playSFX(this.topAudio);
         GameManager.audioManger.playBGM(this.hallAudio);
         //弹出结果
@@ -1237,10 +1247,10 @@ export default class Helloworld extends cc.Component {
             let newItemList = GameUtil.deleteWeight(itemArr);
             let newGoldItemList = GameUtil.deleteWeight(goldItemArr);
 
-            cc.log("本次收集金币数-->>", count);
-            cc.log("本次收获新道具-->>", newItemList);
-            cc.log("本次收获新金色道具-->>", newGoldItemList);
-            cc.log("本次收获红包道具-->>", this.redPacketNodeList);
+            // cc.log("本次收集金币数-->>", count);
+            // cc.log("本次收获新道具-->>", newItemList);
+            // cc.log("本次收获新金色道具-->>", newGoldItemList);
+            // cc.log("本次收获红包道具-->>", this.redPacketNodeList);
             //获取多个道具  多个钻头解锁
             //判断是否解锁钻头
             // let unlockList = this._gameManager.getUnlockList();
@@ -1259,15 +1269,13 @@ export default class Helloworld extends cc.Component {
                     item.destroy();
                 }
                 //弹出红包
-                this.showRedPacket(() => {
-                    this.showScoreView(count, newItemList);
-                    this.showMainView();
-                    //隐藏积分面板
-                    this.hideHUDView();
-                    //判断是否需要展示新手引导
-                    this.showGuide();
-
-                });
+                this.showRedPacket();
+                this.showScoreView(count, newItemList);
+                this.showMainView();
+                //隐藏积分面板
+                this.hideHUDView();
+                //判断是否需要展示新手引导
+                this.showGuide();
             } else {
                 this.showScoreView(count, newItemList);
                 //隐藏积分面板

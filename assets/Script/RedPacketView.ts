@@ -29,11 +29,9 @@ export default class RedPacketView extends cc.Component {
 
     _income: number = 0;
 
-    _cb: Function = null;
-    showView(callback: Function) {
+    showView() {
         cc.log("showView");
         //随机展示一个金币
-        this._cb = callback;
         this._income = GameUtil.calcRedPacket();
         this.incomeLab.string = "$" + this._income;
     }
@@ -49,7 +47,6 @@ export default class RedPacketView extends cc.Component {
         //观看次数+1;
         //观看了下把还弹出来
         GameManager.updateLookNum();
-        this._cb && this._cb();
         if (GameManager.getInstance().getGameGuide() == 2) {
             cc.log("第一次不看视频哦");
         } else {
@@ -62,7 +59,6 @@ export default class RedPacketView extends cc.Component {
 
     onClickNoThanks() {
         cc.log("RedPacketView-->>onClickNoThanks");
-        this._cb && this._cb();
         //拒绝了 接下来三把不弹出来
         GameManager.updateRefuseNum();
         this.destroySelf();
@@ -70,7 +66,7 @@ export default class RedPacketView extends cc.Component {
 
     destroySelf() {
         this.node.active = false;
-        this.node.removeFromParent();
-        this.node.destroy();
+        // this.node.removeFromParent();
+        // this.node.destroy();
     }
 }
