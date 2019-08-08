@@ -1,5 +1,6 @@
 import GameManager from "../GameManager";
 import Helloworld from "../Helloworld";
+import LoadUtils from "../Util/LoadUtils";
 
 const { ccclass, property } = cc._decorator;
 
@@ -18,7 +19,7 @@ export default class showBoxItem_min_Component extends cc.Component {
     //设置数据
     setData(bgId: string) {
 
-        let spriteAtlas = cc.Canvas.instance.node.getComponent(Helloworld).itemSpriteAtlas;
+        let spriteAtlas =LoadUtils.itemSpriteAtlas;
         //是否有这个道具
         //是否有金色的道具
         let itemList = GameManager.getInstance().getItemList();

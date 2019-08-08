@@ -11897,7 +11897,7 @@
       "__type__": "cc.Vec3",
       "x": 0,
       "y": 0,
-      "z": -89.99999999999999
+      "z": 0
     },
     "_skewX": 0,
     "_skewY": 0,
@@ -11987,7 +11987,7 @@
       "__type__": "cc.Vec3",
       "x": 0,
       "y": 0,
-      "z": -119.99999999999999
+      "z": 0
     },
     "_skewX": 0,
     "_skewY": 0,
@@ -12077,7 +12077,7 @@
       "__type__": "cc.Vec3",
       "x": 0,
       "y": 0,
-      "z": -59.99999999999999
+      "z": 0
     },
     "_skewX": 0,
     "_skewY": 0,
@@ -12688,7 +12688,7 @@
       "__type__": "cc.Vec3",
       "x": 0,
       "y": 0,
-      "z": 140
+      "z": 0
     },
     "_skewX": 0,
     "_skewY": 0,
@@ -15388,12 +15388,6 @@
       "__id__": 2
     },
     "_enabled": true,
-    "mCanvas": {
-      "__id__": 2
-    },
-    "cloud": {
-      "__id__": 21
-    },
     "mainNode": {
       "__id__": 97
     },
@@ -15411,9 +15405,6 @@
     },
     "labItem": {
       "__uuid__": "7e5e2634-435a-48a9-b3ae-1c281c2a26e3"
-    },
-    "redPakcetUIPrefab": {
-      "__uuid__": "54badd9d-ade2-4c82-b185-6b41e402f45a"
     },
     "redPakcetUI": {
       "__id__": 330
@@ -15451,9 +15442,6 @@
     "showLabItemContent": {
       "__id__": 261
     },
-    "itemSpriteAtlas": {
-      "__uuid__": "0dbd1e0f-9fcd-4367-8fbf-595160b3fdf5"
-    },
     "guideHand": {
       "__id__": 252
     },
@@ -15468,42 +15456,6 @@
     },
     "baoxiangBtn": {
       "__id__": 92
-    },
-    "hallAudio": {
-      "__uuid__": "50b0dc52-f6d7-4350-ab3d-0c5c9367d533"
-    },
-    "clickAudip": {
-      "__uuid__": "64850ada-629a-48b5-907a-77d7740b5b33"
-    },
-    "closeAudio": {
-      "__uuid__": "de5b4d9b-b336-4e48-9494-7f74d25ca050"
-    },
-    "upgradeAudio": {
-      "__uuid__": "7059e72c-3ee3-4512-8ab5-b46231d79a94"
-    },
-    "startAudio": {
-      "__uuid__": "64e2fe60-7192-4b70-8301-4f1fad7659fa"
-    },
-    "wheelAudio": {
-      "__uuid__": "e8960610-3be6-4748-a3e7-ec879bdf79b0"
-    },
-    "loopAudio": {
-      "__uuid__": "fffa72ba-377c-4d74-a170-09e2bc5b3f44"
-    },
-    "rocketLoopAudio": {
-      "__uuid__": "5692df12-ecfd-4eea-a5b7-17fef30867b1"
-    },
-    "topAudio": {
-      "__uuid__": "3e53df8d-a76c-42cb-9dc5-40bafbb9f7bd"
-    },
-    "itemGoldAudio": {
-      "__uuid__": "44976ca9-3cac-4748-a234-244d929dad5f"
-    },
-    "itemNormalAudio": {
-      "__uuid__": "9a435dcf-aebe-41d8-b602-6ac918c30585"
-    },
-    "collectMoneyAudio": {
-      "__uuid__": "2b00ad11-b53b-4003-ab9c-eaf51fbccc1c"
     },
     "downSpeed": 350,
     "upSpeed": 550,

@@ -2,6 +2,7 @@ import Helloworld from "../Helloworld";
 import labItem_Component from "./labItem_Component";
 import GameManager from "../GameManager";
 import { T_Item_Table } from "../Data/T_Item";
+import LoadUtils from "../Util/LoadUtils";
 
 const { ccclass, property } = cc._decorator;
 
@@ -19,7 +20,6 @@ export default class propItem_Component extends cc.Component {
 
     init(id: number, isGold: boolean) {
         // cc.log("id-->>", id);
-        let spriteAtlas = cc.Canvas.instance.node.getComponent(Helloworld).itemSpriteAtlas;
         this.id = id;
         this.isGold = isGold;
         let path = id + "";
@@ -28,14 +28,8 @@ export default class propItem_Component extends cc.Component {
         } else {
             path += "_1";
         }
-        let sp = spriteAtlas.getSpriteFrame(path);
+        let sp = LoadUtils.itemSpriteAtlas.getSpriteFrame(path);
         this.normalSp.spriteFrame = sp;
-        // cc.loader.loadRes(path, cc.SpriteFrame, (err, spf: cc.SpriteFrame) => {
-        //     if (!err) {
-        //         this.normalSp.spriteFrame = spf;
-        //     }
-        //     // cc.log('err-->>', err);
-        // })
     }
 
     //展示拖尾 动画
@@ -56,21 +50,21 @@ export default class propItem_Component extends cc.Component {
         // console.log('on collision enter');
         // self.node.destroy();
         //展示金钱动画
-        let hw = cc.Canvas.instance.node.getComponent(Helloworld)
-        //跳钱动画
-        let labItem = hw.labItemPool.get();
-        if (!labItem) {
-            labItem = cc.instantiate(hw.labItem);
-        }
-        let itemVo = T_Item_Table.getVoByKey(this.id);
-        labItem.getComponent(labItem_Component).init(this.isGold, itemVo.value, true);
-        hw.propItemLabContetn.zIndex = cc.macro.MAX_ZINDEX;
-        hw.propItemLabContetn.addChild(labItem);
-        // labItem.position = this.node.position;
-        let pos = hw.gameItemContent.convertToWorldSpaceAR(other.node.position);
-        let newPos = hw.propItemLabContetn.convertToNodeSpaceAR(pos);
-        labItem.position = newPos;
-        // 播放音效
+        // let hw = cc.Canvas.instance.node.getComponent(Helloworld)
+        // //跳钱动画
+        // let labItem = hw.labItemPool.get();
+        // if (!labItem) {
+        //     labItem = cc.instantiate(hw.labItem);
+        // }
+        // let itemVo = T_Item_Table.getVoByKey(this.id);
+        // labItem.getComponent(labItem_Component).init(this.isGold, itemVo.value, true);
+        // hw.propItemLabContetn.zIndex = cc.macro.MAX_ZINDEX;
+        // hw.propItemLabContetn.addChild(labItem);
+        // // labItem.position = this.node.position;
+        // let pos = hw.gameItemContent.convertToWorldSpaceAR(other.node.position);
+        // let newPos = hw.propItemLabContetn.convertToNodeSpaceAR(pos);
+        // labItem.position = newPos;
+        // // 播放音效
         if (this.isGold) {
             cc.Canvas.instance.node.getComponent(Helloworld).playItemGoldAudio();
         } else {

@@ -15,18 +15,13 @@ import labItem_Component from "./ItemComponent/labItem_Component";
 import GameUtil from "./Util/GameUtil";
 import BaoxiangView from "./BaoxiangView";
 import RedPacketView from "./RedPacketView";
+import LoadUtils from "./Util/LoadUtils";
 
 const { ccclass, property } = cc._decorator;
 
 
 @ccclass
 export default class Helloworld extends cc.Component {
-
-    @property(cc.Node)
-    mCanvas: cc.Node = null;
-
-    @property(cc.Node)
-    cloud: cc.Node = null;
 
     @property(cc.Node)
     mainNode: cc.Node = null;
@@ -46,8 +41,8 @@ export default class Helloworld extends cc.Component {
     @property(cc.Prefab)
     labItem: cc.Prefab = null;
 
-    @property(cc.Prefab) //结束后弹出红包界面 预制体
-    redPakcetUIPrefab: cc.Prefab = null;
+    // @property(cc.Prefab) //结束后弹出红包界面 预制体
+    // redPakcetUIPrefab: cc.Prefab = null;
 
     @property(cc.Node) //结束后弹出红包界面
     redPakcetUI: cc.Node = null;
@@ -85,8 +80,8 @@ export default class Helloworld extends cc.Component {
     @property(cc.Node)  //结果展示
     showLabItemContent: cc.Node = null;
 
-    @property(cc.SpriteAtlas)  //图集
-    itemSpriteAtlas: cc.SpriteAtlas = null;
+    // @property(cc.SpriteAtlas)  //图集
+    // itemSpriteAtlas: cc.SpriteAtlas = null;
 
     @property(cc.Node)  //新手引导手
     guideHand: cc.Node = null;
@@ -102,66 +97,6 @@ export default class Helloworld extends cc.Component {
 
     @property(cc.Node)  //宝箱按钮
     baoxiangBtn: cc.Node = null;
-
-    @property({
-        type: cc.AudioClip
-    })
-    hallAudio: cc.AudioClip = null;
-
-    @property({
-        type: cc.AudioClip
-    })
-    clickAudip: cc.AudioClip = null;
-
-    @property({
-        type: cc.AudioClip
-    })
-    closeAudio: cc.AudioClip = null;
-
-    @property({
-        type: cc.AudioClip
-    })
-    upgradeAudio: cc.AudioClip = null;
-
-    @property({
-        type: cc.AudioClip
-    })
-    startAudio: cc.AudioClip = null;
-
-    @property({
-        type: cc.AudioClip
-    })
-    wheelAudio: cc.AudioClip = null;
-
-    @property({
-        type: cc.AudioClip
-    })
-    loopAudio: cc.AudioClip = null;
-
-    @property({
-        type: cc.AudioClip
-    })
-    rocketLoopAudio: cc.AudioClip = null;
-
-    @property({
-        type: cc.AudioClip
-    })
-    topAudio: cc.AudioClip = null;
-
-    @property({
-        type: cc.AudioClip
-    })
-    itemGoldAudio: cc.AudioClip = null;
-
-    @property({
-        type: cc.AudioClip
-    })
-    itemNormalAudio: cc.AudioClip = null;
-
-    @property({
-        type: cc.AudioClip
-    })
-    collectMoneyAudio: cc.AudioClip = null;
 
     //下降速度
     @property(Number)
@@ -183,6 +118,21 @@ export default class Helloworld extends cc.Component {
     @property(Number)
     targetDepth: number = 752;
 
+    //=================
+    //音效
+    hallAudio: cc.AudioClip = null;
+    clickAudip: cc.AudioClip = null;
+    closeAudio: cc.AudioClip = null;
+    upgradeAudio: cc.AudioClip = null;
+    startAudio: cc.AudioClip = null;
+    wheelAudio: cc.AudioClip = null;
+    loopAudio: cc.AudioClip = null;
+    drillup_audio: cc.AudioClip = null;
+    topAudio: cc.AudioClip = null;
+    moneyAudio: cc.AudioClip = null;
+    itemNormalAudio: cc.AudioClip = null;
+    itemGoldAudio: cc.AudioClip = null;
+    //================ 
     //钻头
     drill: cc.Node = null;
     drillClass: Item_Component = null;
@@ -192,6 +142,7 @@ export default class Helloworld extends cc.Component {
     _mainDownBackView: cc.Node = null;
     _mainDownFrontView: cc.Node = null;
 
+    //状态
     _preMovePos: cc.Vec2 = null;
     _preDegress: number = 0;
     _currentState: moveState = moveState.normal;
@@ -199,9 +150,9 @@ export default class Helloworld extends cc.Component {
     _gameManager: GameManager = null;
 
     //道具节点池
-    nodePool: cc.NodePool = null;
+    // nodePool: cc.NodePool = null;
     // lab item 节点池
-    labItemPool: cc.NodePool = null;
+    // labItemPool: cc.NodePool = null;
 
     //收集到的道具数量
     _itemNumber: number = 0;
@@ -211,23 +162,21 @@ export default class Helloworld extends cc.Component {
     collectNodeList: Array<cc.Node> = new Array(); //道具
     redPacketNodeList: Array<cc.Node> = new Array();//红包
 
+    //深度
     constNum: number = 3860;
     _currentDepth: number = 0;
 
-    _isCreateRedPacket: boolean = false;
     _isTouch: boolean = false;
-
+    _isMove: boolean = false;
     onLoad() {
-        //开启碰撞
-        let manager = cc.director.getCollisionManager();
-        manager.enabled = true;
-        // manager.enabledDebugDraw = true;
         this._gameManager = GameManager.getInstance();
         this.initData();
         this.initView();
         this.initGame();
         this.initAudio();
         this.initGameGudie();
+
+        //注册监听
         _Notification_.subscrib(NotifyEnum.CLICK_START, this.onClickStart, this);
         _Notification_.subscrib(NotifyEnum.UPDATEMONEY, this.updateMoneyLab, this);
         _Notification_.subscrib(NotifyEnum.UPDATEDEPTH, this.updateDepth, this);
@@ -235,42 +184,10 @@ export default class Helloworld extends cc.Component {
         _Notification_.subscrib(NotifyEnum.GETITEMBYDRILL, this.getItemByDrill, this);
         _Notification_.subscrib(NotifyEnum.CLICKCOLLECT, this.clickCollect, this);
         _Notification_.subscrib(NotifyEnum.HIDEGAMEGUIDE, this.hideGameGuide, this);
-        // _Notification_.subscrib(NotifyEnum.CLICKREDPACKETCOLLECT, this.clickRedPacket, this);
     }
 
     start() {
-        //初始化节点池
-        this.nodePool = new cc.NodePool();
-        this.labItemPool = new cc.NodePool();
-        // let itemList = T_Item_Table.getAllVo();
-        // //生成多少个?
-        // //应该有当前深度来计算
-        // // let count = Math.ceil((this._currentDepth - this.constNum) / 2 / 752);
-        // let count = Math.ceil(this._levelDpeth / 4) + 1;
-        // let len = count * this.gridNumebrItem;
-        // if (len > 40) {
-        //     len = 40;
-        // }
-        // cc.log("共需生成", len);
-        // let i = 0;
-        // this.schedule(() => {
-        //     let item = cc.instantiate(this.propItem);
-        //     // let isGold = Math.random() * 10 <= 2;
-        //     // item.getComponent(propItem_Component).init(itemList[i].id, isGold);
-        //     this.nodePool.put(item);
-        //     if (i === len - 1) {
-        //         // cc.log("节点池初始化完毕");
-        //     }
-        //     // cc.log("生成item-->>", i);
-        //     i++;
-        // }, 0.017, len - 1, 0);
 
-        // //生成 itemLab
-        // let time = len * 0.017;
-        // this.schedule(() => {
-        //     let item = cc.instantiate(this.labItem);
-        //     this.labItemPool.put(item);
-        // }, 0.017, 20, time);
     }
 
     onDestroy() {
@@ -279,20 +196,19 @@ export default class Helloworld extends cc.Component {
     }
 
     initData() {
-        let self = this;
         //获取当前下潜深度
-        self._levelDpeth = Number(self._gameManager.getLevelDepth());
-        self._levelWarehouse = Number(self._gameManager.getLevelWarehouse());
+        this._levelDpeth = Number(this._gameManager.getLevelDepth());
+        this._levelWarehouse = Number(this._gameManager.getLevelWarehouse());
         //需要生成item占用 格子的数量
         // let gridNumber = (levelDpeth * self.perLevelDis) / 752;
         // self._currentDepth = gridNumber * 2 * 752;
-        self._currentDepth = self.constNum + self._levelDpeth * self.perLevelDis;
-        cc.log("当前深度-->>", self._currentDepth);
+        this._currentDepth = this.constNum + this._levelDpeth * this.perLevelDis;
+        cc.log("当前深度-->>", this._currentDepth);
     }
 
     initView() {
         this._mainView = this.mainNode.getChildByName("mainView");
-        this._mainDrill = this.mCanvas.getChildByName("drill_main");
+        this._mainDrill = this.node.getChildByName("drill_main");
         this._mainDownBackView = this.mainNode.getChildByName("main_back");
         this._mainDownFrontView = this.mainNode.getChildByName("main_front");
 
@@ -372,6 +288,54 @@ export default class Helloworld extends cc.Component {
         }
     }
 
+    initMoneyLab() {
+        this.moneyLab.string = "$" + this._gameManager.getUserCount();
+    }
+
+    /**
+     * 首先检查离线收益 弹出对话框
+     * 初始化全局的道具和钻头
+     */
+    initGame() {
+        let income = this._gameManager.getOfflineIncome();
+        if (income > 0) {
+            this.offLineUI.active = true;
+        } else {
+            this.offLineUI.active = false;
+        }
+        this.offLineUI.getComponent(OfflineView).showOffline();
+        //Android 退出监听
+        GameManager.addExitEvent();
+    }
+
+    //初始化音效
+    initAudio() {
+        this.moneyAudio = cc.loader.getRes("audio/money_audio");
+        this.hallAudio = cc.loader.getRes("audio/hall_audio");
+        this.clickAudip = cc.loader.getRes("audio/click_audio");
+        this.closeAudio = cc.loader.getRes("audio/close_audio");
+        this.upgradeAudio = cc.loader.getRes("audio/upgrade_audio");
+        this.startAudio = cc.loader.getRes("audio/start_audio");
+        this.wheelAudio = cc.loader.getRes("audio/wheel_audio");
+        this.loopAudio = cc.loader.getRes("audio/loop_audio");
+        this.drillup_audio = cc.loader.getRes("audio/drillup_audio");
+        this.topAudio = cc.loader.getRes("audio/top_audio");
+        this.itemNormalAudio = cc.loader.getRes("audio/itemNormal_audio");
+        this.itemGoldAudio = cc.loader.getRes("audio/itemGold_audio");
+
+        GameManager.audioManger.playBGM(this.hallAudio);
+    }
+
+    //初始化新手引导
+    initGameGudie() {
+        let id = this._gameManager.getGameGuide();
+        if (id === 0) {
+            return;
+        }
+        this.showGameGuide(id + 1);
+    }
+
+    //==============================================监听方法====================================================
     updateMainUI(obj: any, target: any) {
         let self = target as Helloworld;
         self.initData();
@@ -384,11 +348,6 @@ export default class Helloworld extends cc.Component {
             let item = self._mainDownFrontView.children[i];
             item.getComponent(mainContentItem_Component).updateParent();
         }
-    }
-
-    initMoneyLab() {
-        let self = this;
-        self.moneyLab.string = "$" + self._gameManager.getUserCount();
     }
 
     updateMoneyLab(obj: any, target: any) {
@@ -409,45 +368,7 @@ export default class Helloworld extends cc.Component {
         // cc.log("??????");
         let self = target as Helloworld;
         if (obj && Number(obj) === 1) {
-            // self.hidePopItemAnimView();
         }
-        //收集完看看是否有宝箱道具
-        //弹出宝箱特效
-        // self.popBaoxiangView();
-    }
-
-    // 弹出宝箱特效
-    popBaoxiangView() {
-
-    }
-    /**
-     * 首先检查离线收益 弹出对话框
-     * 初始化全局的道具和钻头
-     */
-    initGame() {
-        let income = this._gameManager.getOfflineIncome();
-        if (income > 0) {
-            this.offLineUI.active = true;
-        } else {
-            this.offLineUI.active = false;
-        }
-        this.offLineUI.getComponent(OfflineView).showOffline();
-        //Android 退出监听
-        GameManager.addExitEvent();
-    }
-
-    //初始化音效
-    initAudio() {
-        GameManager.audioManger.playBGM(this.hallAudio);
-    }
-
-    //初始化新手引导
-    initGameGudie() {
-        let id = this._gameManager.getGameGuide();
-        if (id === 0) {
-            return;
-        }
-        this.showGameGuide(id + 1);
     }
 
     hideGameGuide(obj: any, target: any) {
@@ -512,6 +433,23 @@ export default class Helloworld extends cc.Component {
             // self.showGuideBaoXiang();
             self.showGameGuide(5);
         }
+    }
+
+    //获得道具
+    getItemByDrill(obj: any, target: any) {
+        let self = target as Helloworld;
+        let data = obj as collectItemData;
+        self._itemNumber++;
+        self._collectList.push(data);
+        let warhouseVo = T_Warehouse_Table.getVoByKey(self._levelWarehouse);
+        //判断是否收集够了
+        if (self._itemNumber >= warhouseVo.count) {
+            //关闭碰撞
+            self.drill.getComponent(cc.BoxCollider).enabled = false;
+            //收集够了 ,开始加速上升
+            self.runToTargetUpDepth();
+        }
+        self.updateHUDView(self._itemNumber, warhouseVo.count);
     }
 
     //引导用户点击宝箱
@@ -668,6 +606,16 @@ export default class Helloworld extends cc.Component {
         desLab.string = "来升级吧！";
     }
 
+    showGuide() {
+        if (this._gameManager.getGameGuide() == 1) {
+            this.showGameGuide(2);
+        } else if (this._gameManager.getGameGuide() == 2) {
+            // this.showGameGuide(3);
+        } else if (this._gameManager.getGameGuide() == 3) {
+            this.showGameGuide(4);
+        }
+    }
+
     //引导
     showGameGuide(id: number) {
         cc.log("新手引导id--->>", id);
@@ -713,6 +661,24 @@ export default class Helloworld extends cc.Component {
         }
     }
 
+    onClickSetting() {
+        //setting  
+        this.settingUI.active = true;
+        this.clickBtnAudio();
+    }
+
+    // 点击box
+    onClickShowBox() {
+        this.showBoxUI.active = true;
+        // this.scheduleOnce(() => {
+        // this.node.position = cc.v2(0, this.node.y + this.node.height);
+        let moveAct = cc.moveTo(0.5, cc.v2(0, 0));
+        this.showBoxUI.runAction(moveAct);
+        // }, 1)
+        this.clickBtnAudio();
+    }
+
+    //===================================show/hide  View =============================================
     //结果分数面板
     showScoreView(score: number, itemList: Array<T_Item> = null) {
         this.offLineUI.active = true;
@@ -729,17 +695,10 @@ export default class Helloworld extends cc.Component {
     showRedPacket(cb: Function = null) {
         // let redItem = cc.instantiate(this.redPakcetUIPrefab);
         // redItem.getComponent(RedPacketView).showView(cb);
-        // this.mCanvas.addChild(redItem);
+        // this.node.addChild(redItem);
         this.redPakcetUI.active = true;
         this.redPakcetUI.getComponent(RedPacketView).showView();
     }
-
-    // clickRedPacket(obj: any, target: any) {
-    //     let self = target as Helloworld;
-    //     let num = Number(obj);
-    //     //点击之后保存 ,并且弹出收集道具界面
-
-    // }
 
     showMainView() {
         this.mainNode.active = true;
@@ -778,18 +737,19 @@ export default class Helloworld extends cc.Component {
         socreLab.string = score + "/" + total;
     }
 
+    //========================================Game main logic================================
     registerEvent() {
-        this.mCanvas.on(cc.Node.EventType.TOUCH_START, this.onTouchStart, this);
-        this.mCanvas.on(cc.Node.EventType.TOUCH_MOVE, this.onTouchMove, this);
-        this.mCanvas.on(cc.Node.EventType.TOUCH_END, this.onTouchEnd, this);
-        this.mCanvas.on(cc.Node.EventType.TOUCH_CANCEL, this.onTouchEnd, this);
+        this.node.on(cc.Node.EventType.TOUCH_START, this.onTouchStart, this);
+        this.node.on(cc.Node.EventType.TOUCH_MOVE, this.onTouchMove, this);
+        this.node.on(cc.Node.EventType.TOUCH_END, this.onTouchEnd, this);
+        this.node.on(cc.Node.EventType.TOUCH_CANCEL, this.onTouchEnd, this);
     }
 
     disableEvent() {
-        this.mCanvas.off(cc.Node.EventType.TOUCH_START, this.onTouchStart, this);
-        this.mCanvas.off(cc.Node.EventType.TOUCH_MOVE, this.onTouchMove, this);
-        this.mCanvas.off(cc.Node.EventType.TOUCH_END, this.onTouchEnd, this);
-        this.mCanvas.off(cc.Node.EventType.TOUCH_CANCEL, this.onTouchEnd, this);
+        this.node.off(cc.Node.EventType.TOUCH_START, this.onTouchStart, this);
+        this.node.off(cc.Node.EventType.TOUCH_MOVE, this.onTouchMove, this);
+        this.node.off(cc.Node.EventType.TOUCH_END, this.onTouchEnd, this);
+        this.node.off(cc.Node.EventType.TOUCH_CANCEL, this.onTouchEnd, this);
     }
 
     onTouchStart(event) {
@@ -801,26 +761,28 @@ export default class Helloworld extends cc.Component {
 
     _touchMoveTime: number;
     onTouchMove(event: cc.Event.EventTouch) {
-        let currentTime = Date.now();
-        // cc.log("disTime-->>", currentTime - this._touchMoveTime);
-        if (currentTime - this._touchMoveTime < 20) {
-            // cc.log("太频繁了吧");
-        } else {
-            this._touchMoveTime = currentTime;
-        }
+        // let currentTime = Date.now();
+        // // cc.log("disTime-->>", currentTime - this._touchMoveTime);
+        // if (currentTime - this._touchMoveTime < 20) {
+        //     // cc.log("太频繁了吧");
+        // } else {
+        //     this._touchMoveTime = currentTime;
+        // }
         let pos = event.getLocation();
         let subVect = pos.sub(this._preMovePos);
         let radian = Math.atan2(subVect.x, subVect.y);
         let degrees = cc.misc.radiansToDegrees(radian);
         let disDegress = degrees - this._preDegress;
         if (Math.abs(disDegress) > 20) {
+            this._isMove = true;
             if (disDegress > 0) {
                 degrees = this._preDegress + 20;
             } else {
                 degrees = this._preDegress - 20;
             }
         } else {
-            // cc.log("disDegress--->>", disDegress);
+            cc.log("disDegress--->>", disDegress);
+            this._isMove = false;
         }
         if (degrees > 60) {
             degrees = 60;
@@ -833,8 +795,10 @@ export default class Helloworld extends cc.Component {
         let x = (pos.x - this._preMovePos.x); //* Math.abs(Math.sin(cc.misc.degreesToRadians(degrees)));
         if (x > 20) {
             x = 20;
+        } else if (x < -20) {
+            x = -20;
         }
-        this.drill.x += 2 * x;
+        this.drill.x += x;
         this._preMovePos = pos;
     }
     onTouchEnd(event) {
@@ -842,32 +806,14 @@ export default class Helloworld extends cc.Component {
         this._isTouch = false;
     }
 
-    onClickSetting() {
-        //setting  
-        this.settingUI.active = true;
-        this.clickBtnAudio();
-    }
-
-    // 点击box
-    onClickShowBox() {
-        this.showBoxUI.active = true;
-        // this.scheduleOnce(() => {
-        // this.node.position = cc.v2(0, this.node.y + this.node.height);
-        let moveAct = cc.moveTo(0.5, cc.v2(0, 0));
-        this.showBoxUI.runAction(moveAct);
-        // }, 1)
-        this.clickBtnAudio();
-    }
-
     //开始游戏
     onClickStart(obj: any, target: any) {
-        let id = Number(obj);
         let self = target as Helloworld;
         self.hideMainView();
-
         //新手引导
         cc.log("下沉深度--->>", self._currentDepth);
         //生成item
+        //生成item可能造成卡顿
         self.randomCreateItem();
         self.showHUDView();
         let warhouseVo = T_Warehouse_Table.getVoByKey(self._levelWarehouse);
@@ -898,7 +844,7 @@ export default class Helloworld extends cc.Component {
         let seqAct = cc.sequence(cc.sequence(moveAct, rotateAct), spawnAct2, cc.callFunc(() => {
             self._currentState = moveState.down;
             //动作下去
-            let moveDownAct = cc.moveBy(2, cc.v2(self.drill.x, self.drill.y - self._currentDepth)).easing(cc.easeOut(1.0));
+            let moveDownAct = cc.moveBy(2, cc.v2(self.drill.x, self.drill.y - self._currentDepth))//.easing(cc.easeOut(1.0));
             let seqDownAct = cc.sequence(moveDownAct, cc.callFunc(() => {
                 self.runToTargetDownDepth();
             }))
@@ -929,12 +875,6 @@ export default class Helloworld extends cc.Component {
             case moveState.down:
                 this.drillDown(dt);
                 break;
-            // case moveState.rotate:
-            //     this.drillRotate();
-            //     break;
-            // case moveState.normal:
-            //     this.drillNormal();
-            //     break;
         }
     }
 
@@ -946,7 +886,14 @@ export default class Helloworld extends cc.Component {
         this.drillRocketUp();
         //设置状态
         this._currentState = moveState.rocketup;
+    }
 
+    drillDown(dt) {
+        // cc.log('drillDown')
+        // this.drill.y -= this.mSpeed * dt * 10;
+        if (this.drill.y <= -300) {
+            this.camera.node.y = this.drill.y;
+        }
     }
 
     //下来到底部开始往上了
@@ -961,23 +908,21 @@ export default class Helloworld extends cc.Component {
                 this.showGameGuide(1);
             }
             this._currentState = moveState.up;
+            //碰撞组件开启
+            this.drill.getComponent(cc.BoxCollider).enabled = true;
+            //做拖尾效果
+            this.drillClass.startMotionStreak();
+            GameManager.audioManger.playBGM(this.loopAudio);
+            this.registerEvent();
         }))
         this.drill.runAction(seqAct);
         GameManager.audioManger.playSFX(this.wheelAudio);
     }
 
     drillUp(dt) {
-        //碰撞组件开启
-        this.drill.getComponent(cc.BoxCollider).enabled = true;
-        //做拖尾效果
-        this.drillClass.startMotionStreak();
-        // GameManager.audioManger.playBGM(this.loopAudio, 0.2);
-        GameManager.audioManger.playBGM(this.loopAudio);
-        // cc.audioEngine.play(this.loopAudio, true, 0.1);
-
-        this.registerEvent();
         this.drill.y += this.upSpeed * dt;
-        if (!this._isTouch) {
+        if (this._isMove) {
+        } else {
             if (this.drill.angle >= 2) {
                 this.drill.angle -= 2;
             } else if (this.drill.angle <= -2) {
@@ -987,7 +932,6 @@ export default class Helloworld extends cc.Component {
             }
         }
         this.camera.node.y = this.drill.y + 300;
-
         //不能超过屏幕的宽度
         if (this.drill.x > 300) {
             this.drill.x = 300;
@@ -1004,27 +948,18 @@ export default class Helloworld extends cc.Component {
         //取消监听
         this.disableEvent();
         // GameManager.audioManger.playBGM(this.rocketLoopAudio, 1);
-        GameManager.audioManger.playBGM(this.rocketLoopAudio);
+        GameManager.audioManger.playBGM(this.drillup_audio);
         //运行动作
         let rotateAct = cc.rotateTo(0.2, 0);
         let moveAct = cc.moveTo(1.5, cc.v2(0, 0)).easing(cc.easeIn(3.0));
         let seqAct = cc.sequence(rotateAct, moveAct, cc.callFunc(() => {
             this._currentState = moveState.normal;
-            cc.log(this.camera.node);
             this.camera.node.y = 0;
             this.completeGame();
         }));
         this.drill.runAction(seqAct);
 
         if (this.drill.y < 100) {
-            this.camera.node.y = this.drill.y;
-        }
-    }
-
-    drillDown(dt) {
-        // cc.log('drillDown')
-        // this.drill.y -= this.mSpeed * dt * 10;
-        if (this.drill.y <= -300) {
             this.camera.node.y = this.drill.y;
         }
     }
@@ -1036,6 +971,8 @@ export default class Helloworld extends cc.Component {
     drillNormal() {
 
     }
+
+    //================================游戏开始和游戏结束后的处理=======================================================
 
     //随机生成道具
     randomCreateItem() {
@@ -1063,7 +1000,7 @@ export default class Helloworld extends cc.Component {
 
                 //  1/5的概率是金色的
                 let isGold = Math.random() * 10 <= 1;
-                let item = this.nodePool.get();
+                let item = LoadUtils.itemPool.get();
                 if (!item) {
                     item = cc.instantiate(this.propItem);
                     // cc.log("重新生成item");
@@ -1090,25 +1027,7 @@ export default class Helloworld extends cc.Component {
             }
         } else {
             cc.log("不生成宝箱--");
-            // this._isCreateRedPacket = false;
         }
-    }
-
-    //获得道具
-    getItemByDrill(obj: any, target: any) {
-        let self = target as Helloworld;
-        let data = obj as collectItemData;
-        self._itemNumber++;
-        self._collectList.push(data);
-        let warhouseVo = T_Warehouse_Table.getVoByKey(self._levelWarehouse);
-        //判断是否收集够了
-        if (self._itemNumber >= warhouseVo.count) {
-            //关闭碰撞
-            self.drill.getComponent(cc.BoxCollider).enabled = false;
-            //收集够了 ,开始加速上升
-            self.runToTargetUpDepth();
-        }
-        self.updateHUDView(self._itemNumber, warhouseVo.count);
     }
 
     //游戏完成
@@ -1154,7 +1073,7 @@ export default class Helloworld extends cc.Component {
             item.position = newPos;
             item.scale = 1;
             let x = Math.random() * 200;
-            let y = Math.random() * 2000;
+            let y = GameUtil.getRandomNum(500, 1000);
 
             let posArr = new Array<cc.Vec2>();
             posArr.push(item.position);
@@ -1178,7 +1097,7 @@ export default class Helloworld extends cc.Component {
                 item.stopAllActions();
                 item.scale = 0.6;
                 item.removeFromParent();
-                this.nodePool.put(item);
+                LoadUtils.itemPool.put(item);
             }));
             item.runAction(seqAct);
         }
@@ -1189,7 +1108,7 @@ export default class Helloworld extends cc.Component {
         this.schedule(() => {
             // for (let i = 0; i < this._collectList.length; i++) {
             let itemVo = this._collectList[i];
-            let item = this.nodePool.get();
+            let item = LoadUtils.itemPool.get();
             if (!item) {
                 item = cc.instantiate(this.propItem);
             }
@@ -1203,13 +1122,12 @@ export default class Helloworld extends cc.Component {
             let seqAct = cc.sequence(scaleAct, cc.callFunc(() => {
                 item.scale = 0.6;
                 item.removeFromParent();
-                this.nodePool.put(item);
+                LoadUtils.itemPool.put(item);
             }))
             item.runAction(seqAct);
 
             //还有 label
-
-            let itemLab = this.labItemPool.get();
+            let itemLab = LoadUtils.labItemPool.get();
             if (!itemLab) {
                 itemLab = cc.instantiate(this.labItem);
             }
@@ -1289,16 +1207,6 @@ export default class Helloworld extends cc.Component {
         }, time);
     }
 
-    showGuide() {
-        if (this._gameManager.getGameGuide() == 1) {
-            this.showGameGuide(2);
-        } else if (this._gameManager.getGameGuide() == 2) {
-            // this.showGameGuide(3);
-        } else if (this._gameManager.getGameGuide() == 3) {
-            this.showGameGuide(4);
-        }
-    }
-
     //重新设置游戏
     resetGame() {
         if (this.drill) {
@@ -1312,7 +1220,6 @@ export default class Helloworld extends cc.Component {
         this._currentState = moveState.normal;
 
         this.redPacketNodeList.length = 0;
-        this._isCreateRedPacket = false;
 
         //收集到的道具数量
         this._itemNumber = 0;
@@ -1326,7 +1233,7 @@ export default class Helloworld extends cc.Component {
             if (item) {
                 item.stopAllActions();
                 item.removeFromParent();
-                this.nodePool.put(item);
+                LoadUtils.itemPool.put(item);
                 // item.destroy();
             }
         }
@@ -1336,7 +1243,7 @@ export default class Helloworld extends cc.Component {
             if (gameItem && gameItem.group === "item") {
                 gameItem.stopAllActions();
                 gameItem.removeFromParent();
-                this.nodePool.put(gameItem);
+                LoadUtils.itemPool.put(gameItem);
             } else {
                 cc.log("----------------------------");
                 gameItem.removeFromParent();
@@ -1350,7 +1257,7 @@ export default class Helloworld extends cc.Component {
             if (item) {
                 item.stopAllActions();
                 item.removeFromParent();
-                this.nodePool.put(item);
+                LoadUtils.itemPool.put(item);
             }
         }
 
@@ -1359,40 +1266,50 @@ export default class Helloworld extends cc.Component {
             if (item) {
                 item.stopAllActions();
                 item.removeFromParent();
-                item.destroy();
+                LoadUtils.labItemPool.put(item);
             }
         }
     }
 
+
+    //=================================播放音乐=======================================================
+
     //收集金币
     playCollectMoneyAudio() {
-        GameManager.audioManger.playSFX(this.collectMoneyAudio);
+        GameManager.audioManger.playSFX(this.moneyAudio);
     }
 
     //金色道具 audio
     playItemGoldAudio() {
+        //item_goldAudio
         GameManager.audioManger.playSFX(this.itemGoldAudio);
     }
     //普通道具 audio
     playItemNormalAudio() {
+        //item_normalAudio
         GameManager.audioManger.playSFX(this.itemNormalAudio);
     }
 
     //点击按钮音效
     clickBtnAudio() {
+        //click_audio
         GameManager.audioManger.playSFX(this.clickAudip);
     }
 
     //关闭音效
     clickCloseAudio() {
+        //close_audio
         GameManager.audioManger.playSFX(this.closeAudio);
     }
 
     //点击购买升级
     clickUpgradeAudio() {
+        //Upgrade_audio
         GameManager.audioManger.playSFX(this.upgradeAudio);
     }
 
+
+    //==================================Tool Method===========================================================
     //判断是否生成红包
     getIsCreateRedPacket(): boolean {
         if (GameManager.todayLookNum >= 6) {

@@ -1,4 +1,5 @@
 import Helloworld from "../Helloworld";
+import LoadUtils from "../Util/LoadUtils";
 
 const { ccclass, property } = cc._decorator;
 
@@ -21,13 +22,10 @@ export default class labItem_Component extends cc.Component {
             spaAct = cc.spawn(rotateAct, fadeAct);
         }
         let seqAct = cc.sequence(cc.delayTime(0.5), spaAct, cc.callFunc(() => {
-            //放到节点池还是销毁
-            // this.node.stopAllActions();
-            // this.node.destroy();
             this.node.angle = 0;
             this.node.opacity = 255;
             this.node.position = cc.v2(0, 0);
-            cc.Canvas.instance.node.getComponent(Helloworld).labItemPool.put(this.node);
+            LoadUtils.labItemPool.put(this.node);
             this.node.removeFromParent();
         }));
         this.node.runAction(seqAct);
