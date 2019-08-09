@@ -170,6 +170,9 @@ export default class Helloworld extends cc.Component {
     _isMove: boolean = false;
     onLoad() {
         this._gameManager = GameManager.getInstance();
+    }
+
+    start() {
         this.initData();
         this.initView();
         this.initGame();
@@ -184,10 +187,6 @@ export default class Helloworld extends cc.Component {
         _Notification_.subscrib(NotifyEnum.GETITEMBYDRILL, this.getItemByDrill, this);
         _Notification_.subscrib(NotifyEnum.CLICKCOLLECT, this.clickCollect, this);
         _Notification_.subscrib(NotifyEnum.HIDEGAMEGUIDE, this.hideGameGuide, this);
-    }
-
-    start() {
-
     }
 
     onDestroy() {
@@ -339,15 +338,17 @@ export default class Helloworld extends cc.Component {
     updateMainUI(obj: any, target: any) {
         let self = target as Helloworld;
         self.initData();
-        for (let i = 0; i < self._mainDownBackView.childrenCount; i++) {
-            let item = self._mainDownBackView.children[i];
-            item.getComponent(mainContentItem_Component).updateParent();
-        }
 
         for (let i = 0; i < self._mainDownFrontView.childrenCount; i++) {
             let item = self._mainDownFrontView.children[i];
             item.getComponent(mainContentItem_Component).updateParent();
         }
+
+        for (let i = 0; i < self._mainDownBackView.childrenCount; i++) {
+            let item = self._mainDownBackView.children[i];
+            item.getComponent(mainContentItem_Component).updateParent();
+        }
+
     }
 
     updateMoneyLab(obj: any, target: any) {
@@ -773,15 +774,15 @@ export default class Helloworld extends cc.Component {
         let radian = Math.atan2(subVect.x, subVect.y);
         let degrees = cc.misc.radiansToDegrees(radian);
         let disDegress = degrees - this._preDegress;
-        if (Math.abs(disDegress) > 20) {
+        if (Math.abs(disDegress) > 10) {
             this._isMove = true;
             if (disDegress > 0) {
-                degrees = this._preDegress + 20;
+                degrees = this._preDegress + 10;
             } else {
-                degrees = this._preDegress - 20;
+                degrees = this._preDegress - 10;
             }
         } else {
-            cc.log("disDegress--->>", disDegress);
+            // cc.log("disDegress--->>", disDegress);
             this._isMove = false;
         }
         if (degrees > 60) {
@@ -804,6 +805,11 @@ export default class Helloworld extends cc.Component {
     onTouchEnd(event) {
         cc.log("end--");
         this._isTouch = false;
+    }
+
+    //点击开始游戏按钮
+    onClickStartLab() {
+        this.onClickStart(null, this);
     }
 
     //开始游戏
@@ -853,13 +859,25 @@ export default class Helloworld extends cc.Component {
         self.drill.runAction(seqAct);
     }
 
+    _preMoveTime: number = 0;
     update(dt) {
+        // cc.log(this._isMove);
         if (!this.drill) {
             return;
         }
         if (moveState.rotate === this._currentState || moveState.normal === this._currentState) {
             return;
         }
+        //判断当前用户的操作
+        // if (this._isMove) {
+        //     let cTime = Date.now();
+        //     if (cTime - this._preMoveTime > 200) {
+        //         //变为
+        //         this._isMove = false;
+        //         this._preMoveTime = cTime;
+        //     }
+        // }
+
         //到限定高度了  迅速返回
         if (this.drill.y >= -this.targetDepth && (this._currentState == moveState.up)) {
             this.runToTargetUpDepth();
@@ -921,7 +939,7 @@ export default class Helloworld extends cc.Component {
 
     drillUp(dt) {
         this.drill.y += this.upSpeed * dt;
-        if (this._isMove) {
+        if (this._isTouch) {
         } else {
             if (this.drill.angle >= 2) {
                 this.drill.angle -= 2;
@@ -977,24 +995,28 @@ export default class Helloworld extends cc.Component {
     //随机生成道具
     randomCreateItem() {
         //根据深度和 解锁的钻头 生成 道具
-        //共 68个 等级
-        //每升4个等级  升一个格子
-        let count = Math.ceil(this._levelDpeth / 4) + 1;
-
+        //共 60个 等级
+        //共 20个格子
+        //每升3个等级  升一个格子
+        let count = Math.ceil(this._levelDpeth / 3) + 1;
+        //60个等级
         let allVo = T_Unlock_Table.getAllVo();
         //格子数量
         // let count = Math.ceil((this._currentDepth - this.constNum) / 2 / 752);
+        cc.log("共需生成-->>", (count + 1) * this.gridNumebrItem);
         for (let i = 0; i <= count; i++) {
             for (let j = 0; j < this.gridNumebrItem; j++) {
                 let randx = Math.random() > 0.5 ? Math.random() * 320 : Math.random() * -320;
                 let randy = Math.random() * 752;
                 //格子改了 x2 深度也x2;
-                let nodey = (i + 4) * 752 - (752 - randy);
+                let nodey = (i + 3) * 752 + randy;
                 let pos = cc.v2(randx, -nodey);
                 let inx = Math.floor(i / 2);
                 if (inx == 0) { inx = 1; }
+                if (inx > 10) { inx = 10; }
+                // cc.log("inx---->>>", inx);
                 let voItem = allVo[inx].value.split("_");
-                //随机0到3
+                // //随机0到3
                 let index = Math.floor(Math.random() * 4);
                 let itemId = Number(voItem[index]);
 

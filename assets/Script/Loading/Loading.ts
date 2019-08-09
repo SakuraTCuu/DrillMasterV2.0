@@ -1,6 +1,7 @@
 import LoadUtils from "../Util/LoadUtils";
 import propItem_Component from "../ItemComponent/propItem_Component";
 import { T_Item_Table } from "../Data/T_Item";
+import GameManager from "../GameManager";
 
 const { ccclass, property } = cc._decorator;
 
@@ -17,8 +18,11 @@ export default class Loading extends cc.Component {
         manager.enabled = true;
         // manager.enabledDebugDraw = true;
 
+        //初始化管理类
+        GameManager.getInstance();
         LoadUtils.init();
         this.LoadLab.string = "loading...";
+        
         //开始加载资源
         //加载图集资源
         //加载图片

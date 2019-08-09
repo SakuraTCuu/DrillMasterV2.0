@@ -51,8 +51,15 @@ export default class GameManager {
             this.instance.init();
             this.instance.getStateFromJava();
             this.audioManger = new AudioManager();
+
+            window['playVideoSuccess'] = this.playVideoSuccess.bind(this);
         }
         return this.instance;
+    }
+
+    /** 视频播放成功 发放双倍奖励 */
+    static playVideoSuccess() {
+        cc.log("双倍奖励");
     }
 
     getStateFromJava() {
@@ -217,6 +224,9 @@ export default class GameManager {
             this._disTime = cTime - this._preShowTime;
             if (this._disTime > 1000 * 60 * 60 * 24 * 2) {
                 this._disTime = 1000 * 60 * 60 * 24 * 2;
+            }
+            if (this._disTime < 1000 * 60 * 2) {
+                return;
             }
             if (this.getOfflineIncome() > 0) {
                 //弹出收益框
