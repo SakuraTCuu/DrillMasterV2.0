@@ -57,6 +57,15 @@ export default class GameManager {
         return this.instance;
     }
 
+    /** 调用Android震动 */
+    public static vibrator() {
+        if (cc.sys.os === cc.sys.OS_ANDROID) {
+            jsb.reflection.callStaticMethod("org/cocos2dx/javascript/AppActivity", "vibrator", "()V");
+        } else {
+            cc.log("only Android");
+        }
+    }
+
     /** 视频播放成功 发放双倍奖励 */
     static playVideoSuccess() {
         cc.log("双倍奖励");
@@ -123,7 +132,7 @@ export default class GameManager {
         const depth: string = cc.sys.localStorage.getItem("depth");
         const outline: string = cc.sys.localStorage.getItem("outline");
         //上次登录时间
-        const preTime: number = cc.sys.localStorage.getItem("preTime");
+        const preTime: string = cc.sys.localStorage.getItem("preTime");
 
         //可提现的money
         if (trueMoney) {
@@ -203,7 +212,7 @@ export default class GameManager {
         //离线时间
         if (preTime) {
             let currentTime = Date.now();
-            this._disTime = currentTime - preTime;
+            this._disTime = currentTime - Number(preTime);
         } else {
             //无收益
             this._disTime = 0;
@@ -221,7 +230,12 @@ export default class GameManager {
         cc.game.on(cc.game.EVENT_SHOW, () => {
             cc.log('show');
             let cTime = Date.now();
-            this._disTime = cTime - this._preShowTime;
+            if (this._preShowTime == 0) {
+                cc.error("为什么触发show事件?");
+                this._disTime = 0;
+            } else {
+                this._disTime = cTime - this._preShowTime;
+            }
             if (this._disTime > 1000 * 60 * 60 * 24 * 2) {
                 this._disTime = 1000 * 60 * 60 * 24 * 2;
             }
@@ -488,7 +502,7 @@ export default class GameManager {
     }
 
     public getDepthIsTop(): boolean {
-        return Number(this._depth) == 68;
+        return Number(this._depth) == 60;
     }
 
     public getOutlineIsTop(): boolean {

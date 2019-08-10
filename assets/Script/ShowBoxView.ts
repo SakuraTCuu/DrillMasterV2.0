@@ -14,7 +14,6 @@ export default class ShowBoxView extends cc.Component {
     itemPrefab: cc.Prefab = null;
 
     onLoad() {
-        this.initView();
     }
 
     // onEnable() {
@@ -26,6 +25,7 @@ export default class ShowBoxView extends cc.Component {
     // }\
 
     onEnable() {
+        this.contetnNode.removeAllChildren();
         let drillList = T_Unlock_Table.getAllVo();
         let i = 1;
         this.schedule(() => {
@@ -37,9 +37,6 @@ export default class ShowBoxView extends cc.Component {
             i++;
             // }
         }, 0.02, drillList.length - 2, 0);
-    }
-
-    initView() {
     }
 
     onClickExit() {

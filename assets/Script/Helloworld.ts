@@ -19,7 +19,6 @@ import LoadUtils from "./Util/LoadUtils";
 
 const { ccclass, property } = cc._decorator;
 
-
 @ccclass
 export default class Helloworld extends cc.Component {
 
@@ -141,6 +140,7 @@ export default class Helloworld extends cc.Component {
     // _mainDownView: cc.Node = null;
     _mainDownBackView: cc.Node = null;
     _mainDownFrontView: cc.Node = null;
+    _mainDownItemList: Array<cc.Node> = new Array();
 
     //状态
     _preMovePos: cc.Vec2 = null;
@@ -284,6 +284,7 @@ export default class Helloworld extends cc.Component {
             } else {
                 this._mainDownFrontView.addChild(item);
             }
+            this._mainDownItemList.push(item);
         }
     }
 
@@ -299,10 +300,10 @@ export default class Helloworld extends cc.Component {
         let income = this._gameManager.getOfflineIncome();
         if (income > 0) {
             this.offLineUI.active = true;
+            this.offLineUI.getComponent(OfflineView).showOffline();
         } else {
             this.offLineUI.active = false;
         }
-        this.offLineUI.getComponent(OfflineView).showOffline();
         //Android 退出监听
         GameManager.addExitEvent();
     }
@@ -339,16 +340,23 @@ export default class Helloworld extends cc.Component {
         let self = target as Helloworld;
         self.initData();
 
-        for (let i = 0; i < self._mainDownFrontView.childrenCount; i++) {
-            let item = self._mainDownFrontView.children[i];
-            item.getComponent(mainContentItem_Component).updateParent();
+        //不要这样刷新
+        //获取他们的引用自己刷新
+        if (self._mainDownItemList.length > 0) {
+            for (let i = 0; i < self._mainDownItemList.length; i++) {
+                let item = self._mainDownItemList[i];
+                item.getComponent(mainContentItem_Component).updateParent();
+            }
         }
+        // for (let i = 0; i < self._mainDownFrontView.childrenCount; i++) {
+        //     let item = self._mainDownFrontView.children[i];
+        //     item.getComponent(mainContentItem_Component).updateParent();
+        // }
 
-        for (let i = 0; i < self._mainDownBackView.childrenCount; i++) {
-            let item = self._mainDownBackView.children[i];
-            item.getComponent(mainContentItem_Component).updateParent();
-        }
-
+        // for (let i = 0; i < self._mainDownBackView.childrenCount; i++) {
+        //     let item = self._mainDownBackView.children[i];
+        //     item.getComponent(mainContentItem_Component).updateParent();
+        // }
     }
 
     updateMoneyLab(obj: any, target: any) {
@@ -379,10 +387,7 @@ export default class Helloworld extends cc.Component {
         let itemNode = self.guideContent.getChildByName("mainItem");
         if (id == 1) {
             //刷新1 的ui
-            let targetNode = self._mainDownBackView.getChildByName("1");
-            if (!targetNode) {
-                targetNode = self._mainDownFrontView.getChildByName("1");
-            }
+            let targetNode = self._mainDownItemList[0];
             let warehouse = self._gameManager.getLevelWarehouse();
             let warehouseVo = T_Warehouse_Table.getVoByKey(Number(warehouse));
             let data: mainContenItemData =
@@ -394,10 +399,7 @@ export default class Helloworld extends cc.Component {
             targetNode.getComponent(mainContentItem_Component).init(1, data, false);
         } else if (id == 2) {
             //刷新2 的ui
-            let targetNode = self._mainDownBackView.getChildByName("2");
-            if (!targetNode) {
-                targetNode = self._mainDownFrontView.getChildByName("2");
-            }
+            let targetNode = self._mainDownItemList[1];
             let levelDepth = self._gameManager.getLevelDepth();
             let depthVo = T_Depth_Table.getVoByKey(Number(levelDepth));
             let data: mainContenItemData =
@@ -412,10 +414,7 @@ export default class Helloworld extends cc.Component {
             self.guideContent.getChildByName("arrow3").active = false;
 
             //刷新3 的 ui
-            let targetNode = self._mainDownBackView.getChildByName("3");
-            if (!targetNode) {
-                targetNode = self._mainDownFrontView.getChildByName("3");
-            }
+            let targetNode =  self._mainDownItemList[2];
             let outline = self._gameManager.getLevelOutline();
             let outlineVo = T_OutLine_Table.getVoByKey(Number(outline));
             let data: mainContenItemData =
@@ -447,8 +446,10 @@ export default class Helloworld extends cc.Component {
         if (self._itemNumber >= warhouseVo.count) {
             //关闭碰撞
             self.drill.getComponent(cc.BoxCollider).enabled = false;
-            //收集够了 ,开始加速上升
-            self.runToTargetUpDepth();
+            self.scheduleOnce(() => {
+                //收集够了 ,开始加速上升
+                self.runToTargetUpDepth();
+            }, 0.1);
         }
         self.updateHUDView(self._itemNumber, warhouseVo.count);
     }
@@ -705,7 +706,12 @@ export default class Helloworld extends cc.Component {
         this.mainNode.active = true;
         this.setting.active = true;
         this._mainDrill.active = false;
-        this.baoxiangBtn.active = true;
+
+        if (this._gameManager.getIsChannel()) {
+            this.baoxiangBtn.active = true;
+        } else {
+            this.baoxiangBtn.active = false;
+        }
     }
 
     //设置ui状态
@@ -774,12 +780,12 @@ export default class Helloworld extends cc.Component {
         let radian = Math.atan2(subVect.x, subVect.y);
         let degrees = cc.misc.radiansToDegrees(radian);
         let disDegress = degrees - this._preDegress;
-        if (Math.abs(disDegress) > 10) {
+        if (Math.abs(disDegress) > 20) {
             this._isMove = true;
             if (disDegress > 0) {
-                degrees = this._preDegress + 10;
+                degrees = this._preDegress + 20;
             } else {
-                degrees = this._preDegress - 10;
+                degrees = this._preDegress - 20;
             }
         } else {
             // cc.log("disDegress--->>", disDegress);
@@ -848,7 +854,7 @@ export default class Helloworld extends cc.Component {
             GameManager.audioManger.playSFX(self.startAudio);
         }));
         let seqAct = cc.sequence(cc.sequence(moveAct, rotateAct), spawnAct2, cc.callFunc(() => {
-            self._currentState = moveState.down;
+            self._currentState = moveState.down; 
             //动作下去
             let moveDownAct = cc.moveBy(2, cc.v2(self.drill.x, self.drill.y - self._currentDepth))//.easing(cc.easeOut(1.0));
             let seqDownAct = cc.sequence(moveDownAct, cc.callFunc(() => {

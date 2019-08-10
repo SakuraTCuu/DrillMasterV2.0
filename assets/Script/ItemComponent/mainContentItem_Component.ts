@@ -100,7 +100,7 @@ export default class mainContentItem_Component extends cc.Component {
 
         } else if (self._state == 2) {
             let depth = Number(self._gameManager.getLevelDepth());
-            if (depth >= 68) {
+            if (depth >= 60) {
                 //已到等级上限
                 this.updateParentToBack();
             } else {
@@ -183,7 +183,7 @@ export default class mainContentItem_Component extends cc.Component {
             }
         } else if (this._state == 2) {
             let depth = Number(this._gameManager.getLevelDepth());
-            if (depth >= 68) {
+            if (depth >= 60) {
                 //已到等级上限
                 this.updateParentToBack();
                 return;
@@ -200,7 +200,7 @@ export default class mainContentItem_Component extends cc.Component {
                 this._gameManager.saveData(saveName.DEPTH, depth + 1);
                 //刷新一下
                 depth += 1;
-                if (depth >= 68) {
+                if (depth >= 60) {
                     //已到等级上限
                     this.updateParentToBack();
                     return;
@@ -221,7 +221,6 @@ export default class mainContentItem_Component extends cc.Component {
         }
         else if (this._state == 3) {
             let outline = Number(this._gameManager.getLevelOutline());
-
             if (outline >= 68) {
                 //已到等级上限
                 //已到等级上限

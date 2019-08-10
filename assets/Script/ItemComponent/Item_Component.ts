@@ -5,6 +5,7 @@ import GameUtil from "../Util/GameUtil";
 import propItem_Component from "./propItem_Component";
 import Helloworld from "../Helloworld";
 import labItem_Component from "./labItem_Component";
+import GameManager from "../GameManager";
 
 const { ccclass, property } = cc._decorator;
 
@@ -331,7 +332,9 @@ export default class Item_Component extends cc.Component {
      * @param  {Collider} self  产生碰撞的自身的碰撞组件
      */
     onCollisionEnter(other: cc.BoxCollider, self: cc.BoxCollider) {
-        let hw = cc.Canvas.instance.node.getComponent(Helloworld)
+        //震动
+        GameManager.vibrator();
+        let hw = cc.Canvas.instance.node.getComponent(Helloworld);
         other.node.active = false;
         if (other.node.group === "redPacket") {
             //碰撞到红包
