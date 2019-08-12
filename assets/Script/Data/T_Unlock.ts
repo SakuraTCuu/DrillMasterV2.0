@@ -9,17 +9,17 @@ export class T_Unlock {
 }
 //item 对应表
 const _T_Unlock_ = [
-    { id: 0, name: "默认", value: "", },
-    { id: 1, name: "勘探者", value: "1_2_3_4", },
-    { id: 2, name: "海盗", value: "5_6_7_8", },
-    { id: 3, name: "中世纪", value: "9_10_11_12", },
-    { id: 4, name: "罗马", value: "13_14_15_16", },
-    { id: 5, name: "史前", value: "17_18_19_20", },
-    { id: 6, name: "火星", value: "21_22_23_24", },
-    { id: 7, name: "毛利", value: "25_26_27_28", },
-    { id: 8, name: "复古", value: "29_30_31_32", },
-    { id: 9, name: "妖怪", value: "33_34_35_36", },
-    { id: 10, name: "独角兽", value: "37_38_39_40", },
+    { id: 0, name: "DEFAULT", value: "", },
+    { id: 1, name: "PROSPECTOR", value: "1_2_3_4", },
+    { id: 2, name: "PIRATE", value: "5_6_7_8", },
+    { id: 3, name: "MEDIEVAL", value: "9_10_11_12", },
+    { id: 4, name: "ROMAN", value: "13_14_15_16", },
+    { id: 5, name: "PREHISTORIC", value: "17_18_19_20", },
+    { id: 6, name: "MARS", value: "21_22_23_24", },
+    { id: 7, name: "MAORI", value: "25_26_27_28", },
+    { id: 8, name: "RETRO", value: "29_30_31_32", },
+    { id: 9, name: "GENIE", value: "33_34_35_36", },
+    { id: 10, name: "UNICORN", value: "37_38_39_40", },
 ];
 
 // 中间展示的列表数据类型

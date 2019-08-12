@@ -214,17 +214,17 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 120,
+      "width": 110.49,
       "height": 50.4
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
-      "x": 0.5,
+      "x": 0,
       "y": 0.5
     },
     "_position": {
       "__type__": "cc.Vec3",
-      "x": -85,
+      "x": -112.425,
       "y": 93,
       "z": 0
     },
@@ -262,8 +262,8 @@
       }
     ],
     "_useOriginalSize": false,
-    "_string": "勘探者",
-    "_N$string": "勘探者",
+    "_string": "DEFAULT",
+    "_N$string": "DEFAULT",
     "_fontSize": 40,
     "_lineHeight": 40,
     "_enableWrapText": true,
@@ -273,7 +273,7 @@
     "_batchAsBitmap": false,
     "_N$horizontalAlign": 1,
     "_N$verticalAlign": 1,
-    "_N$fontFamily": "Arial",
+    "_N$fontFamily": "Brady Bunch Remastered",
     "_N$overflow": 0,
     "_N$cacheMode": 0,
     "_id": ""

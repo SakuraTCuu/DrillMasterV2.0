@@ -1,4 +1,4 @@
-import { moveState, NotifyEnum, mainContenItemData, collectItemData, saveName, mainContentItemState } from "./Interface";
+import { moveState, NotifyEnum, mainContenItemData, collectItemData, saveName, mainContentItemState, STRING } from "./Interface";
 import { _Notification_ } from "./_Notification_";
 import GameManager from "./GameManager";
 import { T_OutLine_Table, T_OutLine } from "./Data/T_OutLine";
@@ -414,7 +414,7 @@ export default class Helloworld extends cc.Component {
             self.guideContent.getChildByName("arrow3").active = false;
 
             //刷新3 的 ui
-            let targetNode =  self._mainDownItemList[2];
+            let targetNode = self._mainDownItemList[2];
             let outline = self._gameManager.getLevelOutline();
             let outlineVo = T_OutLine_Table.getVoByKey(Number(outline));
             let data: mainContenItemData =
@@ -459,7 +459,7 @@ export default class Helloworld extends cc.Component {
         // cc.log("???");
         this.baoXiangContent.active = true;
         let desLab = this.baoXiangContent.getChildByName("desLab").getComponent(cc.Label);
-        desLab.string = "快看看宝箱里边有什么!";
+        desLab.string = STRING.guide4;
     }
 
     showGuideHand() {
@@ -503,7 +503,7 @@ export default class Helloworld extends cc.Component {
         item.position = pos;
         // itemNode.position = itemNode.convertToNodeSpaceAR(pos);
         arrow.x = item.x;
-        desLab.string = "升级深度来挖的更深！";
+        desLab.string = STRING.guide1;
     }
 
     //升级容量
@@ -532,7 +532,7 @@ export default class Helloworld extends cc.Component {
         item.position = pos;
         itemNode.addChild(item);
         arrow.x = item.x;
-        desLab.string = "升级仓库来携带更多宝物！";
+        desLab.string = STRING.guide2;
     }
 
     //展示 升级其他
@@ -605,7 +605,7 @@ export default class Helloworld extends cc.Component {
                 arrow3.x = item.x;
             }
         }
-        desLab.string = "来升级吧！";
+        desLab.string = STRING.guide3;
     }
 
     showGuide() {
@@ -854,7 +854,7 @@ export default class Helloworld extends cc.Component {
             GameManager.audioManger.playSFX(self.startAudio);
         }));
         let seqAct = cc.sequence(cc.sequence(moveAct, rotateAct), spawnAct2, cc.callFunc(() => {
-            self._currentState = moveState.down; 
+            self._currentState = moveState.down;
             //动作下去
             let moveDownAct = cc.moveBy(2, cc.v2(self.drill.x, self.drill.y - self._currentDepth))//.easing(cc.easeOut(1.0));
             let seqDownAct = cc.sequence(moveDownAct, cc.callFunc(() => {

@@ -1,4 +1,4 @@
-import { mainContentItemState, mainContenItemData, saveName, NotifyEnum } from "../Interface";
+import { mainContentItemState, mainContenItemData, saveName, NotifyEnum, STRING } from "../Interface";
 import GameManager from "../GameManager";
 import { T_Warehouse_Table } from "../Data/T_Warehouse";
 import { T_Depth_Table } from "../Data/T_Depth";
@@ -56,15 +56,15 @@ export default class mainContentItem_Component extends cc.Component {
         this.node.name = this._state + "";
         if (state == 1) {
             this.topSp.spriteFrame = this.warehouseSpf;
-            this.nameLab.string = "仓库";
+            this.nameLab.string = STRING.mainContentItemName1;
             this.valueLab.string = data.value + "";
         } else if (state == 2) {
             this.topSp.spriteFrame = this.depthSpf;
-            this.nameLab.string = "深度";
+            this.nameLab.string = STRING.mainContentItemName2;
             this.valueLab.string = data.value + "M";
         } else if (state == 3) {
             this.topSp.spriteFrame = this.outlineSpf;
-            this.nameLab.string = "离线收益";
+            this.nameLab.string = STRING.mainContentItemName3;
             this.valueLab.string = "+$" + data.value + "/min";
         }
         this.moneyLab.string = "$" + data.expend;

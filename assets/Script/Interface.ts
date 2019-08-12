@@ -124,3 +124,21 @@ export enum NotifyEnum {
 
 //======================================================
 //升级 
+
+
+//字符串
+export enum STRING {
+    mainContentItemName1 = "STORAGE",
+    mainContentItemName2 = "DEPTH",
+    mainContentItemName3 = "OFFLINE EARNINGS",
+    setting ="SETTINGS",
+    collection = "COLLECTION",
+    double = "DOUBLE",
+    claim = "CLAIM",
+    great = "GREAT DIGGING!",
+    guide1 = "UPGRADE DEPTH TO DRILL DEEPER!",
+    guide2 = "UPGRADE STORAGE TO CARRY MORE TREASURE!",
+    guide3 = "LET'S UPGRADE!",
+    guide4 = "WHAT'S IN THE CHEST",
+    newItem = "NEW TREASURE!"
+}
