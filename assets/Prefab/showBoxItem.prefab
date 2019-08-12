@@ -214,7 +214,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 110.49,
+      "width": 175.57,
       "height": 50.4
     },
     "_anchorPoint": {
@@ -267,13 +267,15 @@
     "_fontSize": 40,
     "_lineHeight": 40,
     "_enableWrapText": true,
-    "_N$file": null,
-    "_isSystemFontUsed": true,
+    "_N$file": {
+      "__uuid__": "dee6b9bf-050c-4f77-b913-3ef193119cd2"
+    },
+    "_isSystemFontUsed": false,
     "_spacingX": 0,
     "_batchAsBitmap": false,
     "_N$horizontalAlign": 1,
     "_N$verticalAlign": 1,
-    "_N$fontFamily": "Brady Bunch Remastered",
+    "_N$fontFamily": "",
     "_N$overflow": 0,
     "_N$cacheMode": 0,
     "_id": ""

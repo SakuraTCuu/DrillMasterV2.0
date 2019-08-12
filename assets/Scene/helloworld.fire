@@ -5259,13 +5259,15 @@
     "_fontSize": 120,
     "_lineHeight": 140,
     "_enableWrapText": true,
-    "_N$file": null,
-    "_isSystemFontUsed": true,
+    "_N$file": {
+      "__uuid__": "dee6b9bf-050c-4f77-b913-3ef193119cd2"
+    },
+    "_isSystemFontUsed": false,
     "_spacingX": 0,
     "_batchAsBitmap": false,
     "_N$horizontalAlign": 1,
     "_N$verticalAlign": 1,
-    "_N$fontFamily": "Brady Bunch Remastered",
+    "_N$fontFamily": "",
     "_N$overflow": 1,
     "_N$cacheMode": 0,
     "_id": "0djzDXJTdL+rPnJ1Wu497T"
@@ -5628,7 +5630,7 @@
       }
     ],
     "_prefab": null,
-    "_opacity": 150,
+    "_opacity": 100,
     "_color": {
       "__type__": "cc.Color",
       "r": 255,
@@ -5688,7 +5690,7 @@
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
     "_spriteFrame": {
-      "__uuid__": "4ac30fe6-d4f2-4dbf-8c59-4d2752db7685"
+      "__uuid__": "610af2e2-adf6-422d-b3fc-3209e1dfd34a"
     },
     "_type": 0,
     "_sizeMode": 0,
@@ -5986,8 +5988,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 149,
-      "height": 116
+      "width": 148,
+      "height": 115
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -6047,7 +6049,7 @@
     "_contentSize": {
       "__type__": "cc.Size",
       "width": 160,
-      "height": 160
+      "height": 137
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -6156,8 +6158,8 @@
     "_target": null,
     "_alignFlags": 33,
     "_left": 0,
-    "_right": -38.84700000000001,
-    "_top": 128.08999999999995,
+    "_right": -38.34700000000001,
+    "_top": 128.58999999999995,
     "_bottom": 0,
     "_verticalCenter": 0,
     "_horizontalCenter": 0,
@@ -6779,7 +6781,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 262.97,
+      "width": 377.77,
       "height": 100.8
     },
     "_anchorPoint": {
@@ -6832,13 +6834,15 @@
     "_fontSize": 80,
     "_lineHeight": 80,
     "_enableWrapText": true,
-    "_N$file": null,
-    "_isSystemFontUsed": true,
+    "_N$file": {
+      "__uuid__": "dee6b9bf-050c-4f77-b913-3ef193119cd2"
+    },
+    "_isSystemFontUsed": false,
     "_spacingX": 0,
     "_batchAsBitmap": false,
     "_N$horizontalAlign": 1,
     "_N$verticalAlign": 1,
-    "_N$fontFamily": "Brady Bunch Remastered",
+    "_N$fontFamily": "",
     "_N$overflow": 0,
     "_N$cacheMode": 0,
     "_id": "4fA549OaNBC5tGOQpf/HZC"
@@ -6854,8 +6858,8 @@
     "alignMode": 1,
     "_target": null,
     "_alignFlags": 41,
-    "_left": 249.77249999999998,
-    "_right": 269.7725,
+    "_left": 163.67250000000004,
+    "_right": 183.67250000000004,
     "_top": 50,
     "_bottom": 0,
     "_verticalCenter": 0,
@@ -8201,7 +8205,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 243.34,
+      "width": 376.61,
       "height": 75.6
     },
     "_anchorPoint": {
@@ -8254,13 +8258,15 @@
     "_fontSize": 60,
     "_lineHeight": 60,
     "_enableWrapText": true,
-    "_N$file": null,
-    "_isSystemFontUsed": true,
+    "_N$file": {
+      "__uuid__": "dee6b9bf-050c-4f77-b913-3ef193119cd2"
+    },
+    "_isSystemFontUsed": false,
     "_spacingX": 0,
     "_batchAsBitmap": false,
     "_N$horizontalAlign": 1,
     "_N$verticalAlign": 1,
-    "_N$fontFamily": "Brady Bunch Remastered",
+    "_N$fontFamily": "",
     "_N$overflow": 0,
     "_N$cacheMode": 0,
     "_id": "95vJtsjQRE0Kwke3APnMBp"
@@ -9434,8 +9440,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 66.74,
-      "height": 50.4
+      "width": 56.5,
+      "height": 20
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -9445,7 +9451,7 @@
     "_position": {
       "__type__": "cc.Vec3",
       "x": -185,
-      "y": 93.8,
+      "y": 109,
       "z": 0
     },
     "_scale": {
@@ -9487,8 +9493,10 @@
     "_fontSize": 40,
     "_lineHeight": 40,
     "_enableWrapText": true,
-    "_N$file": null,
-    "_isSystemFontUsed": true,
+    "_N$file": {
+      "__uuid__": "a3335c74-f0c4-48d3-8373-6d94baa71639"
+    },
+    "_isSystemFontUsed": false,
     "_spacingX": 0,
     "_batchAsBitmap": false,
     "_N$horizontalAlign": 1,
@@ -9765,7 +9773,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 273.95,
+      "width": 306.56,
       "height": 50.4
     },
     "_anchorPoint": {
@@ -9818,13 +9826,15 @@
     "_fontSize": 40,
     "_lineHeight": 40,
     "_enableWrapText": true,
-    "_N$file": null,
-    "_isSystemFontUsed": true,
+    "_N$file": {
+      "__uuid__": "dee6b9bf-050c-4f77-b913-3ef193119cd2"
+    },
+    "_isSystemFontUsed": false,
     "_spacingX": 0,
     "_batchAsBitmap": false,
     "_N$horizontalAlign": 1,
     "_N$verticalAlign": 1,
-    "_N$fontFamily": "Brady Bunch Remastered",
+    "_N$fontFamily": "",
     "_N$overflow": 0,
     "_N$cacheMode": 0,
     "_id": "74a9n69d1Le4KobR8XteiR"
@@ -9947,7 +9957,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 482.4,
+      "width": 497.56,
       "height": 50.4
     },
     "_anchorPoint": {
@@ -10000,13 +10010,15 @@
     "_fontSize": 40,
     "_lineHeight": 40,
     "_enableWrapText": true,
-    "_N$file": null,
-    "_isSystemFontUsed": true,
+    "_N$file": {
+      "__uuid__": "dee6b9bf-050c-4f77-b913-3ef193119cd2"
+    },
+    "_isSystemFontUsed": false,
     "_spacingX": 0,
     "_batchAsBitmap": false,
     "_N$horizontalAlign": 1,
     "_N$verticalAlign": 1,
-    "_N$fontFamily": "Brady Bunch Remastered",
+    "_N$fontFamily": "",
     "_N$overflow": 0,
     "_N$cacheMode": 0,
     "_id": "80SfQ+QZ5AM4mf2HTbc3QP"
@@ -10104,7 +10116,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 162.57,
+      "width": 196.58,
       "height": 75.6
     },
     "_anchorPoint": {
@@ -10157,13 +10169,15 @@
     "_fontSize": 60,
     "_lineHeight": 60,
     "_enableWrapText": true,
-    "_N$file": null,
-    "_isSystemFontUsed": true,
+    "_N$file": {
+      "__uuid__": "dee6b9bf-050c-4f77-b913-3ef193119cd2"
+    },
+    "_isSystemFontUsed": false,
     "_spacingX": 0,
     "_batchAsBitmap": false,
     "_N$horizontalAlign": 1,
     "_N$verticalAlign": 1,
-    "_N$fontFamily": "Brady Bunch Remastered",
+    "_N$fontFamily": "",
     "_N$overflow": 0,
     "_N$cacheMode": 0,
     "_id": "c5/kpqo5FAoouV3cc2YS2Q"
@@ -12446,13 +12460,15 @@
     "_fontSize": 60,
     "_lineHeight": 60,
     "_enableWrapText": true,
-    "_N$file": null,
-    "_isSystemFontUsed": true,
+    "_N$file": {
+      "__uuid__": "dee6b9bf-050c-4f77-b913-3ef193119cd2"
+    },
+    "_isSystemFontUsed": false,
     "_spacingX": 0,
     "_batchAsBitmap": false,
     "_N$horizontalAlign": 1,
     "_N$verticalAlign": 1,
-    "_N$fontFamily": "Brady Bunch Remastered",
+    "_N$fontFamily": "",
     "_N$overflow": 3,
     "_N$cacheMode": 0,
     "_id": "23j8yrn9pExLxwCmUQFCc3"
@@ -13417,13 +13433,15 @@
     "_fontSize": 60,
     "_lineHeight": 60,
     "_enableWrapText": true,
-    "_N$file": null,
-    "_isSystemFontUsed": true,
+    "_N$file": {
+      "__uuid__": "dee6b9bf-050c-4f77-b913-3ef193119cd2"
+    },
+    "_isSystemFontUsed": false,
     "_spacingX": 0,
     "_batchAsBitmap": false,
     "_N$horizontalAlign": 1,
     "_N$verticalAlign": 1,
-    "_N$fontFamily": "Brady Bunch Remastered",
+    "_N$fontFamily": "",
     "_N$overflow": 3,
     "_N$cacheMode": 0,
     "_id": "66GmfqxXNIr4oATulOwHHQ"
@@ -13809,7 +13827,7 @@
         "__id__": 321
       }
     ],
-    "_active": false,
+    "_active": true,
     "_level": 3,
     "_components": [],
     "_prefab": null,
@@ -13934,8 +13952,10 @@
     "_fontSize": 80,
     "_lineHeight": 80,
     "_enableWrapText": true,
-    "_N$file": null,
-    "_isSystemFontUsed": true,
+    "_N$file": {
+      "__uuid__": "dee6b9bf-050c-4f77-b913-3ef193119cd2"
+    },
+    "_isSystemFontUsed": false,
     "_spacingX": 0,
     "_batchAsBitmap": false,
     "_N$horizontalAlign": 1,
@@ -14058,7 +14078,7 @@
         "__id__": 330
       }
     ],
-    "_active": true,
+    "_active": false,
     "_level": 3,
     "_components": [],
     "_prefab": null,
@@ -14130,7 +14150,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 311.28,
+      "width": 481.61,
       "height": 75.6
     },
     "_anchorPoint": {
@@ -14183,8 +14203,10 @@
     "_fontSize": 60,
     "_lineHeight": 60,
     "_enableWrapText": true,
-    "_N$file": null,
-    "_isSystemFontUsed": true,
+    "_N$file": {
+      "__uuid__": "dee6b9bf-050c-4f77-b913-3ef193119cd2"
+    },
+    "_isSystemFontUsed": false,
     "_spacingX": 0,
     "_batchAsBitmap": false,
     "_N$horizontalAlign": 1,
@@ -14403,7 +14425,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 312.71,
+      "width": 484.92,
       "height": 75.6
     },
     "_anchorPoint": {
@@ -14456,8 +14478,10 @@
     "_fontSize": 60,
     "_lineHeight": 60,
     "_enableWrapText": true,
-    "_N$file": null,
-    "_isSystemFontUsed": true,
+    "_N$file": {
+      "__uuid__": "dee6b9bf-050c-4f77-b913-3ef193119cd2"
+    },
+    "_isSystemFontUsed": false,
     "_spacingX": 0,
     "_batchAsBitmap": false,
     "_N$horizontalAlign": 1,
@@ -14613,8 +14637,10 @@
     "_fontSize": 60,
     "_lineHeight": 60,
     "_enableWrapText": true,
-    "_N$file": null,
-    "_isSystemFontUsed": true,
+    "_N$file": {
+      "__uuid__": "dee6b9bf-050c-4f77-b913-3ef193119cd2"
+    },
+    "_isSystemFontUsed": false,
     "_spacingX": 0,
     "_batchAsBitmap": false,
     "_N$horizontalAlign": 1,
@@ -14879,8 +14905,10 @@
     "_fontSize": 60,
     "_lineHeight": 60,
     "_enableWrapText": true,
-    "_N$file": null,
-    "_isSystemFontUsed": true,
+    "_N$file": {
+      "__uuid__": "dee6b9bf-050c-4f77-b913-3ef193119cd2"
+    },
+    "_isSystemFontUsed": false,
     "_spacingX": 0,
     "_batchAsBitmap": false,
     "_N$horizontalAlign": 1,
@@ -15590,7 +15618,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 220.9,
+      "width": 255,
       "height": 75.6
     },
     "_anchorPoint": {
@@ -15643,8 +15671,10 @@
     "_fontSize": 60,
     "_lineHeight": 60,
     "_enableWrapText": true,
-    "_N$file": null,
-    "_isSystemFontUsed": true,
+    "_N$file": {
+      "__uuid__": "dee6b9bf-050c-4f77-b913-3ef193119cd2"
+    },
+    "_isSystemFontUsed": false,
     "_spacingX": 0,
     "_batchAsBitmap": false,
     "_N$horizontalAlign": 1,
@@ -15804,7 +15834,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 222.28,
+      "width": 264.96,
       "height": 75.6
     },
     "_anchorPoint": {
@@ -15857,8 +15887,10 @@
     "_fontSize": 60,
     "_lineHeight": 60,
     "_enableWrapText": true,
-    "_N$file": null,
-    "_isSystemFontUsed": true,
+    "_N$file": {
+      "__uuid__": "dee6b9bf-050c-4f77-b913-3ef193119cd2"
+    },
+    "_isSystemFontUsed": false,
     "_spacingX": 0,
     "_batchAsBitmap": false,
     "_N$horizontalAlign": 1,
