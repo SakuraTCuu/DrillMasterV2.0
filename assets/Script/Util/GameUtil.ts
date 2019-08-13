@@ -6,31 +6,31 @@ export default class GameUtil {
 
     //获取第一个红包的随机数额
     public static getFirstRedPacket() {
-        let result = GameUtil.getRandomNum(0.5, 1.3);
+        let result = GameUtil.getRandomNum(1, 1.3);
         return result;
     }
 
-
     //随机 一个 红包  计算概率
     public static calcRedPacket(): number {
-        let MaxPlayerMoney = 20;
+        let MaxPlayerMoney = 50;
         let money = GameManager.getInstance().getTrueMoney();
 
         let result: number;
-        if (money >= 19.90) {
+        if (money >= 49.55) {
             result = 0.00;
-        } else if (money < 5) {
-            // Math.random();
-            let rand = GameUtil.getRandomNum(0.3, 1.4);
-            result = ((MaxPlayerMoney - 5) / MaxPlayerMoney) * rand;
-        } else if (money > 18) {
-            result = GameUtil.getRandomNum(0.01, 0.04);
+        } else if (money < 20) {
+            let rand = GameUtil.getRandomNum(1, 1.14);
+            result = ((MaxPlayerMoney - 20) / MaxPlayerMoney) * rand;
+        } else if (money > 35) {
+            result = GameUtil.getRandomNum(0.1, 0.4);
+        } else if (money > 48) {
+            result = GameUtil.getRandomNum(0.05, 0.2);
         } else {
             result = ((MaxPlayerMoney - money) / MaxPlayerMoney) * GameUtil.getRandomNum(0.3, 1.3);
         }
 
         if (result < 0.01) {
-            result = GameUtil.getRandomNum(0.01, 0.05);
+            result = GameUtil.getRandomNum(0.05, 0.15);
         }
 
         result = Number(result.toFixed(2));

@@ -122,6 +122,10 @@ export enum NotifyEnum {
     CLICKREDPACKETCOLLECT, //点击 红包收集按钮
 }
 
+export enum ADTYPE {
+    GOLD = 1,
+    MONEY = 2
+}
 //======================================================
 //升级 
 
@@ -131,7 +135,7 @@ export enum STRING {
     mainContentItemName1 = "STORAGE",
     mainContentItemName2 = "DEPTH",
     mainContentItemName3 = "OFFLINE EARNINGS",
-    setting ="SETTINGS",
+    setting = "SETTINGS",
     collection = "COLLECTION",
     double = "DOUBLE",
     claim = "CLAIM",

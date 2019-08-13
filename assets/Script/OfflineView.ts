@@ -1,5 +1,5 @@
 import GameManager from "./GameManager";
-import { saveName, NotifyEnum } from "./Interface";
+import { saveName, NotifyEnum, ADTYPE } from "./Interface";
 import { T_Item } from "./Data/T_Item";
 import showBoxItem_min_Component from "./ItemComponent/showBoxItem_min_Component";
 import { _Notification_ } from "./_Notification_";
@@ -32,7 +32,6 @@ export default class OfflineView extends cc.Component {
     incomeLab: cc.Label = null;
 
     _income: number = 0;
-
     showScore(score: number, itemList: Array<T_Item> = null) {
         this.scoreNode.active = true;
         this.offlineNode.active = false;
@@ -75,7 +74,24 @@ export default class OfflineView extends cc.Component {
         let total = this._income + Number(current);
         GameManager.getInstance().saveData(saveName.USERCOUNT, total);
         // GameManager.getInstance().saveData(saveName.PRETIME, Date.now());
-        _Notification_.send(NotifyEnum.CLICKCOLLECT, 1);
+        // _Notification_.send(NotifyEnum.CLICKCOLLECT, 1);
+        //退出
+        this.node.active = false;
+    }
+
+    /**
+     * 双倍奖励
+     */
+    onDoubleCollect() {
+        if (cc.sys.os === cc.sys.OS_ANDROID) {
+            GameManager.income = this._income * 2;
+            GameManager.playAdVideo(1);
+        } else {
+            cc.Canvas.instance.node.getComponent(Helloworld).playCollectMoneyAudio();
+            let current = GameManager.getInstance().getUserCount();
+            let total = this._income * 2 + Number(current);
+            GameManager.getInstance().saveData(saveName.USERCOUNT, total);
+        }
         //退出
         this.node.active = false;
     }

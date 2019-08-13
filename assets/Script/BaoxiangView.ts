@@ -27,7 +27,7 @@ export default class BaoxiangView extends cc.Component {
         }
         this._income = income;
         this.incomeLab.string = "$" + this._income;
-        let disMoney = Number(Number(20 - this._income).toFixed(2));
+        let disMoney = Number(Number(50 - this._income).toFixed(2));
         this.desLab.string = "$" + disMoney;
     }
 

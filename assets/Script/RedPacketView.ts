@@ -38,12 +38,7 @@ export default class RedPacketView extends cc.Component {
 
     onClickCollect() {
         cc.log("RedPacketView-->>onClickCollect");
-        //如果是第一次不需要看视频咯
-        let money = Number(GameManager.getInstance().getTrueMoney());
-        money += this._income;
-        money = Number(money.toFixed(2));
-        //保存然后调用
-        GameManager.getInstance().saveData(saveName.TRUEMONEY, money);
+        //播放完广告在发放奖励
         //观看次数+1;
         //观看了下把还弹出来
         GameManager.updateLookNum();
@@ -52,8 +47,17 @@ export default class RedPacketView extends cc.Component {
         } else {
             //红包到账
             //观看视频
-            GameManager.playAdVideo();
+            GameManager.money = this._income;
+            GameManager.playAdVideo(2);
+            this.destroySelf();
+            return;
         }
+        //如果是第一次不需要看视频咯
+        let money = GameManager.getInstance().getTrueMoney();
+        money += this._income;
+        money = Number(money.toFixed(2));
+        //保存然后调用
+        GameManager.getInstance().saveData(saveName.TRUEMONEY, money);
         this.destroySelf();
     }
 

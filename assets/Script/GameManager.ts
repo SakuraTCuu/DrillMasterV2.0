@@ -1,4 +1,4 @@
-import { saveName, NotifyEnum } from "./Interface";
+import { saveName, NotifyEnum, ADTYPE } from "./Interface";
 import { _Notification_ } from "./_Notification_";
 import AudioManager from "./AudioManager";
 import { T_OutLine_Table } from "./Data/T_OutLine";
@@ -18,6 +18,11 @@ export default class GameManager {
     public static refuseNum: number = 0;//连续拒绝次数
     public static otehrNum: number = 0; //红包还要等几局才可以产生
     public static todayLookNum: number = 0; //今日观看次数
+
+    //播放视频后的奖励
+    public static income: number = 0;
+    public static money: number = 0;
+    public static ADType: ADTYPE = ADTYPE.GOLD;
 
     /** 是否是渠道推广的用户 */
     /**
@@ -46,13 +51,13 @@ export default class GameManager {
     public static getInstance(): GameManager {
         if (!this.instance) {
             cc.log('instance');
-            cc.error("只能生成一个啊啊啊啊!!");
             this.instance = new GameManager();
             this.instance.init();
+            this.addExitEvent();
             this.instance.getStateFromJava();
             this.audioManger = new AudioManager();
 
-            window['playVideoSuccess'] = this.playVideoSuccess.bind(this);
+            cc['playVideoSuccess'] = this.playVideoSuccess.bind(this);
         }
         return this.instance;
     }
@@ -66,9 +71,20 @@ export default class GameManager {
         }
     }
 
+
     /** 视频播放成功 发放双倍奖励 */
-    static playVideoSuccess() {
-        cc.log("双倍奖励");
+    public static playVideoSuccess() {
+        if (this.ADType == ADTYPE.GOLD) {
+            let total = this.income + Number(this.instance._userCount);
+            this.instance.saveData(saveName.USERCOUNT, total);
+            cc.log("发放双倍金币奖励-->>", this.income);
+        } else {
+            let money = this.instance._trueMoney;
+            money += this.money;
+            money = Number(money.toFixed(2));
+            this.instance.saveData(saveName.TRUEMONEY, money);
+            cc.log("发放双倍金钱奖励-->>", this.money);
+        }
     }
 
     getStateFromJava() {
@@ -100,7 +116,12 @@ export default class GameManager {
     }
 
     //调用广告播放
-    public static playAdVideo() {
+    public static playAdVideo(type: number) {
+        if (type == ADTYPE.GOLD) {
+            GameManager.ADType = ADTYPE.GOLD;
+        } else {
+            GameManager.ADType = ADTYPE.MONEY;
+        }
         if (cc.sys.os === cc.sys.OS_ANDROID) {
             jsb.reflection.callStaticMethod("org/cocos2dx/javascript/AppActivity", "showReward", "()V");
             if (CC_DEBUG) {

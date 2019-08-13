@@ -178,7 +178,6 @@ export default class Helloworld extends cc.Component {
         this.initGame();
         this.initAudio();
         this.initGameGudie();
-
         //注册监听
         _Notification_.subscrib(NotifyEnum.CLICK_START, this.onClickStart, this);
         _Notification_.subscrib(NotifyEnum.UPDATEMONEY, this.updateMoneyLab, this);
@@ -304,8 +303,6 @@ export default class Helloworld extends cc.Component {
         } else {
             this.offLineUI.active = false;
         }
-        //Android 退出监听
-        GameManager.addExitEvent();
     }
 
     //初始化音效
@@ -1193,7 +1190,7 @@ export default class Helloworld extends cc.Component {
             let newItemList = GameUtil.deleteWeight(itemArr);
             let newGoldItemList = GameUtil.deleteWeight(goldItemArr);
 
-            // cc.log("本次收集金币数-->>", count);
+            cc.log("本次收集金币数-->>", count);
             // cc.log("本次收获新道具-->>", newItemList);
             // cc.log("本次收获新金色道具-->>", newGoldItemList);
             // cc.log("本次收获红包道具-->>", this.redPacketNodeList);

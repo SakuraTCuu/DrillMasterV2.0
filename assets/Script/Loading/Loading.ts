@@ -22,7 +22,7 @@ export default class Loading extends cc.Component {
         GameManager.getInstance();
         LoadUtils.init();
         this.LoadLab.string = "loading...";
-        
+        cc['startGame'] = this.startGame.bind(this);
         //开始加载资源
         //加载图集资源
         //加载图片
@@ -31,6 +31,13 @@ export default class Loading extends cc.Component {
         // LoadUtils.loadResDir("item", () => {
         //     cc.log("图集资源加载完成")
         // });
+
+        //开始预加载场景资源
+        cc.director.preloadScene("helloworld", () => {
+            cc.log("加载场景完成");
+        });
+
+        //加载图集资源
         cc.loader.loadRes("item/item", cc.SpriteAtlas, (err, sa) => {
             LoadUtils.itemSpriteAtlas = sa;
             cc.log("图集资源加载完成");
@@ -58,15 +65,20 @@ export default class Loading extends cc.Component {
                 LoadUtils.itemPool.put(item);
             }
             cc.log(LoadUtils.itemPool);
-            self.loadScene();
+            if (cc.sys.os !== cc.sys.OS_ANDROID) { //Android 平台需要初始化后才会开始游戏
+                self.loadScene();
+            }
         })
     }
 
     loadScene() {
-        cc.director.preloadScene("helloworld", () => {
-            cc.director.loadScene("helloworld", () => {
-                cc.log("加载场景完成");
-            })
-        });
+        cc.director.loadScene("helloworld", () => {
+            cc.log("开始切换场景");
+        })
+    }
+
+    /**开始游戏 */
+    startGame() {
+        this.loadScene();
     }
 }
