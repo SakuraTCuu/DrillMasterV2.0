@@ -35,6 +35,26 @@ export default class Setting extends cc.Component {
         //TODO
     }
 
+    //服务条件
+    onClickTermsOfService() {
+        //点击 服务条件
+        if (cc.sys.os === cc.sys.OS_ANDROID) {
+            jsb.reflection.callStaticMethod("org/cocos2dx/javascript/AppActivity", "showService", "()V");
+        } else {
+            cc.log("only Android");
+        }
+    }
+
+    //隐私政策
+    onClickPrivacyPolicy() {
+        //点击服务条件
+        if (cc.sys.os === cc.sys.OS_ANDROID) {
+            jsb.reflection.callStaticMethod("org/cocos2dx/javascript/AppActivity", "showPrivacyPolicy", "()V");
+        } else {
+            cc.log("only Android");
+        }
+    }
+
     onClickPlay() {
         this._currentState = !this._currentState;
         GameManager.audioManger.setBGMVolume(this._currentState ? 0.5 : 0);

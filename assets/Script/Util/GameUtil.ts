@@ -19,14 +19,16 @@ export default class GameUtil {
         if (money >= 49.55) {
             result = 0.00;
         } else if (money < 20) {
-            let rand = GameUtil.getRandomNum(1, 1.14);
-            result = ((MaxPlayerMoney - 20) / MaxPlayerMoney) * rand;
-        } else if (money > 35) {
+            if (GameUtil.getRandomNum(1, 4) % 3 == 0) {
+                result = GameUtil.getRandomNum(0.6, 1);
+            } else {
+                result = GameUtil.getRandomNum(1, 2.8);
+            }
+        }else if (money > 47) {
             result = GameUtil.getRandomNum(0.1, 0.4);
-        } else if (money > 48) {
-            result = GameUtil.getRandomNum(0.05, 0.2);
+            // result = GameUtil.getRandomNum(result, 2);
         } else {
-            result = ((MaxPlayerMoney - money) / MaxPlayerMoney) * GameUtil.getRandomNum(0.3, 1.3);
+            result = ((MaxPlayerMoney - money) / MaxPlayerMoney) * GameUtil.getRandomNum(1, 1.5);
         }
 
         if (result < 0.01) {

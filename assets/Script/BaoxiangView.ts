@@ -7,6 +7,9 @@ const { ccclass, property } = cc._decorator;
 @ccclass
 export default class BaoxiangView extends cc.Component {
 
+    @property(cc.Button)
+    moneyBtn: cc.Button = null;
+
     @property(cc.Label)
     incomeLab: cc.Label = null;
 
@@ -25,6 +28,7 @@ export default class BaoxiangView extends cc.Component {
         } else {
             this.GuideMask.active = false;
         }
+        this.initBtnState();
         this._income = income;
         this.incomeLab.string = "$" + this._income;
         let disMoney = Number(Number(50 - this._income).toFixed(2));
@@ -47,6 +51,16 @@ export default class BaoxiangView extends cc.Component {
         let total = this._income + Number(current);
         GameManager.getInstance().saveData(saveName.USERCOUNT, total);
         this.node.active = false;
+    }
+
+    initBtnState() {
+        let money = GameManager.getInstance().getTrueMoney();
+        if (money < 50) {
+            //button置灰
+            this.moneyBtn.interactable = false;
+        } else {
+            this.moneyBtn.interactable = true;
+        }
     }
 
     onClickDouble() {

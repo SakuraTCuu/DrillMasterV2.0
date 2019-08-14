@@ -34,6 +34,9 @@ export default class RedPacketView extends cc.Component {
         //随机展示一个金币
         this._income = GameUtil.calcRedPacket();
         this.incomeLab.string = "$" + this._income;
+
+        //展示btn动画
+        this.showCollectAnim();
     }
 
     onClickCollect() {
@@ -49,7 +52,7 @@ export default class RedPacketView extends cc.Component {
             //观看视频
             GameManager.money = this._income;
             GameManager.playAdVideo(2);
-            this.destroySelf();
+            // this.destroySelf();
             return;
         }
         //如果是第一次不需要看视频咯
@@ -72,5 +75,20 @@ export default class RedPacketView extends cc.Component {
         this.node.active = false;
         // this.node.removeFromParent();
         // this.node.destroy();
+    }
+
+    //先展示双倍按钮,在展示获取按钮
+    showCollectAnim() {
+        this.collectBtn.active = true;
+        this.noThanksBtn.active = false;
+
+        let scaleAct1 = cc.scaleTo(0.5, 1.2);
+        let scaleAct2 = cc.scaleTo(0.5, 0.8);
+        let scaleAct3 = cc.scaleTo(0.5, 1.1);
+        let scaleAct4 = cc.scaleTo(0.5, 1.0);
+        let seqAct = cc.sequence(scaleAct1, scaleAct2, scaleAct3, scaleAct4, cc.callFunc(() => {
+            this.noThanksBtn.active = true;
+        }));
+        this.collectBtn.runAction(seqAct);
     }
 }

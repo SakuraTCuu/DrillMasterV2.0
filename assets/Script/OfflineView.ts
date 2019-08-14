@@ -31,12 +31,25 @@ export default class OfflineView extends cc.Component {
     @property(cc.Label)
     incomeLab: cc.Label = null;
 
+    //n倍
+    @property(cc.Label)
+    timesLab: cc.Label = null;
+
+    @property(cc.Button)
+    collectBtn: cc.Button = null;
+
+    @property(cc.Button)
+    doubleBtn: cc.Button = null;
+
+    _times: number = 0;
     _income: number = 0;
     showScore(score: number, itemList: Array<T_Item> = null) {
         this.scoreNode.active = true;
         this.offlineNode.active = false;
         this._income = score;
         this.scoreLab.string = "$" + score;
+        this.showDoubleAnim();
+        this.setTimesLab();
 
         if (itemList && itemList.length > 0) {
             this.showNewItemContetn.removeAllChildren();
@@ -59,6 +72,7 @@ export default class OfflineView extends cc.Component {
     }
 
     showOffline() {
+        this.setTimesLab();
         cc.log("离线收益-->>", this._income);
         this.scoreNode.active = false;
         this.offlineNode.active = true;
@@ -80,19 +94,54 @@ export default class OfflineView extends cc.Component {
     }
 
     /**
-     * 双倍奖励
+     * 双倍奖励   多倍奖励
      */
     onDoubleCollect() {
         if (cc.sys.os === cc.sys.OS_ANDROID) {
-            GameManager.income = this._income * 2;
+            GameManager.income = this._income * this._times;
             GameManager.playAdVideo(1);
         } else {
             cc.Canvas.instance.node.getComponent(Helloworld).playCollectMoneyAudio();
             let current = GameManager.getInstance().getUserCount();
-            let total = this._income * 2 + Number(current);
+            let total = this._income * this._times + Number(current);
             GameManager.getInstance().saveData(saveName.USERCOUNT, total);
+            //退出
+            this.node.active = false;
         }
-        //退出
-        this.node.active = false;
+
+    }
+
+    //先展示双倍按钮,在展示获取按钮
+    showDoubleAnim() {
+        this.collectBtn.node.active = false;
+        this.doubleBtn.node.active = true;
+
+        let scaleAct1 = cc.scaleTo(0.5, 1.5);
+        let scaleAct2 = cc.scaleTo(0.5, 1.0);
+        let scaleAct3 = cc.scaleTo(0.5, 1.4);
+        let scaleAct4 = cc.scaleTo(0.5, 1.3);
+        let seqAct = cc.sequence(scaleAct1, scaleAct2, scaleAct3, scaleAct4, cc.callFunc(() => {
+            this.collectBtn.node.active = true;
+        }));
+        this.doubleBtn.node.runAction(seqAct);
+    }
+
+    //设置n倍按钮
+    setTimesLab() {
+        // 1/5的几率获得n倍
+        let times = 2;
+        let rand = Math.random();
+        if (rand <= 0.2) {  //随机一个倍数
+            let rand2 = Math.random()
+            if (rand2 <= 0.5) {
+                times = 3;
+            } else {
+                times = 4;
+            }
+        } else {
+            times = 2;
+        }
+        this._times = times;
+        this.timesLab.string = "COLLECT x" + this._times;
     }
 }

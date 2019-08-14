@@ -1,4 +1,4 @@
-import { mainContentItemState, mainContenItemData, saveName, NotifyEnum, STRING } from "../Interface";
+import { mainContentItemState, mainContenItemData, saveName, NotifyEnum, STRING, noMoneyInterface } from "../Interface";
 import GameManager from "../GameManager";
 import { T_Warehouse_Table } from "../Data/T_Warehouse";
 import { T_Depth_Table } from "../Data/T_Depth";
@@ -154,6 +154,8 @@ export default class mainContentItem_Component extends cc.Component {
             //当前要解锁的
             let warehouseVo = T_Warehouse_Table.getVoByKey(warehouse);
             if (userCount < warehouseVo.expend) {
+                cc.log("钱不够", this._state);
+                _Notification_.send(NotifyEnum.UPGRADENOMONEY);
                 //不理会
             } else {
                 let currentCount = userCount - warehouseVo.expend;
@@ -190,6 +192,8 @@ export default class mainContentItem_Component extends cc.Component {
             }
             let depthVo = T_Depth_Table.getVoByKey(depth);
             if (userCount < depthVo.expend) {
+                cc.log("钱不够", this._state);
+                _Notification_.send(NotifyEnum.UPGRADENOMONEY);
                 //不理会
             } else {
                 //解锁
@@ -229,6 +233,8 @@ export default class mainContentItem_Component extends cc.Component {
             }
             let outlineVo = T_OutLine_Table.getVoByKey(outline);
             if (userCount < outlineVo.expend) {
+                cc.log("钱不够", this._state);
+                _Notification_.send(NotifyEnum.UPGRADENOMONEY);
                 //不理会
             } else {
                 let currentCount = userCount - outlineVo.expend;

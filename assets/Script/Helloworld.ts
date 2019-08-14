@@ -16,6 +16,7 @@ import GameUtil from "./Util/GameUtil";
 import BaoxiangView from "./BaoxiangView";
 import RedPacketView from "./RedPacketView";
 import LoadUtils from "./Util/LoadUtils";
+import ExChange from "./ExChange";
 
 const { ccclass, property } = cc._decorator;
 
@@ -96,6 +97,9 @@ export default class Helloworld extends cc.Component {
 
     @property(cc.Node)  //宝箱按钮
     baoxiangBtn: cc.Node = null;
+
+    @property(cc.Node)  //兑换界面
+    exChangeView: cc.Node = null;
 
     //下降速度
     @property(Number)
@@ -186,6 +190,7 @@ export default class Helloworld extends cc.Component {
         _Notification_.subscrib(NotifyEnum.GETITEMBYDRILL, this.getItemByDrill, this);
         _Notification_.subscrib(NotifyEnum.CLICKCOLLECT, this.clickCollect, this);
         _Notification_.subscrib(NotifyEnum.HIDEGAMEGUIDE, this.hideGameGuide, this);
+        _Notification_.subscrib(NotifyEnum.UPGRADENOMONEY, this.showExChange, this);
     }
 
     onDestroy() {
@@ -451,6 +456,13 @@ export default class Helloworld extends cc.Component {
         self.updateHUDView(self._itemNumber, warhouseVo.count);
     }
 
+    /** 展示 兑换金币界面 */
+    showExChange(obj: any, target: any) {
+        let self = target as Helloworld;
+        self.exChangeView.active = true;
+        self.exChangeView.getComponent(ExChange).showExChangeView();
+    }
+
     //引导用户点击宝箱
     showGuideBaoXiang() {
         // cc.log("???");
@@ -697,6 +709,11 @@ export default class Helloworld extends cc.Component {
         // this.node.addChild(redItem);
         this.redPakcetUI.active = true;
         this.redPakcetUI.getComponent(RedPacketView).showView();
+    }
+
+    hideRedPacket(cb: Function = null) {
+        this.redPakcetUI.active = false;
+        // this.redPakcetUI.getComponent(RedPacketView).showView();
     }
 
     showMainView() {
@@ -1115,8 +1132,8 @@ export default class Helloworld extends cc.Component {
             posArr.push(midPos);
             posArr.push(targetPos);
             //开始抛物线动画
-            let bezierAct = cc.bezierBy(3, posArr);
-            let scaleAct = cc.scaleTo(3, 0.6);
+            let bezierAct = cc.bezierBy(2, posArr);//.easing(cc.easeIn(3.0));
+            let scaleAct = cc.scaleTo(2, 0.6);
             let seqAct = cc.sequence(cc.spawn(bezierAct, scaleAct), cc.callFunc(() => {
                 item.getComponent(propItem_Component).hideMK();
                 item.stopAllActions();

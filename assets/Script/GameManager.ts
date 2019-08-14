@@ -78,12 +78,16 @@ export default class GameManager {
             let total = this.income + Number(this.instance._userCount);
             this.instance.saveData(saveName.USERCOUNT, total);
             cc.log("发放双倍金币奖励-->>", this.income);
+            //隐藏 分数面板
+            cc.Canvas.instance.node.getComponent(Helloworld).hideScoreView();
         } else {
             let money = this.instance._trueMoney;
             money += this.money;
             money = Number(money.toFixed(2));
             this.instance.saveData(saveName.TRUEMONEY, money);
-            cc.log("发放双倍金钱奖励-->>", this.money);
+            cc.log("发放金钱奖励-->>", this.money);
+            cc.Canvas.instance.node.getComponent(Helloworld).hideRedPacket();
+            //隐藏 真钱面板
         }
     }
 
@@ -129,6 +133,7 @@ export default class GameManager {
             }
         } else {
             cc.log("only Android");
+            this.playVideoSuccess();
         }
     }
 

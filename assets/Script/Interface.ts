@@ -90,6 +90,11 @@ export interface mainContenItemData {
     expend: number;
 }
 
+// export interface noMoneyInterface {
+//     id: number,
+//     level: number,
+// }
+
 export enum saveName {
     TRUEMONEY = "trueMoney",
     USERCOUNT = "userCount",
@@ -120,6 +125,7 @@ export enum NotifyEnum {
     UNLOCKBYITEM, //g根据解锁的道具来解锁钻头
     HIDEGAMEGUIDE, //隐藏引导节点
     CLICKREDPACKETCOLLECT, //点击 红包收集按钮
+    UPGRADENOMONEY,//升级没有钱啊
 }
 
 export enum ADTYPE {
