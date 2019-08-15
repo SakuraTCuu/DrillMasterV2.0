@@ -29,7 +29,7 @@
     "portrait": true,
     "upsideDown": false
   },
-  "packageName": "org.cocos2d.DrillMaster",
+  "packageName": "com.digger.miner",
   "qqplay": {
     "REMOTE_SERVER_ROOT": "",
     "orientation": "portrait"

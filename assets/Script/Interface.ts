@@ -90,10 +90,23 @@ export interface mainContenItemData {
     expend: number;
 }
 
-// export interface noMoneyInterface {
-//     id: number,
-//     level: number,
-// }
+export interface noMoneyInterface {
+    id: number,
+    level: number,
+}
+
+export enum openUrlType{
+    
+}
+export enum Statistics {
+    UPGRADE_STORAGE = "upgrade_storage",
+    UPGRADE_DEPTH = "upgrade_depth",
+    UPGRADE_OFFLINE = "upgrade_offline",
+    LUCK_WALLET = "luck_wallet",
+    AD_CLICK = "ad_click",
+    USE_DOLLER = "use_doller",
+    GAME_START = "game_start",
+}
 
 export enum saveName {
     TRUEMONEY = "trueMoney",
@@ -126,6 +139,7 @@ export enum NotifyEnum {
     HIDEGAMEGUIDE, //隐藏引导节点
     CLICKREDPACKETCOLLECT, //点击 红包收集按钮
     UPGRADENOMONEY,//升级没有钱啊
+    GUIDEOVER, //新手引导结束, 弹出引导评论框
 }
 
 export enum ADTYPE {

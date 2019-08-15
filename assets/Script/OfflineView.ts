@@ -1,5 +1,5 @@
 import GameManager from "./GameManager";
-import { saveName, NotifyEnum, ADTYPE } from "./Interface";
+import { saveName, NotifyEnum, ADTYPE, Statistics } from "./Interface";
 import { T_Item } from "./Data/T_Item";
 import showBoxItem_min_Component from "./ItemComponent/showBoxItem_min_Component";
 import { _Notification_ } from "./_Notification_";
@@ -100,6 +100,7 @@ export default class OfflineView extends cc.Component {
         if (cc.sys.os === cc.sys.OS_ANDROID) {
             GameManager.income = this._income * this._times;
             GameManager.playAdVideo(1);
+            GameManager.Statistics(Statistics.AD_CLICK);
         } else {
             cc.Canvas.instance.node.getComponent(Helloworld).playCollectMoneyAudio();
             let current = GameManager.getInstance().getUserCount();
@@ -108,7 +109,6 @@ export default class OfflineView extends cc.Component {
             //退出
             this.node.active = false;
         }
-
     }
 
     //先展示双倍按钮,在展示获取按钮

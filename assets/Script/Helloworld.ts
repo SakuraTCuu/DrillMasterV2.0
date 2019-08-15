@@ -1,4 +1,4 @@
-import { moveState, NotifyEnum, mainContenItemData, collectItemData, saveName, mainContentItemState, STRING } from "./Interface";
+import { moveState, NotifyEnum, mainContenItemData, collectItemData, saveName, mainContentItemState, STRING, Statistics } from "./Interface";
 import { _Notification_ } from "./_Notification_";
 import GameManager from "./GameManager";
 import { T_OutLine_Table, T_OutLine } from "./Data/T_OutLine";
@@ -101,6 +101,9 @@ export default class Helloworld extends cc.Component {
     @property(cc.Node)  //兑换界面
     exChangeView: cc.Node = null;
 
+    @property(cc.Node)  //新手引导完成界面
+    guideOverView: cc.Node = null;
+    
     //下降速度
     @property(Number)
     downSpeed: number = 350;
@@ -191,6 +194,7 @@ export default class Helloworld extends cc.Component {
         _Notification_.subscrib(NotifyEnum.CLICKCOLLECT, this.clickCollect, this);
         _Notification_.subscrib(NotifyEnum.HIDEGAMEGUIDE, this.hideGameGuide, this);
         _Notification_.subscrib(NotifyEnum.UPGRADENOMONEY, this.showExChange, this);
+        _Notification_.subscrib(NotifyEnum.GUIDEOVER, this.showGudieOver, this);
     }
 
     onDestroy() {
@@ -340,7 +344,16 @@ export default class Helloworld extends cc.Component {
     //==============================================监听方法====================================================
     updateMainUI(obj: any, target: any) {
         let self = target as Helloworld;
+        let id = Number(obj);
         self.initData();
+
+        if (id == 1) {
+            GameManager.Statistics(Statistics.UPGRADE_STORAGE);
+        } else if (id == 2) {
+            GameManager.Statistics(Statistics.UPGRADE_DEPTH);
+        } else if (id == 3) {
+            GameManager.Statistics(Statistics.UPGRADE_OFFLINE);
+        }
 
         //不要这样刷新
         //获取他们的引用自己刷新
@@ -454,6 +467,13 @@ export default class Helloworld extends cc.Component {
             }, 0.1);
         }
         self.updateHUDView(self._itemNumber, warhouseVo.count);
+    }
+
+    /** 展示引导评论对话框 */
+    showGudieOver(obj: any, target: any) {
+        let self = target as Helloworld;
+        self.guideOverView.active = true;
+        // self.guideOverView.getComponent(ExChange).showExChangeView();
     }
 
     /** 展示 兑换金币界面 */
@@ -835,6 +855,9 @@ export default class Helloworld extends cc.Component {
     //开始游戏
     onClickStart(obj: any, target: any) {
         let self = target as Helloworld;
+        //统计
+        GameManager.Statistics(Statistics.GAME_START);
+
         self.hideMainView();
         //新手引导
         cc.log("下沉深度--->>", self._currentDepth);
@@ -1060,6 +1083,7 @@ export default class Helloworld extends cc.Component {
         //计算是否产生 宝箱
         if (this._gameManager.getIsChannel() && this.getIsCreateRedPacket()) {
             cc.log("生成宝箱--");
+            GameManager.Statistics(Statistics.LUCK_WALLET);
             if (this._gameManager.getGameGuide() === 0) { //第一次很容易勾到
                 this.createRedPacketNode(true);
             } else {
@@ -1114,7 +1138,7 @@ export default class Helloworld extends cc.Component {
             item.active = true;
             item.position = newPos;
             item.scale = 1;
-            let x = Math.random() * 200;
+            let x = Math.random() * 320;
             let y = GameUtil.getRandomNum(500, 1000);
 
             let posArr = new Array<cc.Vec2>();

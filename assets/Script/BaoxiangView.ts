@@ -1,6 +1,7 @@
 import Helloworld from "./Helloworld";
 import GameManager from "./GameManager";
-import { saveName } from "./Interface";
+import { saveName, NotifyEnum } from "./Interface";
+import { _Notification_ } from "./_Notification_";
 
 const { ccclass, property } = cc._decorator;
 
@@ -21,6 +22,8 @@ export default class BaoxiangView extends cc.Component {
 
     _income: number = 0;
 
+    _isGuide: boolean = false;
+
     showView(income: number, isGuide: boolean = false) {
         if (isGuide) {
             //展示
@@ -28,7 +31,9 @@ export default class BaoxiangView extends cc.Component {
         } else {
             this.GuideMask.active = false;
         }
+        this._isGuide = isGuide;
         this.initBtnState();
+        income = Number(income.toFixed(2));
         this._income = income;
         this.incomeLab.string = "$" + this._income;
         let disMoney = Number(Number(50 - this._income).toFixed(2));
@@ -36,6 +41,10 @@ export default class BaoxiangView extends cc.Component {
     }
 
     onClickClose() {
+        if (this._isGuide) {
+            //发送消息,弹出引导评论框
+            _Notification_.send(NotifyEnum.GUIDEOVER);
+        }
         //关闭当前界面
         this.node.active = false;
         cc.Canvas.instance.node.getComponent(Helloworld).clickCloseAudio();

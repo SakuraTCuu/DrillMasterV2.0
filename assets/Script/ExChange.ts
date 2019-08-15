@@ -1,6 +1,6 @@
 import GameManager from "./GameManager";
 import { T_OutLine_Table } from "./Data/T_OutLine";
-import { saveName } from "./Interface";
+import { saveName, Statistics } from "./Interface";
 
 const { ccclass, property } = cc._decorator;
 
@@ -24,7 +24,6 @@ export default class ExChange extends cc.Component {
             this.exchangeBtn.interactable = false;
         }
     }
-
 
     /** 当金币不够时 可以用1美金来兑换金币 */
     showExChangeView() {
@@ -60,9 +59,11 @@ export default class ExChange extends cc.Component {
             money += current;
             gm.saveData(saveName.USERCOUNT, money);
             dollar -= 1;
+            dollar = Number(dollar.toFixed(2));
             gm.saveData(saveName.TRUEMONEY, dollar);
+            GameManager.Statistics(Statistics.USE_DOLLER);
         } else {
-             cc.log("美金不够.不予兑换");
+            cc.log("美金不够.不予兑换");
         }
         this.node.active = false;
     }

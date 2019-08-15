@@ -1,4 +1,4 @@
-import { saveName, NotifyEnum, ADTYPE } from "./Interface";
+import { saveName, NotifyEnum, ADTYPE, Statistics } from "./Interface";
 import { _Notification_ } from "./_Notification_";
 import AudioManager from "./AudioManager";
 import { T_OutLine_Table } from "./Data/T_OutLine";
@@ -71,6 +71,14 @@ export default class GameManager {
         }
     }
 
+    /** 调用Android 统计 */
+    public static Statistics(str: Statistics) {
+        if (cc.sys.os === cc.sys.OS_ANDROID) {
+            jsb.reflection.callStaticMethod("org/cocos2dx/javascript/AppActivity", "Statistics", "(Ljava/lang/String;)V", str);
+        } else {
+            // cc.log("only Android");
+        }
+    }
 
     /** 视频播放成功 发放双倍奖励 */
     public static playVideoSuccess() {
