@@ -103,7 +103,7 @@ export default class Helloworld extends cc.Component {
 
     @property(cc.Node)  //新手引导完成界面
     guideOverView: cc.Node = null;
-    
+
     //下降速度
     @property(Number)
     downSpeed: number = 350;
@@ -479,8 +479,13 @@ export default class Helloworld extends cc.Component {
     /** 展示 兑换金币界面 */
     showExChange(obj: any, target: any) {
         let self = target as Helloworld;
-        self.exChangeView.active = true;
-        self.exChangeView.getComponent(ExChange).showExChangeView();
+        //判断美金够1美元吗
+        if (self._gameManager.getTrueMoney() >= 1 && self._gameManager.getIsChannel()) {
+            self.exChangeView.active = true;
+            self.exChangeView.getComponent(ExChange).showExChangeView();
+        } else {
+            cc.log("美金不足");
+        }
     }
 
     //引导用户点击宝箱

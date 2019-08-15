@@ -44,7 +44,8 @@ export default class ExChange extends cc.Component {
             expend = warehouseVo.expend;
         }
         expend *= 1.8;
-        expend = Math.ceil(expend / 1000);
+        expend = expend / 1000;
+        expend = Number(expend.toFixed(2));
         this._expend = expend;
         this.expendLab.string = expend + "K";
     }

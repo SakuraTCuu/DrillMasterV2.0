@@ -28,6 +28,12 @@ export default class OfflineView extends cc.Component {
     @property(cc.Label)
     scoreLab: cc.Label = null;
 
+    @property(cc.Node)
+    topNode: cc.Node = null;
+
+    @property(cc.Node)
+    scoreContent: cc.Node = null;
+
     @property(cc.Label)
     incomeLab: cc.Label = null;
 
@@ -41,8 +47,17 @@ export default class OfflineView extends cc.Component {
     @property(cc.Button)
     doubleBtn: cc.Button = null;
 
+    _topPos: cc.Vec2 = null;
+    _contentPos: cc.Vec2 = null;
     _times: number = 0;
     _income: number = 0;
+
+
+    onLoad() {
+        this._topPos = this.topNode.position;
+        this._contentPos = this.scoreContent.position;
+    }
+
     showScore(score: number, itemList: Array<T_Item> = null) {
         this.scoreNode.active = true;
         this.offlineNode.active = false;
@@ -53,8 +68,14 @@ export default class OfflineView extends cc.Component {
 
         if (itemList && itemList.length > 0) {
             this.showNewItemContetn.removeAllChildren();
-            this.showNewItemContetn.active = true;
-            this.newItemNode.active = true;
+            this.topNode.active = true;
+            if (this._topPos) {
+                this.topNode.position = this._topPos;
+            }
+            if (this._contentPos) {
+                this.scoreContent.position = this._contentPos;
+            }
+
             let len = itemList.length;
             if (len >= 4) {
                 len = 4;
@@ -66,8 +87,9 @@ export default class OfflineView extends cc.Component {
                 this.showNewItemContetn.addChild(item);
             }
         } else {
-            this.showNewItemContetn.active = false;
-            this.newItemNode.active = false;
+            this.topNode.active = false;
+            let posY = (this.topNode.y - this.scoreContent.y) / 2;
+            this.scoreContent.y += posY;
         }
     }
 
