@@ -47,6 +47,9 @@ export default class Helloworld extends cc.Component {
     @property(cc.Node) //结束后弹出红包界面
     redPakcetUI: cc.Node = null;
 
+    @property(cc.Node) //新手引导第一步
+    guide1startGame: cc.Node = null;
+
     @property(cc.Label)
     moneyLab: cc.Label = null;
 
@@ -336,6 +339,8 @@ export default class Helloworld extends cc.Component {
     initGameGudie() {
         let id = this._gameManager.getGameGuide();
         if (id === 0) {
+            //弹出引导点击开始游戏
+            this.guide1startGame.active = true;
             return;
         }
         this.showGameGuide(id + 1);
@@ -472,7 +477,8 @@ export default class Helloworld extends cc.Component {
     /** 展示引导评论对话框 */
     showGudieOver(obj: any, target: any) {
         let self = target as Helloworld;
-        self.guideOverView.active = true;
+        // self.guideOverView.active = true;
+        self.showGameGuide(7);
         // self.guideOverView.getComponent(ExChange).showExChangeView();
     }
 
@@ -676,6 +682,9 @@ export default class Helloworld extends cc.Component {
             case 5:
                 this.showGuideBaoXiang();
                 break;
+            case 7:
+                this.guideOverView.active = true;
+                break;
         }
         this._gameManager.saveData(saveName.GAMEGUIDE, id);
     }
@@ -692,6 +701,7 @@ export default class Helloworld extends cc.Component {
             //新手引导
             // let income = GameUtil.getFirstRedPacket();
             this.baoXiangView.getComponent(BaoxiangView).showView(trueMoney, true);
+            this.showGameGuide(6);
         } else {
             this.baoXiangView.getComponent(BaoxiangView).showView(trueMoney, false);
         }
@@ -853,7 +863,10 @@ export default class Helloworld extends cc.Component {
     }
 
     //点击开始游戏按钮
-    onClickStartLab() {
+    onClickStartLab(event, data) {
+        if (data == "guide") {
+            this.guide1startGame.active = false;
+        }
         this.onClickStart(null, this);
     }
 
