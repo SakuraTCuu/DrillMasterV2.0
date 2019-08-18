@@ -21,7 +21,7 @@ export default class Loading extends cc.Component {
         //初始化管理类
         GameManager.getInstance();
         LoadUtils.init();
-        this.LoadLab.string = "loading...";
+        // this.LoadLab.string = "loading...";
         cc['startGame'] = this.startGame.bind(this);
         //开始加载资源
         //加载图集资源

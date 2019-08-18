@@ -54,7 +54,7 @@ export default class GameManager {
             this.instance = new GameManager();
             this.instance.init();
             this.addExitEvent();
-            this.instance.getStateFromJava();
+            // this.instance.getStateFromJava();
             this.audioManger = new AudioManager();
 
             cc['playVideoSuccess'] = this.playVideoSuccess.bind(this);

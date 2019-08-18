@@ -180,6 +180,7 @@ export default class Helloworld extends cc.Component {
     _isMove: boolean = false;
     onLoad() {
         this._gameManager = GameManager.getInstance();
+        this._gameManager.getStateFromJava();
     }
 
     start() {
