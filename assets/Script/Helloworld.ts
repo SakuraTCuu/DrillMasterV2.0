@@ -673,11 +673,11 @@ export default class Helloworld extends cc.Component {
                 break;
             case 3:
                 //显示 升级容量
-                this.shouGuideUpgradeWare();
+                // this.shouGuideUpgradeWare();
                 break;
             case 4:
                 //显示来升级吧
-                this.showGuideUpgradeOther();
+                // this.showGuideUpgradeOther();
                 cc.log("新手引导完成");
                 break;
             case 5:
@@ -1098,18 +1098,20 @@ export default class Helloworld extends cc.Component {
             }
         }
 
+        if (this._gameManager.getGameGuide() === 0 && this._gameManager.getIsChannel()) {
+            GameManager.Statistics(Statistics.LUCK_WALLET);
+            this.createRedPacketNode(true);
+            return;
+        }
+        // cc.log("test");
+
         //是否是渠道用户
         //计算是否产生 宝箱
         if (this._gameManager.getIsChannel() && this.getIsCreateRedPacket()) {
             cc.log("生成宝箱--");
-            GameManager.Statistics(Statistics.LUCK_WALLET);
-            if (this._gameManager.getGameGuide() === 0) { //第一次很容易勾到
-                this.createRedPacketNode(true);
-            } else {
-                let flag = this.isEasyGet();
-                cc.log("生成容易---->>", flag);
-                this.createRedPacketNode(false, flag);
-            }
+            let flag = this.isEasyGet();
+            cc.log("生成容易---->>", flag);
+            this.createRedPacketNode(false, flag);
         } else {
             cc.log("不生成宝箱--");
         }
