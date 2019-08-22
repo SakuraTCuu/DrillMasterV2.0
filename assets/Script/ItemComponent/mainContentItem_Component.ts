@@ -90,7 +90,7 @@ export default class mainContentItem_Component extends cc.Component {
         let userCount = Number(self._gameManager.getUserCount());
         if (self._state == 1) {
             let warehouse = Number(self._gameManager.getLevelWarehouse());
-            if (warehouse >= 45) {
+            if (warehouse >= T_Warehouse_Table.getAllVo().length) {
                 //已到等级上限
                 this.updateParentToBack();
             } else {
@@ -100,7 +100,7 @@ export default class mainContentItem_Component extends cc.Component {
 
         } else if (self._state == 2) {
             let depth = Number(self._gameManager.getLevelDepth());
-            if (depth >= 60) {
+            if (depth >= T_Depth_Table.getAllVo().length) {
                 //已到等级上限
                 this.updateParentToBack();
             } else {
@@ -110,7 +110,7 @@ export default class mainContentItem_Component extends cc.Component {
 
         } else if (self._state == 3) {
             let outline = Number(self._gameManager.getLevelOutline());
-            if (outline >= 68) {
+            if (outline >= T_OutLine_Table.getAllVo().length) {
                 this.updateParentToBack();
                 //已到等级上限
             } else {
@@ -146,7 +146,7 @@ export default class mainContentItem_Component extends cc.Component {
         let userCount = Number(this._gameManager.getUserCount());
         if (this._state == 1) {
             let warehouse = Number(this._gameManager.getLevelWarehouse());
-            if (warehouse >= 45) {
+            if (warehouse >= T_Warehouse_Table.getAllVo().length) {
                 //已到等级上限
                 this.updateParentToBack();
                 return;
@@ -165,7 +165,7 @@ export default class mainContentItem_Component extends cc.Component {
                 this._gameManager.saveData(saveName.WAREHOUSE, warehouse + 1);
                 warehouse += 1;
                 // warehouse = Number(this._gameManager.getLevelWarehouse());
-                if (warehouse >= 45) {
+                if (warehouse >= T_Warehouse_Table.getAllVo().length) {
                     //已到等级上限
                     this.updateParentToBack();
                     return;
@@ -185,7 +185,7 @@ export default class mainContentItem_Component extends cc.Component {
             }
         } else if (this._state == 2) {
             let depth = Number(this._gameManager.getLevelDepth());
-            if (depth >= 60) {
+            if (depth >= T_Depth_Table.getAllVo().length) {
                 //已到等级上限
                 this.updateParentToBack();
                 return;
@@ -204,7 +204,7 @@ export default class mainContentItem_Component extends cc.Component {
                 this._gameManager.saveData(saveName.DEPTH, depth + 1);
                 //刷新一下
                 depth += 1;
-                if (depth >= 60) {
+                if (depth >= T_Depth_Table.getAllVo().length) {
                     //已到等级上限
                     this.updateParentToBack();
                     return;
@@ -225,7 +225,7 @@ export default class mainContentItem_Component extends cc.Component {
         }
         else if (this._state == 3) {
             let outline = Number(this._gameManager.getLevelOutline());
-            if (outline >= 68) {
+            if (outline >= T_OutLine_Table.getAllVo().length) {
                 //已到等级上限
                 //已到等级上限
                 this.updateParentToBack();
@@ -244,7 +244,7 @@ export default class mainContentItem_Component extends cc.Component {
                 this._gameManager.saveData(saveName.OUTLINE, outline + 1);
 
                 outline += 1;
-                if (outline >= 68) {
+                if (outline >= T_OutLine_Table.getAllVo().length) {
                     //已到等级上限
                     this.updateParentToBack();
                     return;

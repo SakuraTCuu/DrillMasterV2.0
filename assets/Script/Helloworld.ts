@@ -1060,26 +1060,30 @@ export default class Helloworld extends cc.Component {
         //共 60个 等级
         //共 20个格子
         //每升3个等级  升一个格子
-        let count = Math.ceil(this._levelDpeth / 3) + 1;
+        let count = Math.ceil(this._levelDpeth / 6) + 1;
         //60个等级
         let allVo = T_Unlock_Table.getAllVo();
         //格子数量
         // let count = Math.ceil((this._currentDepth - this.constNum) / 2 / 752);
+        let gridWidth = 752;
         cc.log("共需生成-->>", (count + 1) * this.gridNumebrItem);
         for (let i = 0; i <= count; i++) {
             for (let j = 0; j < this.gridNumebrItem; j++) {
-                let randx = Math.random() > 0.5 ? Math.random() * 320 : Math.random() * -320;
-                let randy = Math.random() * 752;
-                //格子改了 x2 深度也x2;
-                let nodey = (i + 3) * 752 + randy;
-                let pos = cc.v2(randx, -nodey);
-                let inx = Math.floor(i / 2);
+                let inx = Math.ceil(i / 2);
                 if (inx == 0) { inx = 1; }
                 if (inx > 10) { inx = 10; }
-                // cc.log("inx---->>>", inx);
-                let voItem = allVo[inx].value.split("_");
-                // //随机0到3
-                let index = Math.floor(Math.random() * 4);
+                let voItem = allVo[inx].createItem.split("_");
+
+                let randx = Math.random() > 0.5 ? Math.random() * 320 : Math.random() * -320;
+                // let randy = Math.random() * gridWidth;
+                let perY = gridWidth / voItem.length;
+                let nodey = (i + 3) * gridWidth + perY * j * GameUtil.getRandomNum(0.3, 0.6);
+                let pos = cc.v2(randx, -nodey);
+                // let index = Math.floor(Math.random() * 4);
+                let index = j % voItem.length;
+                if (isNaN(index)) {
+                    index = 0;
+                }
                 let itemId = Number(voItem[index]);
 
                 //  1/5的概率是金色的
@@ -1099,6 +1103,7 @@ export default class Helloworld extends cc.Component {
         }
 
         if (this._gameManager.getGameGuide() === 0 && this._gameManager.getIsChannel()) {
+            cc.log("第一次绝对出现的宝箱");
             GameManager.Statistics(Statistics.LUCK_WALLET);
             this.createRedPacketNode(true);
             return;
@@ -1115,6 +1120,14 @@ export default class Helloworld extends cc.Component {
         } else {
             cc.log("不生成宝箱--");
         }
+    }
+
+    /**
+     * 第二种生成方式
+     * 钻头的解锁和 道具的位置不挂钩
+     */
+    randomCreateItem2() {
+        let unlockItemId = Math.floor(this._levelDpeth / 3);
     }
 
     //游戏完成

@@ -6,6 +6,8 @@ import Helloworld from "./Helloworld";
 import GameUtil from "./Util/GameUtil";
 import { T_Unlock_Table } from "./Data/T_unlock";
 import OfflineView from "./OfflineView";
+import { T_Warehouse_Table } from "./Data/T_Warehouse";
+import { T_Depth_Table } from "./Data/T_Depth";
 
 export default class GameManager {
 
@@ -102,6 +104,9 @@ export default class GameManager {
     getStateFromJava() {
         if (cc.sys.os === cc.sys.OS_ANDROID) {
             let state = jsb.reflection.callStaticMethod("org/cocos2dx/javascript/AppActivity", "isTuiGuang", "()Z");
+            if (!state) {
+                state = false;
+            }
             this._isChannel = state;
             if (CC_DEBUG) {
                 this._isChannel = true;
@@ -113,6 +118,7 @@ export default class GameManager {
 
     //获取是否有视频缓冲
     getBufferFromJava(): boolean {
+        cc.log("isHasAD--->>");
         if (cc.sys.os === cc.sys.OS_ANDROID) {
             let state = jsb.reflection.callStaticMethod("org/cocos2dx/javascript/AppActivity", "isHasAD", "()Z");
             if (!state) {
@@ -273,7 +279,7 @@ export default class GameManager {
             if (this._disTime > 1000 * 60 * 60 * 24 * 2) {
                 this._disTime = 1000 * 60 * 60 * 24 * 2;
             }
-            if (this._disTime < 1000 * 60 * 2) {
+            if (this._disTime < 1000 * 60 * 1) {
                 return;
             }
             if (this.getOfflineIncome() > 0) {
@@ -468,21 +474,6 @@ export default class GameManager {
         }
     }
 
-    //判断是否生成红包
-    getIsCreateRedPacket(): boolean {
-        if (GameManager.todayLookNum >= 6) {
-            return false;
-        }
-        let hasAD = this.getBufferFromJava();
-        if (hasAD) {
-            return true;
-        } else {
-            return false;
-        }
-
-        //拒绝的情况下
-
-    }
     //获取真钱
     getTrueMoney(): number {
         return this._trueMoney;
@@ -532,15 +523,15 @@ export default class GameManager {
     }
 
     public getWarehouseIsTop(): boolean {
-        return Number(this._warehouse) == 45;
+        return Number(this._warehouse) == T_Warehouse_Table.getAllVo().length;
     }
 
     public getDepthIsTop(): boolean {
-        return Number(this._depth) == 60;
+        return Number(this._depth) == T_Depth_Table.getAllVo().length;
     }
 
     public getOutlineIsTop(): boolean {
-        return Number(this._outline) == 68;
+        return Number(this._outline) == T_OutLine_Table.getAllVo().length;
     }
 
     public getOfflineIncome(): number {

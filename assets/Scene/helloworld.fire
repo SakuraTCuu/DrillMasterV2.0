@@ -20973,7 +20973,7 @@
     "downSpeed": 350,
     "upSpeed": 550,
     "gridNumebrItem": 8,
-    "perLevelDis": 250,
+    "perLevelDis": 125,
     "targetDepth": 2256,
     "_id": "00i0P+NXRGZaM0dM3wI46M"
   }

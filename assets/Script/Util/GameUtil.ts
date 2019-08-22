@@ -24,7 +24,7 @@ export default class GameUtil {
             } else {
                 result = GameUtil.getRandomNum(1, 2.8);
             }
-        }else if (money > 47) {
+        } else if (money > 47) {
             result = GameUtil.getRandomNum(0.1, 0.4);
             // result = GameUtil.getRandomNum(result, 2);
         } else {
@@ -153,4 +153,12 @@ export default class GameUtil {
         return true;
     }
 
+    /** 根据深度等级返回道具 */
+    public static getItemByDepth(depth: number) {
+        // 1-4  返回两种道具
+        //5-
+        if (depth >= 1 && depth <= 4) {
+            return "1_2";
+        }
+    }
 }

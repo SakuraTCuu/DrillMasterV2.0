@@ -12,38 +12,38 @@ export default class test extends cc.Component {
 
     _movePos: cc.Vec2 = null;
 
-    onLoad() {
-        // GameManager.getInstance().saveData(saveName.UNLOCK, 10 + "");
-        // for (let i = 1; i <= 68; i++) {
-        //     GameManager.getInstance().saveData(saveName.USERITEM, i + "");
-        // }
-    }
-
     // onLoad() {
-    //     let str = "";
-    //     let expend;
-    //     for (let i = 1; i <= 45; i++) {
-    //         let id = i;
-    //         if (i == 1) {
-    //             expend = 280;
-    //         } else {
-    //             expend = Math.round(expend * 1.25);
-    //         }
-    //         let count = i + 7;
-    //         let desc = "仓库容量:" + count + ",升级消耗:" + expend + "$";
-    //         let level = id;
-    //         let depthVo = {
-    //             id: id,
-    //             desc: desc,
-    //             level: level,
-    //             count: count,
-    //             expend: expend
-    //         }
-    //         str += JSON.stringify(depthVo);
-    //         str += ","
-    //     }
-    //     cc.log(str);
+    //     // GameManager.getInstance().saveData(saveName.UNLOCK, 10 + "");
+    //     // for (let i = 1; i <= 61; i++) {
+    //     //     GameManager.getInstance().saveData(saveName.USERITEM, i + "");
+    //     // }
     // }
+
+    onLoad() {
+        let str = "";
+        let expend;
+        for (let i = 61; i <= 120; i++) {
+            let id = i;
+            if (i == 61) {
+                expend = 182708525;
+            } else {
+                expend = Math.round(expend * 1.25);
+            }
+            let depth = 140 + (i - 1) * 10;
+            let desc = "深度:" + depth + ",升级消耗:" + expend + "$";
+            let level = id;
+            let depthVo = {
+                id: id,
+                desc: desc,
+                level: level,
+                depth: depth,
+                expend: expend
+            }
+            str += JSON.stringify(depthVo);
+            str += ","
+        }
+        cc.log(str);
+    }
 
     start() {
         // this.node.on(cc.Node.EventType.TOUCH_START, this.touchStart, this);
