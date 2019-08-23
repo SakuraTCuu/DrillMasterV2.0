@@ -142,10 +142,16 @@ export default class OfflineView extends cc.Component {
         let scaleAct2 = cc.scaleTo(0.5, 1.0);
         let scaleAct3 = cc.scaleTo(0.5, 1.4);
         let scaleAct4 = cc.scaleTo(0.5, 1.3);
-        let seqAct = cc.sequence(scaleAct1, scaleAct2, scaleAct3, scaleAct4, cc.callFunc(() => {
+        // let seqAct = cc.sequence(scaleAct1, scaleAct2, scaleAct3, scaleAct4, cc.callFunc(() => {
+        //     this.collectBtn.node.active = true;
+        // }));
+        //重复动作
+        let repetAct = cc.repeatForever(cc.sequence(scaleAct1, scaleAct2, scaleAct3, scaleAct4))
+        this.doubleBtn.node.runAction(repetAct);
+
+        this.scheduleOnce(() => {
             this.collectBtn.node.active = true;
-        }));
-        this.doubleBtn.node.runAction(seqAct);
+        }, 2)
     }
 
     //设置n倍按钮
@@ -153,9 +159,9 @@ export default class OfflineView extends cc.Component {
         // 1/5的几率获得n倍
         let times = 2;
         let rand = Math.random();
-        if (rand <= 0.2) {  //随机一个倍数
+        if (rand <= 1 / 8) {  //随机一个倍数
             let rand2 = Math.random()
-            if (rand2 <= 0.5) {
+            if (rand2 <= 0.8) {
                 times = 3;
             } else {
                 times = 4;

@@ -86,9 +86,14 @@ export default class RedPacketView extends cc.Component {
         let scaleAct2 = cc.scaleTo(0.5, 0.8);
         let scaleAct3 = cc.scaleTo(0.5, 1.1);
         let scaleAct4 = cc.scaleTo(0.5, 1.0);
-        let seqAct = cc.sequence(scaleAct1, scaleAct2, scaleAct3, scaleAct4, cc.callFunc(() => {
+        // let seqAct = cc.sequence(scaleAct1, scaleAct2, scaleAct3, scaleAct4, cc.callFunc(() => {
+        //     this.noThanksBtn.active = true;
+        // }));
+        let repetAct = cc.repeatForever(cc.sequence(scaleAct1, scaleAct2, scaleAct3, scaleAct4))
+        this.collectBtn.runAction(repetAct);
+
+        this.scheduleOnce(() => {
             this.noThanksBtn.active = true;
-        }));
-        this.collectBtn.runAction(seqAct);
+        }, 2)
     }
 }
