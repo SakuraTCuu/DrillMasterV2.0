@@ -11,6 +11,9 @@ export default class showBoxItem_min_Component extends cc.Component {
     itemSp: cc.Sprite = null;
 
     @property(cc.Node)
+    grayNode: cc.Node = null;
+
+    @property(cc.Node)
     normal: cc.Node = null;
 
     @property(cc.Node)
@@ -19,7 +22,7 @@ export default class showBoxItem_min_Component extends cc.Component {
     //设置数据
     setData(bgId: string) {
 
-        let spriteAtlas =LoadUtils.itemSpriteAtlas;
+        let spriteAtlas = LoadUtils.itemSpriteAtlas;
         //是否有这个道具
         //是否有金色的道具
         let itemList = GameManager.getInstance().getItemList();
@@ -83,7 +86,8 @@ export default class showBoxItem_min_Component extends cc.Component {
             let sp = spriteAtlas.getSpriteFrame(bgPath);
             this.itemSp.spriteFrame = sp;
             this.gold.active = false;
-            this.normal.active = true;
+            this.normal.active = false;
+            this.grayNode.active = true;
             this.itemSp.node.color = cc.color().fromHEX("#933728");
         }
     }
