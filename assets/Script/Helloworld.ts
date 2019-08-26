@@ -194,6 +194,7 @@ export default class Helloworld extends cc.Component {
         _Notification_.subscrib(NotifyEnum.UPDATEMONEY, this.updateMoneyLab, this);
         _Notification_.subscrib(NotifyEnum.UPDATEDEPTH, this.updateDepth, this);
         _Notification_.subscrib(NotifyEnum.UPDATEMAINITEM, this.updateMainUI, this);
+        _Notification_.subscrib(NotifyEnum.UPGRADEITEMSUCCESS, this.UpgradeItemSuc, this);
         _Notification_.subscrib(NotifyEnum.GETITEMBYDRILL, this.getItemByDrill, this);
         _Notification_.subscrib(NotifyEnum.CLICKCOLLECT, this.clickCollect, this);
         _Notification_.subscrib(NotifyEnum.HIDEGAMEGUIDE, this.hideGameGuide, this);
@@ -348,11 +349,10 @@ export default class Helloworld extends cc.Component {
     }
 
     //==============================================监听方法====================================================
-    updateMainUI(obj: any, target: any) {
+
+    UpgradeItemSuc(obj: any, target: any) {
         let self = target as Helloworld;
         let id = Number(obj);
-        self.initData();
-
         if (id == 1) {
             GameManager.Statistics(Statistics.UPGRADE_STORAGE);
         } else if (id == 2) {
@@ -360,6 +360,20 @@ export default class Helloworld extends cc.Component {
         } else if (id == 3) {
             GameManager.Statistics(Statistics.UPGRADE_OFFLINE);
         }
+    }
+
+    updateMainUI(obj: any, target: any) {
+        let self = target as Helloworld;
+        let id = Number(obj);
+        self.initData();
+
+        // if (id == 1) {
+        //     GameManager.Statistics(Statistics.UPGRADE_STORAGE);
+        // } else if (id == 2) {
+        //     GameManager.Statistics(Statistics.UPGRADE_DEPTH);
+        // } else if (id == 3) {
+        //     GameManager.Statistics(Statistics.UPGRADE_OFFLINE);
+        // }
 
         //不要这样刷新
         //获取他们的引用自己刷新

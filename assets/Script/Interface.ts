@@ -132,6 +132,7 @@ export enum NotifyEnum {
     UPDATEMONEY, //更新money
     UPDATEDEPTH,//更新深度
     UPDATEMAINITEM, //更新主界面下方的ui;
+    UPGRADEITEMSUCCESS, //解锁道具成功
     GETITEMBYDRILL, //钻头碰撞获取到的道具
     CLICKCOLLECT, //点击离线/积分 面板的收集
     UNLOCKDRILL, //解锁mainview内的钻头

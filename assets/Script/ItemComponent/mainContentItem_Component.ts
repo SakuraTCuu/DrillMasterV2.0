@@ -182,6 +182,7 @@ export default class mainContentItem_Component extends cc.Component {
                     //刷新下面的ui
                     this.init(this._state, obj);
                 }
+                _Notification_.send(NotifyEnum.UPGRADEITEMSUCCESS, this._state);
             }
         } else if (this._state == 2) {
             let depth = Number(this._gameManager.getLevelDepth());
@@ -221,6 +222,7 @@ export default class mainContentItem_Component extends cc.Component {
                     //刷新下面的ui
                     this.init(this._state, obj);
                 }
+                _Notification_.send(NotifyEnum.UPGRADEITEMSUCCESS, this._state);
             }
         }
         else if (this._state == 3) {
@@ -262,6 +264,7 @@ export default class mainContentItem_Component extends cc.Component {
                     //刷新下面的ui
                     this.init(this._state, obj);
                 }
+                _Notification_.send(NotifyEnum.UPGRADEITEMSUCCESS, this._state);
             }
         }
         _Notification_.send(NotifyEnum.UPDATEMAINITEM, this._state);

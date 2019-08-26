@@ -75,6 +75,7 @@ export default class GameManager {
 
     /** 调用Android 统计 */
     public static Statistics(str: Statistics) {
+        cc.log("Statistics-->>", str);
         if (cc.sys.os === cc.sys.OS_ANDROID) {
             jsb.reflection.callStaticMethod("org/cocos2dx/javascript/AppActivity", "Statistics", "(Ljava/lang/String;)V", str);
         } else {
