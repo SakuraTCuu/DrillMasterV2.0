@@ -20240,7 +20240,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 400,
+      "width": 500,
       "height": 150
     },
     "_anchorPoint": {
@@ -20298,7 +20298,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 220.9,
+      "width": 327.66,
       "height": 75.6
     },
     "_anchorPoint": {
@@ -20346,8 +20346,8 @@
       }
     ],
     "_useOriginalSize": false,
-    "_string": "Get Bonus",
-    "_N$string": "Get Bonus",
+    "_string": "SAVE IN WALLET",
+    "_N$string": "SAVE IN WALLET",
     "_fontSize": 60,
     "_lineHeight": 60,
     "_enableWrapText": true,
@@ -20400,7 +20400,7 @@
     },
     "_position": {
       "__type__": "cc.Vec3",
-      "x": 125.717,
+      "x": 177.647,
       "y": 0,
       "z": 0
     },
@@ -20490,7 +20490,7 @@
     },
     "_position": {
       "__type__": "cc.Vec3",
-      "x": 157.507,
+      "x": 209.437,
       "y": 28.11,
       "z": 0
     },

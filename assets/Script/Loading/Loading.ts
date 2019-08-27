@@ -11,6 +11,12 @@ export default class Loading extends cc.Component {
     @property(cc.Label)
     LoadLab: cc.Label = null;
 
+    @property({
+        type: cc.AudioClip,
+        displayName: "加载音效"
+    })
+    loadAudio: cc.AudioClip = null;
+
     start() {
         // cc.game.setFrameRate(48);
         //开启碰撞
@@ -21,6 +27,7 @@ export default class Loading extends cc.Component {
         //初始化管理类
         GameManager.getInstance();
         LoadUtils.init();
+        GameManager.audioManger.playBGM(this.loadAudio);
         // this.LoadLab.string = "loading...";
         cc['startGame'] = this.startGame.bind(this);
         //开始加载资源
