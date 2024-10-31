@@ -1,10 +1,14 @@
 {
-  "ver": "2.3.1",
+  "ver": "2.3.5",
   "uuid": "53ead97f-9e74-4354-a1cc-857d46b60fa7",
   "type": "sprite",
   "wrapMode": "clamp",
   "filterMode": "bilinear",
   "premultiplyAlpha": false,
+  "genMipmaps": false,
+  "packable": true,
+  "width": 118,
+  "height": 124,
   "platformSettings": {},
   "subMetas": {
     "showBox_item_bg_1": {

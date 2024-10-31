@@ -1,10 +1,14 @@
 {
-  "ver": "2.3.1",
+  "ver": "2.3.5",
   "uuid": "0818d7a0-1b4f-4581-b9e0-fcd8199b72bb",
   "type": "sprite",
   "wrapMode": "clamp",
   "filterMode": "bilinear",
   "premultiplyAlpha": false,
+  "genMipmaps": false,
+  "packable": true,
+  "width": 152,
+  "height": 184,
   "platformSettings": {},
   "subMetas": {
     "Arrow": {

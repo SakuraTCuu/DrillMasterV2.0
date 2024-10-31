@@ -1,10 +1,14 @@
 {
-  "ver": "2.3.1",
+  "ver": "2.3.5",
   "uuid": "6a305462-136a-41d8-a970-f06ab49ba92f",
   "type": "sprite",
   "wrapMode": "clamp",
   "filterMode": "bilinear",
   "premultiplyAlpha": false,
+  "genMipmaps": false,
+  "packable": true,
+  "width": 621,
+  "height": 90,
   "platformSettings": {},
   "subMetas": {
     "Graphic-StartScreen-Midground-Trees": {

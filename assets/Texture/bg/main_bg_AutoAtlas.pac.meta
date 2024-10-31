@@ -1,5 +1,5 @@
 {
-  "ver": "1.2.0",
+  "ver": "1.2.1",
   "uuid": "50b9954a-af8c-447c-a48c-7b1d61fa7cc6",
   "maxWidth": 2048,
   "maxHeight": 2048,
@@ -13,6 +13,9 @@
   "contourBleed": true,
   "paddingBleed": true,
   "filterUnused": true,
+  "packable": false,
+  "premultiplyAlpha": false,
+  "filterMode": "bilinear",
   "platformSettings": {},
   "subMetas": {}
 }

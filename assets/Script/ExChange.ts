@@ -64,7 +64,7 @@ export default class ExChange extends cc.Component {
             gm.saveData(saveName.TRUEMONEY, dollar);
             GameManager.Statistics(Statistics.USE_DOLLER);
         } else {
-            cc.log("美金不够.不予兑换");
+            //cc.log("美金不够.不予兑换");
         }
         this.node.active = false;
     }

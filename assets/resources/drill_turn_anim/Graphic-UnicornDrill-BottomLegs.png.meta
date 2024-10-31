@@ -1,10 +1,14 @@
 {
-  "ver": "2.3.1",
+  "ver": "2.3.5",
   "uuid": "0c76490d-ff09-462f-960d-9985214f9934",
   "type": "sprite",
   "wrapMode": "clamp",
   "filterMode": "bilinear",
   "premultiplyAlpha": false,
+  "genMipmaps": false,
+  "packable": true,
+  "width": 540,
+  "height": 408,
   "platformSettings": {},
   "subMetas": {
     "Graphic-UnicornDrill-BottomLegs": {

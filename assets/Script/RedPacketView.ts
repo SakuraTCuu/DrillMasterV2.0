@@ -30,7 +30,7 @@ export default class RedPacketView extends cc.Component {
     _income: number = 0;
 
     showView() {
-        cc.log("showView");
+        //cc.log("showView");
         //随机展示一个金币
         this._income = GameUtil.calcRedPacket();
         this.incomeLab.string = "$" + this._income;
@@ -40,13 +40,13 @@ export default class RedPacketView extends cc.Component {
     }
 
     onClickCollect() {
-        cc.log("RedPacketView-->>onClickCollect");
+        //cc.log("RedPacketView-->>onClickCollect");
         //播放完广告在发放奖励
         //观看次数+1;
         //观看了下把还弹出来
         GameManager.updateLookNum();
         if (GameManager.getInstance().getGameGuide() == 2) {
-            cc.log("第一次不看视频哦");
+            //cc.log("第一次不看视频哦");
         } else {
             //红包到账
             //观看视频
@@ -65,7 +65,7 @@ export default class RedPacketView extends cc.Component {
     }
 
     onClickNoThanks() {
-        cc.log("RedPacketView-->>onClickNoThanks");
+        //cc.log("RedPacketView-->>onClickNoThanks");
         //拒绝了 接下来三把不弹出来
         GameManager.updateRefuseNum();
         this.destroySelf();

@@ -4,10 +4,10 @@ import AudioManager from "./AudioManager";
 import { T_OutLine_Table } from "./Data/T_OutLine";
 import Helloworld from "./Helloworld";
 import GameUtil from "./Util/GameUtil";
-import { T_Unlock_Table } from "./Data/T_unlock";
 import OfflineView from "./OfflineView";
 import { T_Warehouse_Table } from "./Data/T_Warehouse";
 import { T_Depth_Table } from "./Data/T_Depth";
+import { T_Unlock_Table } from "./Data/T_Unlock";
 
 export default class GameManager {
 
@@ -52,7 +52,7 @@ export default class GameManager {
 
     public static getInstance(): GameManager {
         if (!this.instance) {
-            cc.log('instance');
+            //cc.log('instance');
             this.instance = new GameManager();
             this.instance.init();
             this.addExitEvent();
@@ -69,17 +69,17 @@ export default class GameManager {
         if (cc.sys.os === cc.sys.OS_ANDROID) {
             jsb.reflection.callStaticMethod("org/cocos2dx/javascript/AppActivity", "vibrator", "()V");
         } else {
-            cc.log("only Android");
+            //cc.log("only Android");
         }
     }
 
     /** 调用Android 统计 */
     public static Statistics(str: Statistics) {
-        cc.log("Statistics-->>", str);
+        //cc.log("Statistics-->>", str);
         if (cc.sys.os === cc.sys.OS_ANDROID) {
             jsb.reflection.callStaticMethod("org/cocos2dx/javascript/AppActivity", "Statistics", "(Ljava/lang/String;)V", str);
         } else {
-            // cc.log("only Android");
+            // //cc.log("only Android");
         }
     }
 
@@ -88,7 +88,7 @@ export default class GameManager {
         if (this.ADType == ADTYPE.GOLD) {
             let total = this.income + Number(this.instance._userCount);
             this.instance.saveData(saveName.USERCOUNT, total);
-            cc.log("发放双倍金币奖励-->>", this.income);
+            //cc.log("发放双倍金币奖励-->>", this.income);
             //隐藏 分数面板
             cc.Canvas.instance.node.getComponent(Helloworld).hideScoreView();
         } else {
@@ -96,7 +96,7 @@ export default class GameManager {
             money += this.money;
             money = Number(money.toFixed(2));
             this.instance.saveData(saveName.TRUEMONEY, money);
-            cc.log("发放金钱奖励-->>", this.money);
+            //cc.log("发放金钱奖励-->>", this.money);
             cc.Canvas.instance.node.getComponent(Helloworld).hideRedPacket();
             //隐藏 真钱面板
         }
@@ -119,7 +119,7 @@ export default class GameManager {
 
     //获取是否有视频缓冲
     getBufferFromJava(): boolean {
-        cc.log("isHasAD--->>");
+        //cc.log("isHasAD--->>");
         if (cc.sys.os === cc.sys.OS_ANDROID) {
             let state = jsb.reflection.callStaticMethod("org/cocos2dx/javascript/AppActivity", "isHasAD", "()Z");
             if (!state) {
@@ -144,10 +144,10 @@ export default class GameManager {
         if (cc.sys.os === cc.sys.OS_ANDROID) {
             jsb.reflection.callStaticMethod("org/cocos2dx/javascript/AppActivity", "showReward", "()V");
             if (CC_DEBUG) {
-                cc.log("播放广告");
+                //cc.log("播放广告");
             }
         } else {
-            cc.log("only Android");
+            //cc.log("only Android");
             this.playVideoSuccess();
         }
     }
@@ -262,14 +262,14 @@ export default class GameManager {
 
         //全局监听进入后台事件
         cc.game.on(cc.game.EVENT_HIDE, () => {
-            cc.log('hide');
+            //cc.log('hide');
             this._preShowTime = Date.now();
             //进入后台直接写
             this.saveData(saveName.PRETIME, this._preShowTime);
         }, this)
 
         cc.game.on(cc.game.EVENT_SHOW, () => {
-            cc.log('show');
+            //cc.log('show');
             let cTime = Date.now();
             if (this._preShowTime == 0) {
                 cc.error("为什么触发show事件?");
@@ -393,7 +393,7 @@ export default class GameManager {
                 this._itemList.push(value);
                 //排序
                 GameUtil.sortArr(this._itemList);
-                cc.log("排序后-->>", this._itemList);
+                //cc.log("排序后-->>", this._itemList);
                 //写入
                 value = ""
                 for (let i = 0; i < this._itemList.length; i++) {
@@ -435,8 +435,8 @@ export default class GameManager {
                 // this._disTime = value;
                 break;
         }
-        cc.log("key-->>", key);
-        cc.log("value-->>", value);
+        //cc.log("key-->>", key);
+        //cc.log("value-->>", value);
         cc.sys.localStorage.setItem(key, value);
     }
 
@@ -566,6 +566,6 @@ export default class GameManager {
                 this._unlockList.push(allVo[i].id + "");
             }
         }
-        cc.log("钻头list-->", this._unlockList);
+        //cc.log("钻头list-->", this._unlockList);
     }
 }

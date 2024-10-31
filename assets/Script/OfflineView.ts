@@ -95,7 +95,7 @@ export default class OfflineView extends cc.Component {
 
     showOffline() {
         this.setTimesLab();
-        cc.log("离线收益-->>", this._income);
+        //cc.log("离线收益-->>", this._income);
         this.scoreNode.active = false;
         this.offlineNode.active = true;
         this._income = GameManager.getInstance().getOfflineIncome();
@@ -104,7 +104,7 @@ export default class OfflineView extends cc.Component {
 
     //收集
     onclickCollect() {
-        cc.log('收集到金币-->>', this._income);
+        //cc.log('收集到金币-->>', this._income);
         cc.Canvas.instance.node.getComponent(Helloworld).playCollectMoneyAudio();
         let current = GameManager.getInstance().getUserCount();
         let total = this._income + Number(current);

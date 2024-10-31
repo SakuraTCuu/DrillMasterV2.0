@@ -1,10 +1,14 @@
 {
-  "ver": "2.3.1",
+  "ver": "2.3.5",
   "uuid": "1c7858b3-610d-4171-bd89-65f02d46e13e",
   "type": "sprite",
   "wrapMode": "clamp",
   "filterMode": "bilinear",
   "premultiplyAlpha": false,
+  "genMipmaps": false,
+  "packable": true,
+  "width": 186,
+  "height": 869,
   "platformSettings": {},
   "subMetas": {
     "Graphic-Drill-Trail-Boost-Outer-0016": {

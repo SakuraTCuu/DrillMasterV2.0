@@ -1,10 +1,14 @@
 {
-  "ver": "2.3.1",
+  "ver": "2.3.5",
   "uuid": "9d37d9c6-0166-4305-bd37-94afe0cfb09e",
   "type": "sprite",
   "wrapMode": "clamp",
   "filterMode": "bilinear",
   "premultiplyAlpha": false,
+  "genMipmaps": false,
+  "packable": true,
+  "width": 576,
+  "height": 1024,
   "platformSettings": {},
   "subMetas": {
     "Graphic-StartScreen-SIMPLE-Sky": {

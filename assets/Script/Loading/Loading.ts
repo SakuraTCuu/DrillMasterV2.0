@@ -36,18 +36,18 @@ export default class Loading extends cc.Component {
         //加载item
         //加载图集资源
         // LoadUtils.loadResDir("item", () => {
-        //     cc.log("图集资源加载完成")
+        //     //cc.log("图集资源加载完成")
         // });
 
         //开始预加载场景资源
         cc.director.preloadScene("helloworld", () => {
-            cc.log("加载场景完成");
+            //cc.log("加载场景完成");
         });
 
         //加载图集资源
         cc.loader.loadRes("item/item", cc.SpriteAtlas, (err, sa) => {
             LoadUtils.itemSpriteAtlas = sa;
-            cc.log("图集资源加载完成");
+            //cc.log("图集资源加载完成");
         })
 
         //加载音效资源
@@ -62,7 +62,7 @@ export default class Loading extends cc.Component {
                 let item: cc.Node = cc.instantiate(prefab);
                 LoadUtils.labItemPool.put(item);
             }
-            cc.log(LoadUtils.itemPool);
+            //cc.log(LoadUtils.itemPool);
         })
 
         //初始化item
@@ -71,10 +71,11 @@ export default class Loading extends cc.Component {
                 let item: cc.Node = cc.instantiate(prefab);
                 LoadUtils.itemPool.put(item);
             }
-            cc.log(LoadUtils.itemPool);
-            if (cc.sys.os !== cc.sys.OS_ANDROID) { //Android 平台需要初始化后才会开始游戏
-                self.loadScene();
-            }
+            //cc.log(LoadUtils.itemPool);
+            // if (cc.sys.os !== cc.sys.OS_ANDROID) { //Android 平台需要初始化后才会开始游戏
+            //     self.loadScene();
+            // }
+            self.loadScene();
         })
     }
 

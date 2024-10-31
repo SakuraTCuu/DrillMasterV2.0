@@ -1,10 +1,14 @@
 {
-  "ver": "2.3.1",
+  "ver": "2.3.5",
   "uuid": "9540adfe-7ca9-48c6-99ab-13c39d70b507",
   "type": "sprite",
   "wrapMode": "clamp",
   "filterMode": "bilinear",
   "premultiplyAlpha": false,
+  "genMipmaps": false,
+  "packable": true,
+  "width": 176,
+  "height": 174,
   "platformSettings": {},
   "subMetas": {
     "Graphic-UnicornDrill-Tail": {

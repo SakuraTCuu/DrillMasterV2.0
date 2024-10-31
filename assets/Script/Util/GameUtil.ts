@@ -1,5 +1,5 @@
 import GameManager from "../GameManager";
-import { T_Unlock_Table } from "../Data/T_unlock";
+import { T_Unlock_Table } from "../Data/T_Unlock";
 import { T_Item } from "../Data/T_Item";
 
 export default class GameUtil {
@@ -62,7 +62,7 @@ export default class GameUtil {
                 }
             }
         }
-        // cc.log("list-->>", list);
+        // //cc.log("list-->>", list);
     }
 
     /**

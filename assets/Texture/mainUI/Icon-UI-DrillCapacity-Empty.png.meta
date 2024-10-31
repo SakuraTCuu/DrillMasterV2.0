@@ -1,10 +1,14 @@
 {
-  "ver": "2.3.1",
+  "ver": "2.3.5",
   "uuid": "f460e09a-0c52-4ac2-98a8-cde355a1ce8b",
   "type": "sprite",
   "wrapMode": "clamp",
   "filterMode": "bilinear",
   "premultiplyAlpha": false,
+  "genMipmaps": false,
+  "packable": true,
+  "width": 111,
+  "height": 112,
   "platformSettings": {},
   "subMetas": {
     "Icon-UI-DrillCapacity-Empty": {

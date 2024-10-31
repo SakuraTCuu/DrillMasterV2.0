@@ -1,10 +1,14 @@
 {
-  "ver": "2.3.1",
+  "ver": "2.3.5",
   "uuid": "0ca66d61-650b-46f0-bfe2-b8bcd4b735f8",
   "type": "sprite",
   "wrapMode": "clamp",
   "filterMode": "bilinear",
   "premultiplyAlpha": false,
+  "genMipmaps": false,
+  "packable": true,
+  "width": 44,
+  "height": 60,
   "platformSettings": {},
   "subMetas": {
     "Icon-UI-VolumeOff": {

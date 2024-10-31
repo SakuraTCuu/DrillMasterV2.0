@@ -1,10 +1,14 @@
 {
-  "ver": "2.3.1",
+  "ver": "2.3.5",
   "uuid": "1749f2a5-6963-4190-a8bd-6ad2cf1f9a36",
   "type": "sprite",
   "wrapMode": "clamp",
   "filterMode": "bilinear",
   "premultiplyAlpha": false,
+  "genMipmaps": false,
+  "packable": true,
+  "width": 166,
+  "height": 256,
   "platformSettings": {},
   "subMetas": {
     "drill_1_front_0": {

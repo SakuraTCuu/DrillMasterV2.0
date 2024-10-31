@@ -1,10 +1,14 @@
 {
-  "ver": "2.3.1",
+  "ver": "2.3.5",
   "uuid": "6f3ea479-eb3a-4322-b9f9-9ca14f65e307",
   "type": "sprite",
   "wrapMode": "clamp",
   "filterMode": "bilinear",
   "premultiplyAlpha": false,
+  "genMipmaps": false,
+  "packable": true,
+  "width": 233,
+  "height": 322,
   "platformSettings": {},
   "subMetas": {
     "Graphic-DrillBitTurn-06": {

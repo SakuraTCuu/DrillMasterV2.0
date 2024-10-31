@@ -42,7 +42,7 @@ export default class Setting extends cc.Component {
         // if (cc.sys.os === cc.sys.OS_ANDROID) {
         //     jsb.reflection.callStaticMethod("org/cocos2dx/javascript/AppActivity", "showService", "()V");
         // } else {
-        //     cc.log("only Android");
+        //     //cc.log("only Android");
         // }
     }
 
@@ -53,7 +53,7 @@ export default class Setting extends cc.Component {
         // if (cc.sys.os === cc.sys.OS_ANDROID) {
         //     jsb.reflection.callStaticMethod("org/cocos2dx/javascript/AppActivity", "showPrivacyPolicy", "()V");
         // } else {
-        //     cc.log("only Android");
+        //     //cc.log("only Android");
         // }
     }
 

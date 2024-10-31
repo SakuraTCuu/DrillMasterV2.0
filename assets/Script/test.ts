@@ -42,7 +42,7 @@ export default class test extends cc.Component {
             str += JSON.stringify(depthVo);
             str += ","
         }
-        cc.log(str);
+        //cc.log(str);
     }
 
     start() {
@@ -61,7 +61,7 @@ export default class test extends cc.Component {
         let subVect = pos.sub(this._movePos);
         let radian = Math.atan2(subVect.x, subVect.y);
         let degrees = cc.misc.radiansToDegrees(radian);
-        cc.log("degress-->>", degrees);
+        //cc.log("degress-->>", degrees);
         if (degrees > 90) {
             degrees = 90;
         }
@@ -82,7 +82,7 @@ export default class test extends cc.Component {
         // let subVect = pos.sub(playerWorldPos);
         // let radian = Math.atan2(subVect.x, subVect.y);
         // let degrees = cc.misc.radiansToDegrees(radian);
-        // cc.log("degress-->>", degrees);
+        // //cc.log("degress-->>", degrees);
         // this.drill.rotation = degrees;
     }
 }

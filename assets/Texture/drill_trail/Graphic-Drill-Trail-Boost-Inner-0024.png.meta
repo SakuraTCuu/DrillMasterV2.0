@@ -1,10 +1,14 @@
 {
-  "ver": "2.3.1",
+  "ver": "2.3.5",
   "uuid": "7feb3646-f3ca-42a8-b1fc-306e86be71bc",
   "type": "sprite",
   "wrapMode": "clamp",
   "filterMode": "bilinear",
   "premultiplyAlpha": false,
+  "genMipmaps": false,
+  "packable": true,
+  "width": 84,
+  "height": 670,
   "platformSettings": {},
   "subMetas": {
     "Graphic-Drill-Trail-Boost-Inner-0024": {

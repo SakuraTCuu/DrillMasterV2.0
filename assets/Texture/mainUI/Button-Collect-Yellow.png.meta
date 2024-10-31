@@ -1,10 +1,14 @@
 {
-  "ver": "2.3.1",
+  "ver": "2.3.5",
   "uuid": "1f3dbe1e-f174-47b0-8fc0-7930af790ddc",
   "type": "sprite",
   "wrapMode": "clamp",
   "filterMode": "bilinear",
   "premultiplyAlpha": false,
+  "genMipmaps": false,
+  "packable": true,
+  "width": 333,
+  "height": 128,
   "platformSettings": {},
   "subMetas": {
     "Button-Collect-Yellow": {

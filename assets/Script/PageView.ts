@@ -99,7 +99,7 @@ export default class PageView extends cc.Component {
     }
 
     private touchBegin(evt: cc.Event.EventTouch) {
-        cc.log("start-->>", evt.getLocation())
+        //cc.log("start-->>", evt.getLocation())
         if (this._isTouchBegin) return;
         this._isTouchBegin = true;
         this._beginPoint = evt.target.convertToWorldSpaceAR(cc.v2(evt.getLocationX(), evt.getLocationX()));
@@ -108,7 +108,7 @@ export default class PageView extends cc.Component {
     private touchMove(evt: cc.Event.EventTouch) {
         if(this._isTouchMove) return;
         this._isTouchMove = true;
-        cc.log("move->>", evt.getLocation());
+        //cc.log("move->>", evt.getLocation());
         let movePos: cc.Vec2 = evt.target.convertToWorldSpaceAR(cc.v2(evt.getLocationX(), evt.getLocationX()));
         let dis = movePos.x - this._beginPoint.x;
         if (Math.abs(dis) > 20) {

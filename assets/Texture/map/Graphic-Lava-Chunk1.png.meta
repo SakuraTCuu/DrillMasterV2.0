@@ -1,10 +1,14 @@
 {
-  "ver": "2.3.1",
+  "ver": "2.3.5",
   "uuid": "5d4c51c5-fcd7-472b-b8f5-9114aff0ed9b",
   "type": "sprite",
   "wrapMode": "clamp",
   "filterMode": "bilinear",
   "premultiplyAlpha": false,
+  "genMipmaps": false,
+  "packable": true,
+  "width": 1250,
+  "height": 752,
   "platformSettings": {},
   "subMetas": {
     "Graphic-Lava-Chunk1": {

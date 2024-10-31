@@ -1,10 +1,14 @@
 {
-  "ver": "2.3.1",
+  "ver": "2.3.5",
   "uuid": "fab6c2e3-fb2d-4ad2-abc4-5390ca7a0567",
   "type": "sprite",
   "wrapMode": "clamp",
   "filterMode": "bilinear",
   "premultiplyAlpha": false,
+  "genMipmaps": false,
+  "packable": true,
+  "width": 116,
+  "height": 119,
   "platformSettings": {},
   "subMetas": {
     "Button-Silhouette": {

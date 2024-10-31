@@ -1,10 +1,14 @@
 {
-  "ver": "2.3.1",
+  "ver": "2.3.5",
   "uuid": "4c0c6fe5-9351-4b05-a7a2-d36cdc6a0a85",
   "type": "sprite",
   "wrapMode": "clamp",
   "filterMode": "bilinear",
   "premultiplyAlpha": false,
+  "genMipmaps": false,
+  "packable": true,
+  "width": 1250,
+  "height": 752,
   "platformSettings": {},
   "subMetas": {
     "Graphic-TransitionChunk-DirtToCrystal": {

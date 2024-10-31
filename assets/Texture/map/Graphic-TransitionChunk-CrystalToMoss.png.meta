@@ -1,10 +1,14 @@
 {
-  "ver": "2.3.1",
+  "ver": "2.3.5",
   "uuid": "ee237db9-9392-4b0a-b14c-0cb541b08782",
   "type": "sprite",
   "wrapMode": "clamp",
   "filterMode": "bilinear",
   "premultiplyAlpha": false,
+  "genMipmaps": false,
+  "packable": true,
+  "width": 1250,
+  "height": 752,
   "platformSettings": {},
   "subMetas": {
     "Graphic-TransitionChunk-CrystalToMoss": {

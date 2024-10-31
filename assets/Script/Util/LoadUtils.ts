@@ -24,11 +24,11 @@ export default class LoadUtils {
         let time = new Date().getTime();
         cc.loader.loadResDir(dir, function (err) {
             if (err) {
-                cc.log("加载目录资源失败 ：目录：" + dir);
+                //cc.log("加载目录资源失败 ：目录：" + dir);
                 return;
             }
             let pass = new Date().getTime() - time;
-            cc.log("加载目录资源成功 ：目录：" + dir + " 时间 =" + pass);
+            //cc.log("加载目录资源成功 ：目录：" + dir + " 时间 =" + pass);
             callback && callback();
         });
     }
@@ -37,11 +37,11 @@ export default class LoadUtils {
         let time = new Date().getTime();
         cc.loader.loadRes(path, type, (err, result) => {
             if (err) {
-                cc.log("加载资源失败 ：资源名称：" + path);
+                //cc.log("加载资源失败 ：资源名称：" + path);
                 return;
             }
             let pass = new Date().getTime() - time;
-            cc.log("加载资源成功 ：资源名称：" + path + " 时间 =" + pass);
+            //cc.log("加载资源成功 ：资源名称：" + path + " 时间 =" + pass);
             callback && callback(result);
         })
     }

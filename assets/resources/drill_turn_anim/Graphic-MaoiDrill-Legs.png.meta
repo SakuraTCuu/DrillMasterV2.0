@@ -1,10 +1,14 @@
 {
-  "ver": "2.3.1",
+  "ver": "2.3.5",
   "uuid": "181de16b-1dcd-433e-9732-3599410d80dd",
   "type": "sprite",
   "wrapMode": "clamp",
   "filterMode": "bilinear",
   "premultiplyAlpha": false,
+  "genMipmaps": false,
+  "packable": true,
+  "width": 398,
+  "height": 126,
   "platformSettings": {},
   "subMetas": {
     "Graphic-MaoiDrill-Legs": {

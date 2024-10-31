@@ -1,10 +1,14 @@
 {
-  "ver": "2.3.1",
+  "ver": "2.3.5",
   "uuid": "45490120-d1fe-4803-ae72-eea69590bebf",
   "type": "sprite",
   "wrapMode": "clamp",
   "filterMode": "bilinear",
   "premultiplyAlpha": false,
+  "genMipmaps": false,
+  "packable": true,
+  "width": 621,
+  "height": 185,
   "platformSettings": {},
   "subMetas": {
     "Graphic-StartScreen-Midground-Mountains-Gradient-Top": {

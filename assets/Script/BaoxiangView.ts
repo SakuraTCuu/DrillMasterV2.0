@@ -54,7 +54,7 @@ export default class BaoxiangView extends cc.Component {
         //兑换  这里应该永远不会实现 兑钱的真逻辑
         return;
         //收集  这里应该是真钱
-        cc.log('收集到金币-->>', this._income);
+        //cc.log('收集到金币-->>', this._income);
         cc.Canvas.instance.node.getComponent(Helloworld).playCollectMoneyAudio();
         let current = GameManager.getInstance().getUserCount();
         let total = this._income + Number(current);
@@ -74,6 +74,6 @@ export default class BaoxiangView extends cc.Component {
 
     onClickDouble() {
         //双倍
-        cc.log("click double");
+        //cc.log("click double");
     }
 }

@@ -1,10 +1,14 @@
 {
-  "ver": "2.3.1",
+  "ver": "2.3.5",
   "uuid": "9293fcaa-5fac-47bd-9e3f-d666f804e1ad",
   "type": "sprite",
   "wrapMode": "clamp",
   "filterMode": "bilinear",
   "premultiplyAlpha": false,
+  "genMipmaps": false,
+  "packable": true,
+  "width": 900,
+  "height": 175,
   "platformSettings": {},
   "subMetas": {
     "Graphic-StartScreen-Foreground-Ground": {

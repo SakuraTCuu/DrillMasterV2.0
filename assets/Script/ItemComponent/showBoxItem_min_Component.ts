@@ -53,7 +53,7 @@ export default class showBoxItem_min_Component extends cc.Component {
             //     if (!err) {
             //         this.itemSp.spriteFrame = spf;
             //     }
-            //     // cc.log(err);
+            //     // //cc.log(err);
             // })
             let sp = spriteAtlas.getSpriteFrame(bgPath);
             this.itemSp.spriteFrame = sp;
@@ -67,7 +67,7 @@ export default class showBoxItem_min_Component extends cc.Component {
             //     if (!err) {
             //         this.itemSp.spriteFrame = spf;
             //     }
-            //     // cc.log(err);
+            //     // //cc.log(err);
             // })
             let sp = spriteAtlas.getSpriteFrame(bgPath);
             this.itemSp.spriteFrame = sp;
@@ -81,7 +81,7 @@ export default class showBoxItem_min_Component extends cc.Component {
             //     if (!err) {
             //         this.itemSp.spriteFrame = spf;
             //     }
-            //     // cc.log(err);
+            //     // //cc.log(err);
             // })
             let sp = spriteAtlas.getSpriteFrame(bgPath);
             this.itemSp.spriteFrame = sp;

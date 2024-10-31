@@ -1,7 +1,7 @@
 import { NotifyEnum, drillSpriteData, saveName } from "./Interface";
 import { _Notification_ } from "./_Notification_";
 import { T_Item, T_Item_Table } from "./Data/T_Item";
-import { T_Unlock_Table, T_Unlock } from "./Data/T_unlock";
+import { T_Unlock_Table, T_Unlock } from "./Data/T_Unlock";
 import GameManager from "./GameManager";
 import Item_Component from "./ItemComponent/Item_Component";
 import showContentItem_Component from "./ItemComponent/showContentItem_Component";
@@ -121,7 +121,7 @@ export default class MainView extends cc.Component {
             item.y = initY;
             initX = initX + this._itemWidth + this._interval;
         }
-        // cc.log(this._dataList[2].x);//-320
+        // //cc.log(this._dataList[2].x);//-320
         this.preItem(2, false);
 
         this.scheduleOnce(() => {
@@ -152,20 +152,20 @@ export default class MainView extends cc.Component {
                 if (this.isCanPreMove()) {
                     this.preItem();
                 } else {
-                    cc.log("premove");
+                    //cc.log("premove");
                 }
             } else {
                 if (this.isCanNextMove()) {
                     this.nextItem();
                 } else {
-                    cc.log("canNextMove");
+                    //cc.log("canNextMove");
                 }
             }
         }
     }
 
     isCanPreMove(): boolean {
-        // cc.log("preMove x -->>", this._dataList[0].x);
+        // //cc.log("preMove x -->>", this._dataList[0].x);
         if (this._dataList[0].x >= 0) {
             return false;
         }
@@ -173,7 +173,7 @@ export default class MainView extends cc.Component {
     }
 
     isCanNextMove(): boolean {
-        // cc.log("nextMove x -->>", this._dataList[this._dataList.length - 1].x);
+        // //cc.log("nextMove x -->>", this._dataList[this._dataList.length - 1].x);
         if (this._dataList[this._dataList.length - 1].x <= 0) {
             return false;
         }
@@ -269,12 +269,12 @@ export default class MainView extends cc.Component {
         if (self._currentId == id && flag) {
             _Notification_.send(NotifyEnum.CLICK_START, id);
         } else {
-            cc.log('当前未解锁');
+            //cc.log('当前未解锁');
         }
     }
 
     private showContent() {
-        // cc.log("currentId-->>", this._currentId)
+        // //cc.log("currentId-->>", this._currentId)
         if (this._currentId == 0) {  //默认的不需要展示,直接开始游戏
             this._start.active = true;
             this._showList.active = false;
@@ -338,7 +338,7 @@ export default class MainView extends cc.Component {
         let self = target as MainView;
         let id = Number(obj);
         // self.unlockDrillToNext(id);
-        cc.log('drillId--->>', id);
+        //cc.log('drillId--->>', id);
     }
 
     //游戏结束之后 成功解锁下一个drill

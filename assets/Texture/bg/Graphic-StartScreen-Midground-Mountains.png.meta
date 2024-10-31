@@ -1,10 +1,14 @@
 {
-  "ver": "2.3.1",
+  "ver": "2.3.5",
   "uuid": "92ff8f0f-9543-43e0-9412-a288ed5d2ab2",
   "type": "sprite",
   "wrapMode": "clamp",
   "filterMode": "bilinear",
   "premultiplyAlpha": false,
+  "genMipmaps": false,
+  "packable": true,
+  "width": 621,
+  "height": 184,
   "platformSettings": {},
   "subMetas": {
     "Graphic-StartScreen-Midground-Mountains": {

@@ -1,10 +1,14 @@
 {
-  "ver": "2.3.1",
+  "ver": "2.3.5",
   "uuid": "e9e9ac4d-5664-4f94-8bec-d550ede951cd",
   "type": "sprite",
   "wrapMode": "clamp",
   "filterMode": "bilinear",
   "premultiplyAlpha": false,
+  "genMipmaps": false,
+  "packable": true,
+  "width": 76,
+  "height": 76,
   "platformSettings": {},
   "subMetas": {
     "Graphic-SettingsBar-VolumeDot": {

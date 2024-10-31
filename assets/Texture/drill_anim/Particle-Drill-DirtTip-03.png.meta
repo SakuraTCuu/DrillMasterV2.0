@@ -1,10 +1,14 @@
 {
-  "ver": "2.3.1",
+  "ver": "2.3.5",
   "uuid": "85da51ff-a1dc-4c95-a2fe-931b8d40f30a",
   "type": "sprite",
   "wrapMode": "clamp",
   "filterMode": "bilinear",
   "premultiplyAlpha": false,
+  "genMipmaps": false,
+  "packable": true,
+  "width": 747,
+  "height": 519,
   "platformSettings": {},
   "subMetas": {
     "Particle-Drill-DirtTip-03": {

@@ -1,10 +1,14 @@
 {
-  "ver": "2.3.1",
+  "ver": "2.3.5",
   "uuid": "ad662850-2ca7-4a4e-babb-022e267816fe",
   "type": "sprite",
   "wrapMode": "clamp",
   "filterMode": "bilinear",
   "premultiplyAlpha": false,
+  "genMipmaps": false,
+  "packable": true,
+  "width": 1250,
+  "height": 752,
   "platformSettings": {},
   "subMetas": {
     "Graphic-Dirt-Chunk3": {

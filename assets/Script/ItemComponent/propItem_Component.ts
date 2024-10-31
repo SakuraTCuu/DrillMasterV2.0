@@ -19,7 +19,7 @@ export default class propItem_Component extends cc.Component {
     isGold: boolean = false;
 
     init(id: number, isGold: boolean) {
-        // cc.log("id-->>", id);
+        // //cc.log("id-->>", id);
         this.id = id;
         this.isGold = isGold;
         let path = id + "";

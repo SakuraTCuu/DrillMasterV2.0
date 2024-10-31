@@ -1402,11 +1402,11 @@ declare namespace cc {
 	@example 
 	```js
 	var node = new cc.Node();
-	cc.log(cc.isValid(node));    // true
+	//cc.log(cc.isValid(node));    // true
 	node.destroy();
-	cc.log(cc.isValid(node));    // true, still valid in this frame
+	//cc.log(cc.isValid(node));    // true, still valid in this frame
 	// after a frame...
-	cc.log(cc.isValid(node));    // false, destroyed in the end of last frame
+	//cc.log(cc.isValid(node));    // false, destroyed in the end of last frame
 	``` 
 	*/
 	export function isValid(value: any, strictMode?: boolean): boolean;	
@@ -3364,10 +3364,10 @@ declare namespace cc {
 		1. debugMode<br/>
 		     "debugMode" possible values :<br/>
 		     0 - No message will be printed.                                                      <br/>
-		     1 - cc.error, cc.assert, cc.warn, cc.log will print in console.                      <br/>
+		     1 - cc.error, cc.assert, cc.warn, //cc.log will print in console.                      <br/>
 		     2 - cc.error, cc.assert, cc.warn will print in console.                              <br/>
 		     3 - cc.error, cc.assert will print in console.                                       <br/>
-		     4 - cc.error, cc.assert, cc.warn, cc.log will print on canvas, available only on web.<br/>
+		     4 - cc.error, cc.assert, cc.warn, //cc.log will print on canvas, available only on web.<br/>
 		     5 - cc.error, cc.assert, cc.warn will print on canvas, available only on web.        <br/>
 		     6 - cc.error, cc.assert will print on canvas, available only on web.                 <br/>
 		2. showFPS<br/>
@@ -3392,10 +3392,10 @@ declare namespace cc {
 		1. debugMode（debug 模式，但是在浏览器中这个选项会被忽略）                                <br/>
 		     "debugMode" 各种设置选项的意义。                                                   <br/>
 		         0 - 没有消息被打印出来。                                                       <br/>
-		         1 - cc.error，cc.assert，cc.warn，cc.log 将打印在 console 中。                  <br/>
+		         1 - cc.error，cc.assert，cc.warn，//cc.log 将打印在 console 中。                  <br/>
 		         2 - cc.error，cc.assert，cc.warn 将打印在 console 中。                          <br/>
 		         3 - cc.error，cc.assert 将打印在 console 中。                                   <br/>
-		         4 - cc.error，cc.assert，cc.warn，cc.log 将打印在 canvas 中（仅适用于 web 端）。 <br/>
+		         4 - cc.error，cc.assert，cc.warn，//cc.log 将打印在 canvas 中（仅适用于 web 端）。 <br/>
 		         5 - cc.error，cc.assert，cc.warn 将打印在 canvas 中（仅适用于 web 端）。         <br/>
 		         6 - cc.error，cc.assert 将打印在 canvas 中（仅适用于 web 端）。                  <br/>
 		2. showFPS（显示 FPS）                                                            <br/>
@@ -3878,7 +3878,7 @@ declare namespace cc {
 		@example 
 		```js
 		var count = node.getNumberOfRunningActions();
-		cc.log("Running Action Count: " + count);
+		//cc.log("Running Action Count: " + count);
 		``` 
 		*/
 		getNumberOfRunningActions(): number;		
@@ -3893,7 +3893,7 @@ declare namespace cc {
 		
 		@example 
 		```js
-		cc.log("Node Position: " + node.getPosition());
+		//cc.log("Node Position: " + node.getPosition());
 		``` 
 		*/
 		getPosition(out?: Vec2|Vec3): Vec2;		
@@ -3925,7 +3925,7 @@ declare namespace cc {
 		
 		@example 
 		```js
-		cc.log("Node Scale: " + node.getScale(cc.v3()));
+		//cc.log("Node Scale: " + node.getScale(cc.v3()));
 		``` 
 		*/
 		getScale(out: Vec2|Vec3): Vec2;		
@@ -3975,7 +3975,7 @@ declare namespace cc {
 		
 		@example 
 		```js
-		cc.log("Content Size: " + node.getContentSize());
+		//cc.log("Content Size: " + node.getContentSize());
 		``` 
 		*/
 		getContentSize(): Size;		
@@ -4013,7 +4013,7 @@ declare namespace cc {
 		
 		@example 
 		```js
-		cc.log("Node AnchorPoint: " + node.getAnchorPoint());
+		//cc.log("Node AnchorPoint: " + node.getAnchorPoint());
 		``` 
 		*/
 		getAnchorPoint(): Vec2;		
@@ -4701,7 +4701,7 @@ declare namespace cc {
 		@example 
 		```js
 		let layerName = tiledLayer.getLayerName();
-		cc.log(layerName);
+		//cc.log(layerName);
 		``` 
 		*/
 		getLayerName(): string;		
@@ -4724,7 +4724,7 @@ declare namespace cc {
 		@example 
 		```js
 		let property = tiledLayer.getProperty("info");
-		cc.log(property);
+		//cc.log(property);
 		``` 
 		*/
 		getProperty(propertyName: string): any;		
@@ -4737,9 +4737,9 @@ declare namespace cc {
 		@example 
 		```js
 		let pos = tiledLayer.getPositionAt(cc.v2(0, 0));
-		cc.log("Pos: " + pos);
+		//cc.log("Pos: " + pos);
 		let pos = tiledLayer.getPositionAt(0, 0);
-		cc.log("Pos: " + pos);
+		//cc.log("Pos: " + pos);
 		``` 
 		*/
 		getPositionAt(pos: Vec2|number, y?: number): Vec2;		
@@ -4796,7 +4796,7 @@ declare namespace cc {
 		@example 
 		```js
 		let tile = tiledLayer.getTiledTileAt(100, 100, true);
-		cc.log(tile);
+		//cc.log(tile);
 		``` 
 		*/
 		getTiledTileAt(x: number, y: number, forceCreate: boolean): cc.TiledTile;		
@@ -4817,7 +4817,7 @@ declare namespace cc {
 		@example 
 		```js
 		let texture = tiledLayer.getTexture();
-		cc.log("Texture: " + texture);
+		//cc.log("Texture: " + texture);
 		``` 
 		*/
 		getTexture(): Texture2D;		
@@ -4839,7 +4839,7 @@ declare namespace cc {
 		@example 
 		```js
 		let size = tiledLayer.getLayerSize();
-		cc.log("layer size: " + size);
+		//cc.log("layer size: " + size);
 		``` 
 		*/
 		getLayerSize(): Size;		
@@ -4850,7 +4850,7 @@ declare namespace cc {
 		@example 
 		```js
 		let mapTileSize = tiledLayer.getMapTileSize();
-		cc.log("MapTile size: " + mapTileSize);
+		//cc.log("MapTile size: " + mapTileSize);
 		``` 
 		*/
 		getMapTileSize(): Size;		
@@ -4882,7 +4882,7 @@ declare namespace cc {
 		@example 
 		```js
 		let orientation = tiledLayer.getLayerOrientation();
-		cc.log("Layer Orientation: " + orientation);
+		//cc.log("Layer Orientation: " + orientation);
 		``` 
 		*/
 		getLayerOrientation(): number;		
@@ -4893,7 +4893,7 @@ declare namespace cc {
 		@example 
 		```js
 		let properties = tiledLayer.getProperties();
-		cc.log("Properties: " + properties);
+		//cc.log("Properties: " + properties);
 		``` 
 		*/
 		getProperties(): any[];	
@@ -4911,7 +4911,7 @@ declare namespace cc {
 		@example 
 		```js
 		let mapSize = tiledMap.getMapSize();
-		cc.log("Map Size: " + mapSize);
+		//cc.log("Map Size: " + mapSize);
 		``` 
 		*/
 		getMapSize(): Size;		
@@ -4922,7 +4922,7 @@ declare namespace cc {
 		@example 
 		```js
 		let tileSize = tiledMap.getTileSize();
-		cc.log("Tile Size: " + tileSize);
+		//cc.log("Tile Size: " + tileSize);
 		``` 
 		*/
 		getTileSize(): Size;		
@@ -4933,7 +4933,7 @@ declare namespace cc {
 		@example 
 		```js
 		let mapOrientation = tiledMap.getMapOrientation();
-		cc.log("Map Orientation: " + mapOrientation);
+		//cc.log("Map Orientation: " + mapOrientation);
 		``` 
 		*/
 		getMapOrientation(): number;		
@@ -4945,7 +4945,7 @@ declare namespace cc {
 		```js
 		let objGroups = titledMap.getObjectGroups();
 		for (let i = 0; i < objGroups.length; ++i) {
-		    cc.log("obj: " + objGroups[i]);
+		    //cc.log("obj: " + objGroups[i]);
 		}
 		``` 
 		*/
@@ -4958,7 +4958,7 @@ declare namespace cc {
 		@example 
 		```js
 		let group = titledMap.getObjectGroup("Players");
-		cc.log("ObjectGroup: " + group);
+		//cc.log("ObjectGroup: " + group);
 		``` 
 		*/
 		getObjectGroup(groupName: string): TiledObjectGroup;		
@@ -4970,7 +4970,7 @@ declare namespace cc {
 		```js
 		let properties = titledMap.getProperties();
 		for (let i = 0; i < properties.length; ++i) {
-		    cc.log("Properties: " + properties[i]);
+		    //cc.log("Properties: " + properties[i]);
 		}
 		``` 
 		*/
@@ -4983,7 +4983,7 @@ declare namespace cc {
 		```js
 		let layers = titledMap.allLayers();
 		for (let i = 0; i < layers.length; ++i) {
-		    cc.log("Layers: " + layers[i]);
+		    //cc.log("Layers: " + layers[i]);
 		}
 		``` 
 		*/
@@ -4996,7 +4996,7 @@ declare namespace cc {
 		@example 
 		```js
 		let layer = titledMap.getLayer("Player");
-		cc.log(layer);
+		//cc.log(layer);
 		``` 
 		*/
 		getLayer(layerName: string): TiledLayer;		
@@ -5008,7 +5008,7 @@ declare namespace cc {
 		@example 
 		```js
 		let property = titledMap.getProperty("info");
-		cc.log("Property: " + property);
+		//cc.log("Property: " + property);
 		``` 
 		*/
 		getProperty(propertyName: string): string;		
@@ -5020,7 +5020,7 @@ declare namespace cc {
 		@example 
 		```js
 		let properties = titledMap.getPropertiesForGID(GID);
-		cc.log("Properties: " + properties);
+		//cc.log("Properties: " + properties);
 		``` 
 		*/
 		getPropertiesForGID(GID: number): any;	
@@ -5218,7 +5218,7 @@ declare namespace cc {
 		@example 
 		```js
 		eventTarget.on('fire', function () {
-		    cc.log("fire in the hole");
+		    //cc.log("fire in the hole");
 		}, node);
 		``` 
 		*/
@@ -5237,7 +5237,7 @@ declare namespace cc {
 		```js
 		// register fire eventListener
 		var callback = eventTarget.on('fire', function () {
-		    cc.log("fire in the hole");
+		    //cc.log("fire in the hole");
 		}, target);
 		// remove fire event listener
 		eventTarget.off('fire', callback, target);
@@ -5271,7 +5271,7 @@ declare namespace cc {
 		@example 
 		```js
 		eventTarget.once('fire', function () {
-		    cc.log("this is the callback and will be invoked only once");
+		    //cc.log("this is the callback and will be invoked only once");
 		}, node);
 		``` 
 		*/
@@ -5651,7 +5651,7 @@ declare namespace cc {
 		@example 
 		```js
 		eventTarget.on('fire', function () {
-		    cc.log("fire in the hole");
+		    //cc.log("fire in the hole");
 		}, node);
 		``` 
 		*/
@@ -5670,7 +5670,7 @@ declare namespace cc {
 		```js
 		// register fire eventListener
 		var callback = eventTarget.on('fire', function () {
-		    cc.log("fire in the hole");
+		    //cc.log("fire in the hole");
 		}, target);
 		// remove fire event listener
 		eventTarget.off('fire', callback, target);
@@ -5704,7 +5704,7 @@ declare namespace cc {
 		@example 
 		```js
 		eventTarget.once('fire', function () {
-		    cc.log("this is the callback and will be invoked only once");
+		    //cc.log("this is the callback and will be invoked only once");
 		}, node);
 		``` 
 		*/
@@ -5912,7 +5912,7 @@ declare namespace cc {
 		@example 
 		```js
 		eventTarget.on('fire', function () {
-		    cc.log("fire in the hole");
+		    //cc.log("fire in the hole");
 		}, node);
 		``` 
 		*/
@@ -5931,7 +5931,7 @@ declare namespace cc {
 		```js
 		// register fire eventListener
 		var callback = eventTarget.on('fire', function () {
-		    cc.log("fire in the hole");
+		    //cc.log("fire in the hole");
 		}, target);
 		// remove fire event listener
 		eventTarget.off('fire', callback, target);
@@ -5965,7 +5965,7 @@ declare namespace cc {
 		@example 
 		```js
 		eventTarget.once('fire', function () {
-		    cc.log("this is the callback and will be invoked only once");
+		    //cc.log("this is the callback and will be invoked only once");
 		}, node);
 		``` 
 		*/
@@ -6204,7 +6204,7 @@ declare namespace cc {
 		@example 
 		```js
 		eventTarget.once('fire', function () {
-		    cc.log("this is the callback and will be invoked only once");
+		    //cc.log("this is the callback and will be invoked only once");
 		}, node);
 		``` 
 		*/
@@ -6658,7 +6658,7 @@ declare namespace cc {
 		@example 
 		```js
 		var timeCallback = function (dt) {
-		  cc.log("time: " + dt);
+		  //cc.log("time: " + dt);
 		}
 		this.schedule(timeCallback, 1);
 		``` 
@@ -6673,7 +6673,7 @@ declare namespace cc {
 		@example 
 		```js
 		var timeCallback = function (dt) {
-		  cc.log("time: " + dt);
+		  //cc.log("time: " + dt);
 		}
 		this.scheduleOnce(timeCallback, 2);
 		``` 
@@ -6836,9 +6836,9 @@ declare namespace cc {
 		```js
 		layout.type = cc.Layout.HORIZONTAL;
 		layout.node.addChild(childNode);
-		cc.log(childNode.x); // not yet changed
+		//cc.log(childNode.x); // not yet changed
 		layout.updateLayout();
-		cc.log(childNode.x); // changed
+		//cc.log(childNode.x); // changed
 		``` 
 		*/
 		updateLayout(): void;		
@@ -7644,9 +7644,9 @@ declare namespace cc {
 		@example 
 		```js
 		widget.top = 10;       // change top margin
-		cc.log(widget.node.y); // not yet changed
+		//cc.log(widget.node.y); // not yet changed
 		widget.updateAlignment();
-		cc.log(widget.node.y); // changed
+		//cc.log(widget.node.y); // changed
 		``` 
 		*/
 		updateAlignment(): void;		
@@ -7785,7 +7785,7 @@ declare namespace cc {
 		@example 
 		```js
 		eventTarget.on('fire', function () {
-		    cc.log("fire in the hole");
+		    //cc.log("fire in the hole");
 		}, node);
 		``` 
 		*/
@@ -7804,7 +7804,7 @@ declare namespace cc {
 		```js
 		// register fire eventListener
 		var callback = eventTarget.on('fire', function () {
-		    cc.log("fire in the hole");
+		    //cc.log("fire in the hole");
 		}, target);
 		// remove fire event listener
 		eventTarget.off('fire', callback, target);
@@ -7838,7 +7838,7 @@ declare namespace cc {
 		@example 
 		```js
 		eventTarget.once('fire', function () {
-		    cc.log("this is the callback and will be invoked only once");
+		    //cc.log("this is the callback and will be invoked only once");
 		}, node);
 		``` 
 		*/
@@ -9810,7 +9810,7 @@ declare namespace cc {
 		@example 
 		```js
 		eventTarget.on('fire', function () {
-		    cc.log("fire in the hole");
+		    //cc.log("fire in the hole");
 		}, node);
 		``` 
 		*/
@@ -9829,7 +9829,7 @@ declare namespace cc {
 		```js
 		// register fire eventListener
 		var callback = eventTarget.on('fire', function () {
-		    cc.log("fire in the hole");
+		    //cc.log("fire in the hole");
 		}, target);
 		// remove fire event listener
 		eventTarget.off('fire', callback, target);
@@ -9863,7 +9863,7 @@ declare namespace cc {
 		@example 
 		```js
 		eventTarget.once('fire', function () {
-		    cc.log("this is the callback and will be invoked only once");
+		    //cc.log("this is the callback and will be invoked only once");
 		}, node);
 		``` 
 		*/
@@ -9994,7 +9994,7 @@ declare namespace cc {
 		@example 
 		```js
 		eventTarget.on('fire', function () {
-		    cc.log("fire in the hole");
+		    //cc.log("fire in the hole");
 		}, node);
 		``` 
 		*/
@@ -10013,7 +10013,7 @@ declare namespace cc {
 		```js
 		// register fire eventListener
 		var callback = eventTarget.on('fire', function () {
-		    cc.log("fire in the hole");
+		    //cc.log("fire in the hole");
 		}, target);
 		// remove fire event listener
 		eventTarget.off('fire', callback, target);
@@ -10047,7 +10047,7 @@ declare namespace cc {
 		@example 
 		```js
 		eventTarget.once('fire', function () {
-		    cc.log("this is the callback and will be invoked only once");
+		    //cc.log("this is the callback and will be invoked only once");
 		}, node);
 		``` 
 		*/
@@ -10282,9 +10282,9 @@ declare namespace cc {
 		```js
 		var color1 = cc.Color.WHITE;
 		var color2 = new cc.Color(255, 255, 255);
-		cc.log(color1.equals(color2)); // true;
+		//cc.log(color1.equals(color2)); // true;
 		color2 = cc.Color.RED;
-		cc.log(color2.equals(color1)); // false;
+		//cc.log(color2.equals(color1)); // false;
 		``` 
 		*/
 		equals(other: Color): boolean;		
@@ -11957,21 +11957,21 @@ declare namespace cc {
 		@example 
 		```js
 		cc.loader.load('a.png', function (err, tex) {
-		    cc.log('Result should be a texture: ' + (tex instanceof cc.Texture2D));
+		    //cc.log('Result should be a texture: ' + (tex instanceof cc.Texture2D));
 		});
 		
 		cc.loader.load('http://example.com/a.png', function (err, tex) {
-		    cc.log('Should load a texture from external url: ' + (tex instanceof cc.Texture2D));
+		    //cc.log('Should load a texture from external url: ' + (tex instanceof cc.Texture2D));
 		});
 		
 		cc.loader.load({url: 'http://example.com/getImageREST?file=a.png', type: 'png'}, function (err, tex) {
-		    cc.log('Should load a texture from RESTful API by specify the type: ' + (tex instanceof cc.Texture2D));
+		    //cc.log('Should load a texture from RESTful API by specify the type: ' + (tex instanceof cc.Texture2D));
 		});
 		
 		cc.loader.load(['a.png', 'b.json'], function (errors, results) {
 		    if (errors) {
 		        for (var i = 0; i < errors.length; i++) {
-		            cc.log('Error url [' + errors[i] + ']: ' + results.getError(errors[i]));
+		            //cc.log('Error url [' + errors[i] + ']: ' + results.getError(errors[i]));
 		        }
 		    }
 		    var aTex = results.getContent('a.png');
@@ -11999,7 +11999,7 @@ declare namespace cc {
 		        cc.error(err.message || err);
 		        return;
 		    }
-		    cc.log('Result should be a prefab: ' + (prefab instanceof cc.Prefab));
+		    //cc.log('Result should be a prefab: ' + (prefab instanceof cc.Prefab));
 		});
 		
 		// load the sprite frame of (project/assets/resources/imgs/cocos.png) from resources folder
@@ -12008,7 +12008,7 @@ declare namespace cc {
 		        cc.error(err.message || err);
 		        return;
 		    }
-		    cc.log('Result should be a sprite frame: ' + (spriteFrame instanceof cc.SpriteFrame));
+		    //cc.log('Result should be a sprite frame: ' + (spriteFrame instanceof cc.SpriteFrame));
 		});
 		``` 
 		*/
@@ -12311,7 +12311,7 @@ declare namespace cc {
 		```js
 		loadingItems.onProgress = function (completedCount, totalCount, item) {
 		     var progress = (100 * completedCount / totalCount).toFixed(2);
-		     cc.log(progress + '%');
+		     //cc.log(progress + '%');
 		 }
 		``` 
 		*/
@@ -12327,9 +12327,9 @@ declare namespace cc {
 		```js
 		loadingItems.onComplete = function (errors, items) {
 		     if (error)
-		         cc.log('Completed with ' + errors.length + ' errors');
+		         //cc.log('Completed with ' + errors.length + ' errors');
 		     else
-		         cc.log('Completed ' + items.totalCount + ' items');
+		         //cc.log('Completed ' + items.totalCount + ' items');
 		 }
 		``` 
 		*/
@@ -12363,11 +12363,11 @@ declare namespace cc {
 		```js
 		cc.LoadingItems.create(cc.loader, ['a.png', 'b.plist'], function (completedCount, totalCount, item) {
 		     var progress = (100 * completedCount / totalCount).toFixed(2);
-		     cc.log(progress + '%');
+		     //cc.log(progress + '%');
 		 }, function (errors, items) {
 		     if (errors) {
 		         for (var i = 0; i < errors.length; ++i) {
-		             cc.log('Error url: ' + errors[i] + ', error: ' + items.getError(errors[i]));
+		             //cc.log('Error url: ' + errors[i] + ', error: ' + items.getError(errors[i]));
 		         }
 		     }
 		     else {
@@ -12938,7 +12938,7 @@ declare namespace cc {
 		@example 
 		```js
 		eventTarget.on('fire', function () {
-		    cc.log("fire in the hole");
+		    //cc.log("fire in the hole");
 		}, node);
 		``` 
 		*/
@@ -12957,7 +12957,7 @@ declare namespace cc {
 		```js
 		// register fire eventListener
 		var callback = eventTarget.on('fire', function () {
-		    cc.log("fire in the hole");
+		    //cc.log("fire in the hole");
 		}, target);
 		// remove fire event listener
 		eventTarget.off('fire', callback, target);
@@ -12991,7 +12991,7 @@ declare namespace cc {
 		@example 
 		```js
 		eventTarget.once('fire', function () {
-		    cc.log("this is the callback and will be invoked only once");
+		    //cc.log("this is the callback and will be invoked only once");
 		}, node);
 		``` 
 		*/
@@ -17288,10 +17288,10 @@ declare namespace sp {
 		@example 
 		```js
 		var bone = spine.findBone('head');
-		cc.log(bone.worldX); // return 0;
+		//cc.log(bone.worldX); // return 0;
 		spine.updateWorldTransform();
 		bone = spine.findBone('head');
-		cc.log(bone.worldX); // return -23.12;
+		//cc.log(bone.worldX); // return -23.12;
 		``` 
 		*/
 		updateWorldTransform(): void;		

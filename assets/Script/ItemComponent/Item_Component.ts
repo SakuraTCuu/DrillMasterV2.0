@@ -1,6 +1,6 @@
 import { _Notification_ } from "../_Notification_";
 import { NotifyEnum, drillSpriteData, drillState } from "../Interface";
-import { T_Unlock } from "../Data/T_unlock";
+import { T_Unlock } from "../Data/T_Unlock";
 import GameUtil from "../Util/GameUtil";
 import propItem_Component from "./propItem_Component";
 import Helloworld from "../Helloworld";
@@ -106,8 +106,8 @@ export default class Item_Component extends cc.Component {
     popItemAnim() {
         this.stopDrillAnim();
         this.drill_top.angle = -90;
-        // cc.log(this.drill_top.angle);
-        // cc.log(this.drill_top.rotation);
+        // //cc.log(this.drill_top.angle);
+        // //cc.log(this.drill_top.rotation);
     }
 
     stopPopItemAnim() {
@@ -166,7 +166,7 @@ export default class Item_Component extends cc.Component {
                 if (!err) {
                     this.dirllSprite.spriteFrame = sf;
                 }
-                // cc.log("err-->>", err)
+                // //cc.log("err-->>", err)
             })
             this.setColorUIToGray();
         } else {
@@ -322,7 +322,7 @@ export default class Item_Component extends cc.Component {
             if (!err) {
                 cb(sf);
             }
-            // cc.log("err-->>", err)
+            // //cc.log("err-->>", err)
         })
     }
 

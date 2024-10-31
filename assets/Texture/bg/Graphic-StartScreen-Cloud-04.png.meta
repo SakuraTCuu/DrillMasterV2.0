@@ -1,10 +1,14 @@
 {
-  "ver": "2.3.1",
+  "ver": "2.3.5",
   "uuid": "bffef1f8-68f5-4a52-bc3b-176b5c1a7f6f",
   "type": "sprite",
   "wrapMode": "clamp",
   "filterMode": "bilinear",
   "premultiplyAlpha": false,
+  "genMipmaps": false,
+  "packable": true,
+  "width": 343,
+  "height": 161,
   "platformSettings": {},
   "subMetas": {
     "Graphic-StartScreen-Cloud-04": {

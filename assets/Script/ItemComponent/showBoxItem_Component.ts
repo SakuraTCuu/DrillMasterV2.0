@@ -1,4 +1,4 @@
-import { T_Unlock } from "../Data/T_unlock";
+import { T_Unlock } from "../Data/T_Unlock";
 import showBoxItem_min_Component from "./showBoxItem_min_Component";
 import GameManager from "../GameManager";
 
@@ -49,7 +49,7 @@ export default class showBoxItem_Component extends cc.Component {
             if (!err) {
                 this.drillSp.spriteFrame = spf;
             }
-            // cc.log(err);
+            // //cc.log(err);
         })
     }
 
